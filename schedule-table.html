@@ -153,6 +153,8 @@
 
         (tbody => {
             ["施易男", "高鈺成", "陳威呈"].concat(decodeURIComponent(location.search.split("=")[1]).split(",")).forEach(name => {
+                if (name == "undefined") return;
+
                 var td = document.querySelectorAll("td:first-child");
                 var exists = false;
 
