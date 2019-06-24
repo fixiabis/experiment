@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Schedule Table</title>
+    <style>
+        * {
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            margin: 75px 0px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            width: 100px;
+            height: 100px;
+            border-style: solid;
+            border-width: 1px;
+            text-align: center;
+            vertical-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>名稱</th>
+                <th>一</th>
+                <th>二</th>
+                <th>三</th>
+                <th>四</th>
+                <th>五</th>
+                <th>時數</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        function updateTimeTotal() {
+            this.childNodes[0].textContent = this.childNodes[0].textContent.replace(/-/g, "");
+
+            [...document.querySelectorAll("span[contenteditable]")].forEach(span => {
+                if (span.childNodes[0].textContent != "--") {
+                    if (parseInt(span.childNodes[0].textContent) < 10) {
+                        span.childNodes[0].textContent = `0${+span.childNodes[0].textContent}`;
+                    } else {
+                        span.childNodes[0].textContent *= 1;
+                    }
+                }
+            });
+
+            var selectionRange = document.createRange();
+            var selection = window.getSelection();
+
+            selectionRange.setStart(this.childNodes[0], this.childNodes[0].textContent.length);
+            selectionRange.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(selectionRange);
+
+            [...document.querySelectorAll("tbody tr")].forEach(tr => {
+                var timeTotal = 0;
+
+                for (let i = 1; i < 6; i++) {
+                    var timeRange = tr.childNodes[i].innerText.replace("\n\|\n", "|");
+                    if (timeRange.indexOf("-") > -1) continue;
+
+                    var [
+                        [startHr, startMin],
+                        [endHr, endMin]
+                    ] = timeRange.split("|").map(time => time.split(":"));
+
+                    startHr = startHr * 1 + startMin / 60;
+                    endHr = endHr * 1 + endMin / 60;
+
+                    timeTotal += (endHr - startHr).toFixed(2) * 1;
+                }
+
+                tr.childNodes[6].childNodes[0].textContent = timeTotal;
+            });
+        }
+
+        function createNumberSpan() {
+            var span = document.createElement("span");
+
+            span.contentEditable = true;
+            span.appendChild(document.createTextNode("--"));
+
+            return span;
+        }
+
+        function createTimeRangeCol() {
+            var td = document.createElement("td");
+
+            td.appendChild(createNumberSpan());
+            td.appendChild(document.createTextNode(":"));
+            td.appendChild(createNumberSpan());
+
+            td.appendChild(document.createElement("br"));
+            td.appendChild(document.createTextNode("|"));
+            td.appendChild(document.createElement("br"));
+
+            td.appendChild(createNumberSpan());
+            td.appendChild(document.createTextNode(":"));
+            td.appendChild(createNumberSpan());
+
+            return td;
+        }
+
+        function createTimeTotalCol() {
+            var td = document.createElement("td");
+
+            td.appendChild(document.createTextNode("0"));
+
+            return td;
+        }
+
+        function createNameCol(name) {
+            var td = document.createElement("td");
+
+            td.appendChild(document.createTextNode(name));
+
+            return td;
+        }
+
+        function createRow(name) {
+            var tr = document.createElement("tr");
+
+            tr.appendChild(createNameCol(name));
+            tr.appendChild(createTimeRangeCol());
+            tr.appendChild(createTimeRangeCol());
+            tr.appendChild(createTimeRangeCol());
+            tr.appendChild(createTimeRangeCol());
+            tr.appendChild(createTimeRangeCol());
+            tr.appendChild(createTimeTotalCol());
+
+            return tr;
+        }
+
+        (tbody => {
+            ["施易男", "高鈺成", "陳威呈"].concat(decodeURIComponent(location.search.split("=")[1]).split(",")).forEach(name => {
+                var td = document.querySelectorAll("td:first-child");
+                var exists = false;
+
+                td.forEach(td => {
+                    if (td.childNodes[0].textContent == name) exists = true;
+                });
+
+                if (exists) return;
+                tbody.appendChild(createRow(name));
+            });
+        })(document.querySelector("tbody"));
+
+        [...document.querySelectorAll("span[contenteditable]")].forEach(span => {
+            span.addEventListener("input", updateTimeTotal);
+        });
+    </script>
+</body>
+
+</html>
