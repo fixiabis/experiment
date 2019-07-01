@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Strategy</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+
+            background-color: black;
+        }
+
+        .card,
+        .pow-card,
+        .wis-card,
+        .atk-card,
+        .def-card,
+        .spd-card,
+        .mp-card,
+        .hp-card,
+        .card-fill {
+            box-sizing: border-box;
+            width: 5.6cm;
+            height: 8.7cm;
+            padding: 0.4cm;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 0.25cm;
+            margin: 0.3cm 0.4cm;
+        }
+
+        .card-fill {
+            height: 0px;
+            border-width: 0px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .atk-card {
+            color: crimson;
+        }
+
+        .atk-card .card-point::before {
+            content: "ATK ";
+        }
+
+        .atk-card .card-content::before {
+            content: "ATK";
+        }
+
+        .def-card {
+            color: royalblue;
+        }
+
+        .def-card .card-point::before {
+            content: "DEF ";
+        }
+
+        .def-card .card-content::before {
+            content: "DEF";
+        }
+
+        .spd-card {
+            color: goldenrod;
+        }
+
+        .spd-card .card-point::before {
+            content: "SPD ";
+        }
+
+        .spd-card .card-content::before {
+            content: "SPD";
+        }
+
+        .hp-card {
+            color: seagreen;
+        }
+
+        .hp-card .card-point::before {
+            content: "HP ";
+        }
+
+        .hp-card .card-content::before {
+            content: "HP";
+        }
+
+        .mp-card {
+            color: blueviolet;
+        }
+
+        .mp-card .card-point::before {
+            content: "MP ";
+        }
+
+        .mp-card .card-content::before {
+            content: "MP";
+        }
+
+        .pow-card {
+            color: sienna;
+        }
+
+        .pow-card .card-point::before {
+            content: "POW ";
+        }
+
+        .pow-card .card-content::before {
+            content: "POW";
+        }
+
+        .wis-card {
+            color: darkcyan;
+        }
+
+        .wis-card .card-point::before {
+            content: "WIS ";
+        }
+
+        .wis-card .card-content::before {
+            content: "WIS";
+        }
+
+        .card .card-point {
+            font-size: 0.5cm;
+            font-weight: bold;
+            height: 0.6cm;
+        }
+
+        .card .card-content {
+            font-size: 2cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 6.7cm;
+        }
+
+        .card .card-point:last-child {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card atk-card">
+        <div class="card-point"></div>
+        <div class="card-content"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card def-card">
+        <div class="card-point"></div>
+        <div class="card-content"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card spd-card">
+        <div class="card-point"></div>
+        <div class="card-content"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card hp-card">
+        <div class="card-point"></div>
+        <div class="card-content"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card mp-card">
+        <div class="card-point"></div>
+        <div class="card-content"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card pow-card">
+        <div class="card-point"></div>
+        <div class="card-content"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card wis-card">
+        <div class="card-point"></div>
+        <div class="card-content"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card-fill"></div>
+    <div class="card-fill"></div>
+    <div class="card-fill"></div>
+    <div class="card-fill"></div>
+    <div class="card-fill"></div>
+</body>
+
+</html>
