@@ -18,22 +18,36 @@
         }
 
         .card,
-        .pow-card,
-        .wis-card,
-        .atk-card,
-        .def-card,
-        .spd-card,
-        .mp-card,
-        .hp-card,
         .card-fill {
             box-sizing: border-box;
             width: 5.6cm;
             height: 8.7cm;
-            padding: 0.4cm;
-            border-width: 1px;
+            padding: 0.1cm;
+            border-width: 0.15cm;
             border-style: solid;
             border-radius: 0.25cm;
-            margin: 0.3cm 0.4cm;
+            margin: 0.4cm;
+        }
+
+        .card .card-point {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 0.5cm;
+            font-weight: bold;
+            height: 0.5cm;
+        }
+
+        .card .card-default {
+            font-size: 2cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 7.2cm;
+        }
+
+        .card .card-point:last-child {
+            transform: rotate(180deg);
         }
 
         .card-fill {
@@ -51,7 +65,7 @@
             content: "ATK ";
         }
 
-        .atk-card .card-content::before {
+        .atk-card .card-default::before {
             content: "ATK";
         }
 
@@ -63,7 +77,7 @@
             content: "DEF ";
         }
 
-        .def-card .card-content::before {
+        .def-card .card-default::before {
             content: "DEF";
         }
 
@@ -75,7 +89,7 @@
             content: "SPD ";
         }
 
-        .spd-card .card-content::before {
+        .spd-card .card-default::before {
             content: "SPD";
         }
 
@@ -87,7 +101,7 @@
             content: "HP ";
         }
 
-        .hp-card .card-content::before {
+        .hp-card .card-default::before {
             content: "HP";
         }
 
@@ -99,7 +113,7 @@
             content: "MP ";
         }
 
-        .mp-card .card-content::before {
+        .mp-card .card-default::before {
             content: "MP";
         }
 
@@ -111,7 +125,7 @@
             content: "POW ";
         }
 
-        .pow-card .card-content::before {
+        .pow-card .card-default::before {
             content: "POW";
         }
 
@@ -123,26 +137,20 @@
             content: "WIS ";
         }
 
-        .wis-card .card-content::before {
+        .wis-card .card-default::before {
             content: "WIS";
         }
 
-        .card .card-point {
-            font-size: 0.5cm;
-            font-weight: bold;
-            height: 0.6cm;
+        .luk-card {
+            color: palevioletred;
         }
 
-        .card .card-content {
-            font-size: 2cm;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 6.7cm;
+        .luk-card .card-point::before {
+            content: "LUK ";
         }
 
-        .card .card-point:last-child {
-            transform: rotate(180deg);
+        .luk-card .card-default::before {
+            content: "LUK";
         }
     </style>
 </head>
@@ -150,39 +158,46 @@
 <body>
     <div class="card atk-card">
         <div class="card-point"></div>
-        <div class="card-content"></div>
+        <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
     <div class="card def-card">
         <div class="card-point"></div>
-        <div class="card-content"></div>
+        <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
     <div class="card spd-card">
         <div class="card-point"></div>
-        <div class="card-content"></div>
+        <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
     <div class="card hp-card">
         <div class="card-point"></div>
-        <div class="card-content"></div>
+        <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
     <div class="card mp-card">
         <div class="card-point"></div>
-        <div class="card-content"></div>
+        <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
     <div class="card pow-card">
         <div class="card-point"></div>
-        <div class="card-content"></div>
+        <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
     <div class="card wis-card">
         <div class="card-point"></div>
-        <div class="card-content"></div>
+        <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
+    <div class="card luk-card">
+        <div class="card-point"></div>
+        <div class="card-default"></div>
+        <div class="card-point"></div>
+    </div>
+    <div class="card-fill"></div>
+    <div class="card-fill"></div>
     <div class="card-fill"></div>
     <div class="card-fill"></div>
     <div class="card-fill"></div>
