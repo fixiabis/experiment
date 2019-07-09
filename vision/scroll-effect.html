@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Scroll-Effect</title>
+  <style>
+    :root {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+    }
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+    }
+
+    a {
+      display: flex;
+      font-size: 50px;
+      width: 50%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.4);
+    }
+
+    @media screen and (max-width: 600px) {
+      a {
+        width: 100%;
+        height: 50%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="a" style="background: #efefef;">
+    <a href="#e">Bottom</a>
+    <a href="#b">Down</a>
+  </div>
+  <div id="b" style="background: #dfdfdf;">
+    <a href="#a">Up</a>
+    <a href="#c">Down</a>
+  </div>
+  <div id="c" style="background: #cfcfcf;">
+    <a href="#b">Up</a>
+    <a href="#d">Down</a>
+  </div>
+  <div id="d" style="background: #dfdfdf;">
+    <a href="#c">Up</a>
+    <a href="#e">Down</a>
+  </div>
+  <div id="e" style="background: #efefef;">
+    <a href="#d">Up</a>
+    <a href="#a">Top</a>
+  </div>
+</body>
+
+</html>
