@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Logic</title>
+    <style>
+        * {
+            color: #000;
+            outline: none;
+            user-select: none;
+            scroll-behavior: smooth;
+            text-decoration: none;
+            font-size: 80px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        input {
+            display: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <style>
+        label,
+        label::before,
+        #op {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+        }
+
+        #op,
+        #op label {
+            width: 200px;
+        }
+
+        input+label::before {
+            content: "0";
+        }
+
+        :checked+label::before {
+            content: "1";
+        }
+
+        #and:checked~#op :not([for="or"]),
+        #or:checked~#op :not([for="xor"]),
+        #xor:checked~#op :not([for="nand"]),
+        #nand:checked~#op :not([for="nor"]),
+        #nor:checked~#op :not([for="xnor"]),
+        #xnor:checked~#op :not([for="and"]) {
+            display: none;
+        }
+    </style>
+    <style>
+        .gate-p:checked~#r::before,
+        #nand:checked~#a:checked~#b:checked~#r::before,
+        #nor:checked~#a:checked~#r::before,
+        #nor:checked~#b:checked~#r::before,
+        #xnor:checked~#a:checked~#b:not(:checked)~#r::before,
+        #xnor:checked~#a:not(:checked)~#b:checked~#r::before {
+            content: "0";
+        }
+
+        .gate-n:checked~#r::before,
+        #and:checked~#a:checked~#b:checked~#r::before,
+        #or:checked~#a:checked~#r::before,
+        #or:checked~#b:checked~#r::before,
+        #xor:checked~#a:checked~#b:not(:checked)~#r::before,
+        #xor:checked~#a:not(:checked)~#b:checked~#r::before {
+            content: "1";
+        }
+    </style>
+</head>
+
+<body style="display: flex;">
+    <input type="radio" class="gate-p" name="gate" id="and" checked>
+    <input type="radio" class="gate-p" name="gate" id="or">
+    <input type="radio" class="gate-p" name="gate" id="xor">
+    <input type="radio" class="gate-n" name="gate" id="nand">
+    <input type="radio" class="gate-n" name="gate" id="nor">
+    <input type="radio" class="gate-n" name="gate" id="xnor">
+
+    <input type="checkbox" id="a">
+    <label for="a"></label>
+
+    <div id="op">
+        <label for="or">AND</label>
+        <label for="xor">OR</label>
+        <label for="nand">XOR</label>
+        <label for="nor">NAND</label>
+        <label for="xnor">NOR</label>
+        <label for="and">XNOR</label>
+    </div>
+
+    <input type="checkbox" id="b">
+    <label for="b"></label>
+
+    <label>=</label>
+    <label id="r"></label>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Logic</title>
+    <style>
+        * {
+            color: #000;
+            outline: none;
+            user-select: none;
+            scroll-behavior: smooth;
+            text-decoration: none;
+            font-size: 80px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        input {
+            display: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <style>
+        label,
+        label::before,
+        #op {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+        }
+
+        #op,
+        #op label {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <label id="a">0</label>
+    <div id="op">AND</div>
+    <label id="b">0</label>
+    <label>=</label>
+    <label id="r">0</label>
+    <script>
+        var a = document.getElementById("a");
+        var b = document.getElementById("b");
+        var r = document.getElementById("r");
+        var op = document.getElementById("op");
+        var c = "innerHTML";
+
+        var gm = {
+            "AND": "OR",
+            "OR": "XOR",
+            "XOR": "NAND",
+            "NAND": "NOR",
+            "NOR": "XNOR",
+            "XNOR": "AND"
+        };
+
+        var lm = {
+            "AND": (a, b) => a & b,
+            "OR": (a, b) => a | b,
+            "XOR": (a, b) => a ^ b,
+            "NAND": (a, b) => +!(a & b),
+            "NOR": (a, b) => +!(a | b),
+            "XNOR": (a, b) => +!(a ^ b)
+        };
+
+        var out = () => r[c] = lm[op[c]](a[c], b[c]);
+        a.onclick = () => (a[c] = +!+a[c], out());
+        b.onclick = () => (b[c] = +!+b[c], out());
+        op.onclick = () => (op[c] = gm[op[c]], out());
+    </script>
+</body>
+
+</html>
