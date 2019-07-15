@@ -7,18 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Strategy</title>
     <style>
-        body {
+        html, body {
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-
             background-color: black;
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            width: calc((5.6cm + 0.4cm * 2) * 4);
+            height: 100%;
         }
 
         .card,
         .card-fill {
+            text-transform: uppercase;
             box-sizing: border-box;
             width: 5.6cm;
             height: 8.7cm;
@@ -26,7 +38,7 @@
             border-width: 0.15cm;
             border-style: solid;
             border-radius: 0.25cm;
-            margin: 0.4cm;
+            margin: 0.4cm 0.4cm;
         }
 
         .card .card-point {
@@ -62,112 +74,47 @@
             overflow: hidden;
         }
 
+        .card .card-point::before {
+            content: var(--type) " ";
+        }
+
+        .card .card-default::before {
+            content: var(--type);
+        }
+
         .atk-card {
+            --type: "atk";
             color: crimson;
         }
 
-        .atk-card .card-point::before {
-            content: "ATK ";
-        }
-
-        .atk-card .card-default::before {
-            content: "ATK";
-        }
-
         .def-card {
+            --type: "def";
             color: royalblue;
         }
 
-        .def-card .card-point::before {
-            content: "DEF ";
-        }
-
-        .def-card .card-default::before {
-            content: "DEF";
-        }
-
         .spd-card {
+            --type: "spd";
             color: goldenrod;
         }
 
-        .spd-card .card-point::before {
-            content: "SPD ";
-        }
-
-        .spd-card .card-default::before {
-            content: "SPD";
-        }
-
         .hp-card {
+            --type: "hp";
             color: seagreen;
         }
 
-        .hp-card .card-point::before {
-            content: "HP ";
-        }
-
-        .hp-card .card-default::before {
-            content: "HP";
-        }
-
         .mp-card {
+            --type: "mp";
             color: blueviolet;
         }
 
-        .mp-card .card-point::before {
-            content: "MP ";
-        }
-
-        .mp-card .card-default::before {
-            content: "MP";
-        }
-
         .str-card {
+            --type: "str";
             color: sienna;
         }
 
-        .str-card .card-point::before {
-            content: "STR ";
-        }
-
-        .str-card .card-default::before {
-            content: "STR";
-        }
-
         .int-card {
+            --type: "int";
             color: darkcyan;
-        }
-
-        .int-card .card-point::before {
-            content: "INT ";
-        }
-
-        .int-card .card-default::before {
-            content: "INT";
-        }
-
-        .luk-card {
-            color: palevioletred;
-        }
-
-        .luk-card .card-point::before {
-            content: "LUK ";
-        }
-
-        .luk-card .card-default::before {
-            content: "LUK";
-        }
-
-        .itm-card {
-            color: gray;
-        }
-
-        .itm-card .card-point::before {
-            content: "ITM ";
-        }
-
-        .itm-card .card-default::before {
-            content: "ITM";
         }
     </style>
 </head>
@@ -208,23 +155,33 @@
         <div class="card-default"></div>
         <div class="card-point"></div>
     </div>
-    <div class="card luk-card">
-        <div class="card-point"></div>
-        <div class="card-default"></div>
-        <div class="card-point"></div>
-    </div>
-    <div class="card itm-card">
-        <div class="card-point"></div>
-        <div class="card-default"></div>
-        <div class="card-point"></div>
-    </div>
-    <div class="card-fill"></div>
-    <div class="card-fill"></div>
-    <div class="card-fill"></div>
-    <div class="card-fill"></div>
-    <div class="card-fill"></div>
-    <div class="card-fill"></div>
-    <div class="card-fill"></div>
+    <script>
+        var card = { "atk": 12, "def": 12, "spd": 8, "hp": 32, "mp": 4, "str": 8, "int": 4 };
+        var nodes = [];
+
+        for (var type in card) {
+            var total = card[type];
+            var template = document.querySelector(`.${type}-card`);
+            document.body.removeChild(template);
+            nodes.push(template);
+
+            for (var i = 0; i < total - 1; i++) {
+                var node = template.cloneNode(true);
+                nodes.push(node);
+            }
+        }
+
+        for (var i = 0; i < 10; i++) {
+            var cardContainer = document.createElement("div");
+            cardContainer.className = "card-container";
+
+            for (var j = 0; j < 8; j++) {
+                cardContainer.appendChild(nodes.shift());
+            }
+
+            document.body.appendChild(cardContainer);
+        }
+    </script>
 </body>
 
 </html>
