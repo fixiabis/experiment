@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DO</title>
+    <style>
+        * {
+            outline: none;
+        }
+
+        html,
+        body {
+            background-color: #1f1f1f;
+        }
+
+        input[type=checkbox] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 10px;
+            height: 10px;
+            margin: 0px;
+            margin-right: 5px;
+            background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20fill%3D%27%23d4d4d4%27%20width%3D%2710%27%20height%3D%2710%27%3E%3Cpath%20d%3D%27M2%200%20L2%2010%20L9%205%20Z%27/%3E%3C/svg%3E");
+            transition: all 0.25s;
+        }
+
+        input[type=checkbox]:checked {
+            transform: rotate(90deg);
+        }
+
+        input[type=checkbox]:not(:checked)+label {
+            display: none;
+        }
+
+        input[type=radio] {
+            display: none;
+        }
+
+        input::-ms-check {
+            display: none
+        }
+
+        label {
+            color: #f2f2f2;
+            font-size: 16px;
+            line-height: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            animation: show 0.25s;
+        }
+
+        @keyframes show {
+            from {
+                opacity: 0;
+            }
+        }
+
+        input[type=radio]+label {
+            display: block;
+            padding-left: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <label><input type="checkbox">1<label><input type="radio">
+        <label><input type="checkbox">2<label><input type="radio">
+            <label><input type="checkbox">3</label>
+        </label></label>
+    </label></label>
+</body>
+
+</html>
