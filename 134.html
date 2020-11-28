@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+  </head>
+  <body>
+    <script>
+      /** 輸入提示 */
+      function inputPrompt(message, allowedInputs) {
+        let input = '';
+
+        if (allowedInputs) {
+          do {
+            input = prompt(message);
+          } while (!allowedInputs.includes(input) && input !== null);
+        } else {
+          do {
+            input = prompt(message);
+          } while (!input && input !== null);
+        }
+
+        return input;
+      }
+
+      /** 範圍的隨機數值 */
+      function randByRange(start, end) {
+        return parseInt((Math.random() * end - start).toFixed(0)) + start;
+      }
+
+      /** 區域 */
+      const Area = {
+        /** 邊界 */
+        World: '0',
+
+        /** 森林 */
+        Forest: '1',
+
+        /** 果園 */
+        Garden: '2',
+
+        /** 河流 */
+        River: '3',
+
+        /** 村莊 */
+        Village: '4',
+      };
+
+      /** 道具 */
+      const Item = {
+        /** 木頭 */
+        Tree: '0',
+
+        /** 果實 */
+        Furit: '1',
+      };
+
+      /** 行為 */
+      const Action = {
+        /** 取得建材 */
+        Tree: '0',
+
+        /** 取得飽足感 */
+        Food: '1',
+      };
+
+      /** 玩家 */
+      class Player {
+        constructor(id, name) {
+          /** id */
+          this.id = id;
+
+          /** 名稱 */
+          this.name = name;
+
+          /** 經驗值 */
+          this.exp = 10;
+
+          /** 飽足感 */
+          this.food = 20;
+
+          /** 水分 */
+          this.water = 10;
+
+          /** 建材 */
+          this.tree = 2;
+
+          /** 道具欄 */
+          this.items = [];
+        }
+
+        /** 是否死亡 */
+        isDead() {
+          return this.exp <= 0 || (this.food <= 0 && this.water <= 0);
+        }
+
+        /** 是否獲勝 */
+        isWin() {
+          return this.exp >= 1000;
+        }
+
+        /** 獲得道具 */
+        addItem(item, count, unit, itemName) {
+          for (let i = 0; i < count; i++) {
+            this.items.push(item);
+          }
+
+          alert(`獲得了${count}${unit}${itemName}`);
+        }
+
+        /** 消耗道具 */
+        removeItem(item, count, unit, itemName) {
+          for (let i = 0; i < count; i++) {
+            const itemIndex = this.items.indexOf(item);
+            const hasItem = itemIndex !== -1;
+
+            if (hasItem) {
+              this.items.splice(itemIndex, 1);
+            } else {
+              count = i;
+              break;
+            }
+          }
+
+          alert(`消耗了${count}${unit}${itemName}`);
+          return count;
+        }
+
+        /** 變動經驗值 */
+        changeExp(expChange) {
+          if (expChange < 0) {
+            this.exp += expChange;
+            alert(`消耗了經驗值${expChange}點, 目前經驗值為${this.exp}`);
+          } else {
+            this.exp += expChange;
+            alert(`獲得了經驗值${expChange}點, 目前經驗值為${this.exp}`);
+          }
+        }
+
+        /** 變動建材 */
+        changeTree(treeChange) {
+          if (treeChange < 0) {
+            this.tree += treeChange;
+            alert(`消耗了建材${treeChange}個, 目前建材為${this.tree}`);
+          } else {
+            this.tree += treeChange;
+            alert(`獲得了建材${treeChange}個, 目前建材為${this.tree}`);
+          }
+        }
+
+        /** 變動水分 */
+        changeWater(waterChange) {
+          if (waterChange < 0) {
+            this.water += waterChange;
+            alert(`消耗了水分${waterChange}點, 目前水分為${this.water}`);
+          } else {
+            this.water += waterChange;
+            alert(`獲得了水分${waterChange}點, 目前水分為${this.water}`);
+          }
+        }
+
+        /** 變動飽足感 */
+        changeFood(foodChange) {
+          if (foodChange < 0) {
+            this.food += foodChange;
+            alert(`消耗了飽足感${foodChange}點, 目前飽足感為${this.food}`);
+          } else {
+            this.food += foodChange;
+            alert(`獲得了飽足感${foodChange}點, 目前飽足感為${this.food}`);
+          }
+        }
+
+        /** 選擇區域 */
+        selectArea() {
+          const area = inputPrompt(
+            '要前往哪個區域呢? (' +
+              `${Area.World}: 邊界, ` +
+              `${Area.Forest}: 森林, ` +
+              `${Area.Garden}: 果園, ` +
+              `${Area.River}: 河流, ` +
+              `${Area.Village}: 村莊` +
+              ')',
+            [Area.World, Area.Forest, Area.Garden, Area.River, Area.Village]
+          );
+
+          this.gotoArea(area);
+        }
+
+        /** 前往區域 */
+        gotoArea(area) {
+          switch (area) {
+            case Area.World:
+              return this.gotoWorld();
+
+            case Area.Forest:
+              return this.gotoForest();
+
+            case Area.Garden:
+              return this.gotoGarden();
+
+            case Area.River:
+              return this.gotoRiver();
+
+            case Area.Village:
+              return this.gotoVillage();
+
+            default:
+              throw new Error('玩家不玩了');
+          }
+        }
+
+        /** 前往邊界 */
+        gotoWorld() {
+          const isWantAttack = confirm('是否砍殺小怪?');
+          const expChange = randByRange(10, 25);
+
+          if (isWantAttack) {
+            this.changeExp(+expChange);
+          } else {
+            this.changeExp(-expChange);
+          }
+
+          this.changeWater(-1);
+          this.changeFood(-2);
+        }
+
+        /** 前往森林 */
+        gotoForest() {
+          this.changeExp(-20);
+
+          const isWantTree = confirm('是否要砍伐樹木?');
+          const treesCount = randByRange(0, 5);
+
+          if (isWantTree) {
+            this.addItem(Item.Tree, +treesCount, '個', '木頭');
+          }
+        }
+
+        /** 前往果園 */
+        gotoGarden() {
+          this.changeTree(-1);
+
+          const isWantFurit = confirm('是否採集果實?');
+          const fruitsCount = randByRange(0, 5);
+
+          if (isWantFurit) {
+            this.addItem(Item.Furit, +fruitsCount, '顆', '果實');
+          }
+        }
+
+        /** 前往河流 */
+        gotoRiver() {
+          this.changeTree(-1);
+
+          const isWantWater = confirm('是否採集民生用水?');
+          const waterCount = randByRange(0, 5);
+
+          if (isWantWater) {
+            this.changeWater(+waterCount);
+          }
+        }
+
+        /** 前往村莊 */
+        gotoVillage() {
+          this.selectActionInVillage();
+        }
+
+        /** 在村莊選擇行為 */
+        selectActionInVillage() {
+          const action = inputPrompt(
+            `查看背包 (${Action.Tree}: 取得建材, ${Action.Food}: 取得飽足感)`,
+            [Action.Tree, Action.Food]
+          );
+
+          this.doActionInVillage(action);
+        }
+
+        /** 在村莊做出行為 */
+        doActionInVillage(action) {
+          switch (action) {
+            case Action.Tree:
+              return this.getTreeInVillage();
+
+            case Action.Food:
+              return this.getFoodInVillage();
+          }
+        }
+
+        /** 在村莊取得建材 */
+        getTreeInVillage() {
+          const treesCount = this.removeItem(Item.Tree, 1, '個', '木頭');
+          const hasTree = treesCount !== 0;
+
+          if (hasTree) {
+            const treeChange = randByRange(1, 5);
+            this.changeTree(treeChange);
+          }
+        }
+
+        /** 在村莊取得飽足感 */
+        getFoodInVillage() {
+          const furitsCount = this.removeItem(Item.Furit, 1, '顆', '果實');
+          const hasFurit = furitsCount !== 0;
+
+          if (hasFurit) {
+            this.changeFood(+2);
+          }
+        }
+      }
+
+      function gameStart() {
+        const id = inputPrompt('輸入ID');
+        const name = inputPrompt('輸入名稱');
+        const player = new Player(id, name);
+
+        try {
+          while (!(player.isDead() || player.isWin())) {
+            player.selectArea();
+          }
+
+          if (player.isDead()) {
+            alert('玩家死亡');
+          } else if (player.isWin()) {
+            alert('玩家獲勝');
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+
+      gameStart();
+    </script>
+  </body>
+</html>
