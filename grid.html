@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            color: #888;
+            background-color: #f2f2f2;
+        }
+
+        .board-view {
+            --ratio: min(100vw / 5, 100vh / 5);
+            --grid-size: calc(var(--ratio) * 0.8);
+            display: flex;
+            flex-wrap: wrap;
+            width: calc(var(--grid-size) * 5);
+            height: calc(var(--grid-size) * 5);
+        }
+
+        .grid-view {
+            width: var(--grid-size);
+            height: var(--grid-size);
+            box-sizing: border-box;
+            border: 1px transparent solid;
+        }
+
+        .grid-view:nth-child(5)~.grid-view {
+            border-top-color: #888;
+        }
+
+        .grid-view:nth-child(5n + 1)~.grid-view:not(:nth-child(5n + 1)) {
+            border-left-color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="board-view">
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+        <div class="grid-view"></div>
+    </div>
+</body>
+
+</html>
