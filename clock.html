@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clock</title>
+    <style>
+      body {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .clock {
+        --ratio: min(100vw / 1006 * 0.8, 100vh / 250 * 0.8);
+        --segment-number-width: calc(var(--ratio) * 135);
+        --seperator-width: calc(var(--ratio) * 28);
+        --element-space: calc(var(--ratio) * 20);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: calc(
+          var(--segment-number-width) * 6 + var(--seperator-width) * 2 +
+            var(--element-space) * 7
+        );
+        height: calc(var(--ratio) * 250);
+      }
+
+      .segment-number {
+        width: var(--segment-number-width);
+        height: 100%;
+      }
+
+      .seperator {
+        width: var(--seperator-width);
+        height: 100%;
+        animation: blink 0.5s infinite;
+      }
+
+      .segment-number path {
+        opacity: 0.2;
+      }
+
+      .segment-number[data-value='1'] .vl-rt,
+      .segment-number[data-value='1'] .vl-rb,
+      .segment-number[data-value='2'] path:not(.vl-lt):not(.vl-rb),
+      .segment-number[data-value='3'] path:not(.vl-lt):not(.vl-lb),
+      .segment-number[data-value='4'] .hl-m,
+      .segment-number[data-value='4'] .vl-lt,
+      .segment-number[data-value='4'] .vl-rt,
+      .segment-number[data-value='4'] .vl-rb,
+      .segment-number[data-value='5'] path:not(.vl-rt):not(.vl-lb),
+      .segment-number[data-value='6'] path:not(.vl-rt),
+      .segment-number[data-value='7'] .hl-t,
+      .segment-number[data-value='7'] .vl-rt,
+      .segment-number[data-value='7'] .vl-rb,
+      .segment-number[data-value='8'] path,
+      .segment-number[data-value='9'] path:not(.vl-lb),
+      .segment-number[data-value='0'] path:not(.hl-m) {
+        opacity: 1;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          visibility: hidden;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <template id="segment-number">
+      <div class="segment-number">
+        <svg viewBox="0 0 135 250">
+          <g stroke="#cb5651" stroke-width="12" stroke-linecap="round">
+            <path class="hl-t" d="M 23 8.5 h 88" />
+            <path class="hl-m" d="M 23 125 h 88" />
+            <path class="hl-b" d="M 23 239 h 88" />
+            <path class="vl-lt" d="M 9.5 22 v 88" />
+            <path class="vl-lb" d="M 9.5 138 v 88" />
+            <path class="vl-rt" d="M 125 22 v 88" />
+            <path class="vl-rb" d="M 125 138 v 88" />
+          </g>
+        </svg>
+      </div>
+    </template>
+    <template id="seperator">
+      <div class="seperator">
+        <svg viewBox="0 0 28 250">
+          <g fill="#cb5651">
+            <circle r="6" cx="14" cy="71" />
+            <circle r="6" cx="14" cy="204" />
+          </g>
+        </svg>
+      </div>
+    </template>
+    <script>
+      const templateIds = ['segment-number', 'seperator'];
+
+      const [segmentNumberFr, seperatorFr] = templateIds.map(
+        (id) => document.querySelector('template#' + id).content
+      );
+
+      const clockChildEls = [
+        segmentNumberFr,
+        segmentNumberFr,
+        seperatorFr,
+        segmentNumberFr,
+        segmentNumberFr,
+        seperatorFr,
+        segmentNumberFr,
+        segmentNumberFr,
+      ].map((fr) => document.importNode(fr, true).children[0]);
+
+      const clockEl = document.createElement('div');
+      clockEl.className = 'clock';
+      clockChildEls.forEach((childEl) => clockEl.appendChild(childEl));
+      document.body.appendChild(clockEl);
+
+      const segmentNumberEls = clockChildEls.filter((el) =>
+        el.classList.contains('segment-number')
+      );
+
+      setInterval(() => {
+        const numbers = new Date()
+          .toTimeString()
+          .substr(0, '00:00:00'.length)
+          .replace(/:/g, '')
+          .split('');
+
+        segmentNumberEls.forEach((segmentNumberEl, index) =>
+          segmentNumberEl.setAttribute('data-value', numbers[index])
+        );
+      }, 500);
+    </script>
+  </body>
+</html>
