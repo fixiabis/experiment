@@ -124,8 +124,8 @@
       const segmentNumberEls = clockChildEls.filter((el) =>
         el.classList.contains('segment-number')
       );
-
-      setInterval(() => {
+      
+      const showSegmentNumbers = () => {
         const numbers = new Date()
           .toTimeString()
           .substr(0, '00:00:00'.length)
@@ -135,7 +135,10 @@
         segmentNumberEls.forEach((segmentNumberEl, index) =>
           segmentNumberEl.setAttribute('data-value', numbers[index])
         );
-      }, 500);
+      };
+      
+      showSegmentNumbers();
+      setInterval(showSegmentNumbers, 500);
     </script>
   </body>
 </html>
