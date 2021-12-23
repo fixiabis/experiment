@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>如何籌建寺廟？</title>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-thatch: #c0a7a1;
+        --color-bright-gray: #323646;
+        --color-nutmeg: #7f2e2c;
+        --color-brown-rust: #9e6335;
+        --color-brown-rust--light: #d4a37d;
+      }
+    </style>
+  </head>
+  <body>
+    <a id="invalid-urban-land-result" class="section-anchor"></a>
+    <a id="check-industrial-land" class="section-anchor"></a>
+    <a id="check-urban-land-type" class="section-anchor"></a>
+    <a id="check-non-urban-land-type" class="section-anchor"></a>
+    <a id="which-land" class="section-anchor"></a>
+    <div class="sections-wrapper default-sections-wrapper">
+      <section class="section invalid-urban-land-result-section">
+        <h1 class="section__title">需申請都市計畫通盤檢討(變更為宗教專用區)，相關程序請洽詢主管機關(都市發展局)</h1>
+      </section>
+      <section class="section confirm-section check-industrial-land-section">
+        <h1 class="section__title">是否為甲、乙種工業區，且樓地板面積是否在 500 m<sup>2</sup> 以下？</h1>
+        <div class="confirm-section__buttons-group">
+          <a class="confirm-section__button">是</a>
+          <a href="#invalid-urban-land-result" class="confirm-section__button">否</a>
+        </div>
+      </section>
+      <section class="section confirm-section check-urban-land-type-section">
+        <h1 class="section__title">是否為住宅區、商業區或風景區？</h1>
+        <div class="confirm-section__buttons-group">
+          <a class="confirm-section__button">是</a>
+          <a href="#check-industrial-land" class="confirm-section__button">否</a>
+        </div>
+      </section>
+      <section class="section confirm-section check-non-urban-land-type-section">
+        <h1 class="section__title">是否為甲、乙、丙種建築用地或遊憩用地？</h1>
+        <div class="confirm-section__buttons-group">
+          <a class="confirm-section__button">是</a>
+          <a class="confirm-section__button">否</a>
+        </div>
+      </section>
+      <section class="section options-section choose-land-section">
+        <h1 class="section__title">要建在什麼土地上呢？</h1>
+        <a href="#check-non-urban-land-type" class="options-section__option">非都市土地</a>
+        <a href="#check-urban-land-type" class="options-section__option">都市土地</a>
+      </section>
+      <section class="section start-section">
+        <h1 class="section__title">如何籌建寺廟？</h1>
+        <a href="#which-land" class="start-section__button">GO!</a>
+      </section>
+    </div>
+    <style>
+      .sections-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+      }
+
+      .section {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .section__title {
+        font-size: 30px;
+        text-align: justify;
+        max-width: calc(100% - 16px);
+      }
+    </style>
+    <style>
+      .section {
+        transform: translateY(100%);
+        transition: transform 250ms;
+      }
+
+      .start-section,
+      #which-land:target ~ .sections-wrapper .choose-land-section,
+      #check-non-urban-land-type:target ~ .sections-wrapper .check-non-urban-land-type-section,
+      #check-urban-land-type:target ~ .sections-wrapper .check-urban-land-type-section,
+      #check-industrial-land:target ~ .sections-wrapper .check-industrial-land-section,
+      #invalid-urban-land-result:target ~ .sections-wrapper .invalid-urban-land-result-section {
+        transform: translateY(0%);
+      }
+
+      #which-land:target ~ .sections-wrapper .choose-land-section ~ .section,
+      #check-non-urban-land-type:target ~ .sections-wrapper .check-non-urban-land-type-section ~ .section,
+      #check-urban-land-type:target ~ .sections-wrapper .check-urban-land-type-section ~ .section,
+      #check-industrial-land:target ~ .sections-wrapper .check-industrial-land-section ~ .section,
+      #invalid-urban-land-result:target ~ .sections-wrapper .invalid-urban-land-result-section ~ .section {
+        transform: translateY(-100%);
+      }
+    </style>
+    <style>
+      .default-sections-wrapper {
+        color: var(--color-bright-gray);
+        background-color: var(--color-thatch);
+      }
+    </style>
+    <style>
+      .start-section__button {
+        display: block;
+        border-width: 0;
+        width: 120px;
+        height: 120px;
+        background-color: var(--color-nutmeg);
+        color: var(--color-brown-rust--light);
+        border-radius: 60px;
+        font-size: 40px;
+        text-align: center;
+        line-height: 120px;
+        cursor: pointer;
+        transition: transform 250ms;
+      }
+
+      .start-section__button:active {
+        transform: scale(0.8);
+      }
+    </style>
+    <style>
+      .options-section__option + .options-section__option {
+        margin-top: 8px;
+      }
+
+      .options-section__option {
+        cursor: pointer;
+        font-size: 28px;
+        width: 240px;
+        padding: 8px;
+        border-radius: 4px;
+        background-color: var(--color-nutmeg);
+        color: var(--color-brown-rust--light);
+      }
+    </style>
+    <style>
+      .confirm-section__buttons-group {
+        width: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+
+      .confirm-section__button {
+        cursor: pointer;
+        text-align: center;
+        font-size: 28px;
+        width: 60px;
+        height: 60px;
+        border-radius: 4px;
+        line-height: 60px;
+        background-color: var(--color-nutmeg);
+        color: var(--color-brown-rust--light);
+      }
+    </style>
+  </body>
+</html>
