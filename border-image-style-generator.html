@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>9 slicing css generator</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body style="display: flex;">
+    <div class="wrapper -block">
+      <div class="block">
+        <div class="block-image"></div>
+        <div class="block-line -width"></div>
+        <div class="block-line -height"></div>
+        <div class="block-line -top">
+          <input title="top slicing line" type="text" class="block-input" />
+        </div>
+        <div class="block-line -bottom">
+          <input title="bottom slicing line" type="text" class="block-input" />
+        </div>
+        <div class="block-line -left">
+          <input title="left slicing line" type="text" class="block-input" />
+        </div>
+        <div class="block-line -right">
+          <input title="right slicing line" type="text" class="block-input" />
+        </div>
+        <input title="width" type="text" class="block-input -width" />
+        <input title="height" type="text" class="block-input -height" />
+        <select title="vertical mode" class="block-input -mode -vertical">
+          <option value="stretch">stretch</option>
+          <option value="repeat">repeat</option>
+          <option value="round">round</option>
+          <option value="space">space</option>
+        </select>
+        <select title="horizontal mode" class="block-input -mode -horizontal">
+          <option value="stretch">stretch</option>
+          <option value="repeat">repeat</option>
+          <option value="round">round</option>
+          <option value="space">space</option>
+        </select>
+        <input type="text" class="block-input -image" placeholder="drop / paste image / url here" />
+      </div>
+    </div>
+    <div class="wrapper -style-output">
+      <div class="style-output">
+        <pre class="style-output-code""></pre>
+      </div>
+    </div>
+
+    <style>
+      .-block.wrapper {
+        padding: 90px;
+        width: calc(100% - 500px);
+        height: 100%;
+      }
+
+      .block {
+        --block_image: ;
+        --block_width: ;
+        --block_height: ;
+        --block_line-top: ;
+        --block_line-bottom: ;
+        --block_line-left: ;
+        --block_line-right: ;
+        --block_horizontal-mode: ;
+        --block_vertical-mode: ;
+      }
+
+      .block {
+        position: relative;
+        width: calc(var(--block_width) * 1px + 2px * 2);
+        height: calc(var(--block_height) * 1px + 2px * 2);
+        color: #000;
+        border-width: 2px;
+        border-style: solid;
+      }
+
+      .block > .block-input {
+        position: absolute;
+      }
+
+      .block > .block-input.-mode {
+        width: 72px;
+      }
+
+      .block > .block-input.-width {
+        top: -6px;
+        left: 50%;
+        transform: translateY(-100%) translateX(-50%);
+      }
+
+      .block > .block-input.-height {
+        top: 50%;
+        left: -6px;
+        transform: translateX(-100%) translateY(-50%);
+      }
+
+      .block > .block-input.-mode.-horizontal {
+        top: -6px;
+        left: calc(100% + 6px);
+        transform: translateY(-100%);
+      }
+
+      .block > .block-input.-mode.-vertical {
+        top: calc(100% + 6px);
+        left: -6px;
+        transform: translateX(-100%);
+      }
+
+      .block > .block-input.-image {
+        width: 100%;
+        min-width: 300px;
+        top: -12px;
+        left: 0;
+        transform: translateY(-200%);
+      }
+
+      .block > .block-line {
+        position: absolute;
+      }
+
+      .block > .block-line.-width {
+        cursor: col-resize;
+        top: 0;
+        right: -2px;
+        width: 2px;
+        height: 100%;
+      }
+
+      .block > .block-line.-height {
+        cursor: row-resize;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+      }
+
+      .block-input {
+        width: 48px;
+        height: 24px;
+        text-align: center;
+      }
+
+      .block-input.-image {
+        text-align: left;
+      }
+
+      .block-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-image-source: var(--block_image);
+        border-image-slice: var(--block_line-top) var(--block_line-right) var(--block_line-bottom)
+          var(--block_line-left) fill;
+        border-image-repeat: var(--block_horizontal-mode) var(--block_vertical-mode);
+        border-width: calc(var(--block_line-top) * 1px) calc(var(--block_line-right) * 1px)
+          calc(var(--block_line-bottom) * 1px) calc(var(--block_line-left) * 1px);
+        border-style: solid;
+      }
+
+      .block-line {
+        background-color: currentColor;
+      }
+
+      .block-line.-top,
+      .block-line.-bottom {
+        cursor: row-resize;
+        left: 0;
+        width: 100%;
+        height: 2px;
+      }
+
+      .block-line.-left,
+      .block-line.-right {
+        cursor: col-resize;
+        top: 0;
+        width: 2px;
+        height: 100%;
+      }
+
+      .block-line.-top {
+        top: calc(var(--block_line-top) * 1px - 1.5px);
+      }
+
+      .block-line.-bottom {
+        bottom: calc(var(--block_line-bottom) * 1px - 1.5px);
+      }
+
+      .block-line.-left {
+        left: calc(var(--block_line-left) * 1px - 1.5px);
+      }
+
+      .block-line.-right {
+        right: calc(var(--block_line-right) * 1px - 1.5px);
+      }
+
+      .block-line > .block-input {
+        position: absolute;
+      }
+
+      .block-line.-top > .block-input,
+      .block-line.-bottom > .block-input {
+        top: 0;
+        left: calc(100% + 6px);
+        transform: translateY(-50%);
+      }
+
+      .block-line.-left > .block-input,
+      .block-line.-right > .block-input {
+        top: calc(100% + 6px);
+        left: 0;
+        transform: translateX(-50%);
+      }
+    </style>
+
+    <style>
+      .-style-output.wrapper {
+        padding-top: 90px;
+        width: 500px;
+        height: 100%;
+      }
+
+      .style-output-code {
+        white-space: pre-wrap;
+        margin: 0;
+      }
+    </style>
+
+    <script>
+      const styleOutputElement = document.querySelector(".style-output");
+
+      const styleOutputCodeElement = document.querySelector(".style-output-code");
+
+      const blockElement = document.querySelector(".block");
+
+      const blockInputElements = {
+        width: document.querySelector(".block-input.-width"),
+        height: document.querySelector(".block-input.-height"),
+        horizontalMode: document.querySelector(".block-input.-mode.-horizontal"),
+        verticalMode: document.querySelector(".block-input.-mode.-vertical"),
+        imageUrl: document.querySelector(".block-input.-image"),
+      };
+
+      const blockLineTypes = ["top", "bottom", "left", "right"];
+
+      const blockLineElements = Object.fromEntries(
+        blockLineTypes.map((blockLineName) => [blockLineName, document.querySelector(`.block-line.-${blockLineName}`)])
+      );
+
+      blockLineElements["width"] = document.querySelector(`.block-line.-width`);
+      blockLineElements["height"] = document.querySelector(`.block-line.-height`);
+
+      const blockLineInputElements = Object.fromEntries(
+        blockLineTypes.map((blockLineName) => [
+          blockLineName,
+          document.querySelector(`.block-line.-${blockLineName} > .block-input`),
+        ])
+      );
+
+      const blockProperties = new Proxy(
+        {
+          _width: 0,
+
+          get width() {
+            return this._width;
+          },
+
+          set width(value) {
+            if (value < 0) {
+              return;
+            }
+
+            if (this.lineLeft + this.lineRight > value) {
+              this.lineLeft = value / 2;
+              this.lineRight = value / 2;
+            }
+
+            this._width = value;
+            blockElement.style.setProperty("--block_width", value.toFixed(0));
+            blockInputElements["width"].value = value.toFixed(0);
+          },
+
+          _height: 0,
+
+          get height() {
+            return this._height;
+          },
+
+          set height(value) {
+            if (value < 0) {
+              return;
+            }
+
+            if (this.lineTop + this.lineBottom > value) {
+              this.lineTop = value / 2;
+              this.lineBottom = value / 2;
+            }
+
+            this._height = value;
+            blockElement.style.setProperty("--block_height", value.toFixed(0));
+            blockInputElements["height"].value = value.toFixed(0);
+          },
+
+          _lineTop: 0,
+
+          get lineTop() {
+            return this._lineTop;
+          },
+
+          set lineTop(value) {
+            if (value < 0 || value > this.height - this.lineBottom) {
+              return;
+            }
+
+            this._lineTop = value;
+            blockElement.style.setProperty("--block_line-top", value.toFixed(0));
+            blockLineInputElements["top"].value = value.toFixed(0);
+          },
+
+          _lineBottom: 0,
+
+          get lineBottom() {
+            return this._lineBottom;
+          },
+
+          set lineBottom(value) {
+            if (value < 0 || value > this.height - this.lineTop) {
+              return;
+            }
+
+            this._lineBottom = value;
+            blockElement.style.setProperty("--block_line-bottom", value.toFixed(0));
+            blockLineInputElements["bottom"].value = value.toFixed(0);
+          },
+
+          _lineLeft: 0,
+
+          get lineLeft() {
+            return this._lineLeft;
+          },
+
+          set lineLeft(value) {
+            if (value < 0 || value > this.width - this.lineRight) {
+              return;
+            }
+
+            this._lineLeft = value;
+            blockElement.style.setProperty("--block_line-left", value.toFixed(0));
+            blockLineInputElements["left"].value = value.toFixed(0);
+          },
+
+          _lineRight: 0,
+
+          get lineRight() {
+            return this._lineRight;
+          },
+
+          set lineRight(value) {
+            if (value < 0 || value > this.width - this.lineLeft) {
+              return;
+            }
+
+            this._lineRight = value;
+            blockElement.style.setProperty("--block_line-right", value.toFixed(0));
+            blockLineInputElements["right"].value = value.toFixed(0);
+          },
+
+          activeLineType: null,
+
+          _horizontalMode: "stretch",
+
+          get horizontalMode() {
+            return this._horizontalMode;
+          },
+
+          set horizontalMode(value) {
+            this._horizontalMode = value;
+            blockElement.style.setProperty("--block_horizontal-mode", value);
+          },
+
+          _verticalMode: "stretch",
+
+          get verticalMode() {
+            return this._verticalMode;
+          },
+
+          set verticalMode(value) {
+            this._verticalMode = value;
+            blockElement.style.setProperty("--block_vertical-mode", value);
+          },
+
+          _imageUrl: "",
+
+          get imageUrl() {
+            return this._imageUrl;
+          },
+
+          set imageUrl(value) {
+            this._imageUrl = value;
+            blockInputElements["imageUrl"].value = value;
+            blockElement.style.setProperty("--block_image", `url(${value})`);
+          },
+        },
+        {
+          set(target, key, value) {
+            const result = Reflect.set(target, key, value);
+
+            styleOutputCodeElement.innerHTML = [
+              ".block {" ,
+              `  width: ${target.width}px;`,
+              `  height: ${target.height}px;`,
+              `  border-image-source: url(${target.imageUrl});`,
+              `  border-image-slice: ${target.lineTop} ${target.lineRight} ${target.lineBottom} ${target.lineLeft} fill;`,
+              `  border-image-repeat: ${target.horizontalMode} ${target.verticalMode};`,
+              `  border-width: ${target.lineTop}px ${target.lineRight}px ${target.lineBottom}px ${target.lineLeft}px;`,
+              `  border-style: solid;`,
+              "}",
+            ].join("\n");
+
+            return result;
+          },
+        }
+      );
+
+      Object.assign(blockProperties, {
+        width: 200,
+        height: 200,
+        lineTop: 30,
+        lineBottom: 30,
+        lineLeft: 30,
+        lineRight: 30,
+        horizontalMode: "stretch",
+        verticalMode: "stretch",
+        imageUrl: "https://interactive-examples.mdn.mozilla.net/media/examples/border-diamonds.png",
+      });
+
+      window.addEventListener("mousedown", (e) => {
+        blockLineTypes.forEach((blockLineType) => {
+          if (e.target === blockLineElements[blockLineType]) {
+            blockProperties.activeLineType = blockLineType;
+          }
+        });
+
+        ["width", "height"].forEach((blockLineType) => {
+          if (e.target === blockLineElements[blockLineType]) {
+            blockProperties.activeLineType = blockLineType;
+          }
+        });
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!blockProperties.activeLineType) {
+          return;
+        }
+
+        if (blockProperties.activeLineType === "top") {
+          blockProperties.lineTop = e.clientY - blockElement.offsetTop;
+        }
+
+        if (blockProperties.activeLineType === "bottom") {
+          blockProperties.lineBottom = blockProperties.height - (e.clientY - blockElement.offsetTop);
+        }
+
+        if (blockProperties.activeLineType === "left") {
+          blockProperties.lineLeft = e.clientX - blockElement.offsetLeft;
+        }
+
+        if (blockProperties.activeLineType === "right") {
+          blockProperties.lineRight = blockProperties.width - (e.clientX - blockElement.offsetLeft);
+        }
+
+        if (blockProperties.activeLineType === "width") {
+          blockProperties.width = e.clientX - blockElement.offsetLeft;
+        }
+
+        if (blockProperties.activeLineType === "height") {
+          blockProperties.height = e.clientY - blockElement.offsetTop;
+        }
+      });
+
+      window.addEventListener("mouseup", (e) => {
+        blockProperties.activeLineType = null;
+      });
+
+      window.addEventListener("change", (e) => {
+        if (e.target === blockInputElements["width"]) {
+          blockProperties.width = Number(e.target.value);
+        }
+
+        if (e.target === blockInputElements["height"]) {
+          blockProperties.height = Number(e.target.value);
+        }
+
+        if (e.target === blockInputElements["horizontalMode"]) {
+          blockProperties.horizontalMode = e.target.value;
+        }
+
+        if (e.target === blockInputElements["verticalMode"]) {
+          blockProperties.verticalMode = e.target.value;
+        }
+
+        if (e.target === blockInputElements["imageUrl"]) {
+          blockProperties.imageUrl = e.target.value;
+        }
+
+        blockLineTypes.forEach((blockLineType) => {
+          if (e.target === blockLineInputElements[blockLineType]) {
+            const propertyName = "line" + blockLineType.toUpperCase()[0] + blockLineType.slice(1);
+            blockProperties[propertyName] = Number(e.target.value);
+          }
+        });
+      });
+
+      blockInputElements["imageUrl"].addEventListener("click", (e) => {
+        e.target.value = "";
+      });
+
+      blockInputElements["imageUrl"].addEventListener("paste", async (e) => {
+        const clipboardData = e.clipboardData || window.clipboardData;
+
+        if (!clipboardData) {
+          return;
+        }
+
+        if (!clipboardData.items[0]?.type.includes("image")) {
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const item = clipboardData.items[0];
+        const imageFile = item.getAsFile();
+        const imageBlobUrl = URL.createObjectURL(imageFile);
+        loadImage(imageBlobUrl);
+      });
+
+      blockInputElements["imageUrl"].addEventListener("drop", async (e) => {
+        const dataTransfer = e.dataTransfer;
+
+        if (!dataTransfer) {
+          return;
+        }
+
+        if (dataTransfer.items[0]?.type === "text/uri-list") {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const imageUrl = await new Promise((resolve) => dataTransfer.items[0].getAsString(resolve));
+          loadImage(imageUrl);
+          return;
+        }
+
+        if (dataTransfer?.items[0]?.type.includes("image")) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const item = dataTransfer.items[0];
+          const imageFile = item.getAsFile();
+          const imageBlobUrl = URL.createObjectURL(imageFile);
+          loadImage(imageBlobUrl);
+          return;
+        }
+      });
+
+      async function loadImage(imageUrl) {
+        const image = new Image();
+
+        const imageLoadingPromise = new Promise((resolve, reject) => {
+          image.onload = resolve;
+          image.onerror = reject;
+        });
+
+        image.src = imageUrl;
+
+        await imageLoadingPromise;
+
+        blockProperties.imageUrl = imageUrl;
+        blockProperties.width = image.naturalWidth;
+        blockProperties.height = image.naturalHeight;
+        blockProperties.lineTop = image.naturalHeight / 3;
+        blockProperties.lineBottom = image.naturalHeight / 3;
+        blockProperties.lineLeft = image.naturalWidth / 3;
+        blockProperties.lineRight = image.naturalWidth / 3;
+      }
+    </script>
+  </body>
+</html>
