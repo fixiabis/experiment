@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blocks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sono:wght@200..800&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .pieces {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0.3cm;
+        padding: 0.3cm;
+        font-family: "Sono", sans-serif;
+      }
+
+      .pieces > .piece {
+        width: 5cm;
+        height: 5cm;
+      }
+
+      .piece {
+        position: relative;
+        border-radius: 0.5cm;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+      }
+
+      .piece.-black {
+        background-color: black;
+        color: white;
+      }
+
+      .piece > .piece-link {
+        position: absolute;
+        --piece-link-width: 0.35cm;
+        --piece-link-height: 0.7cm;
+      }
+
+      .piece > .piece-frontface,
+      .piece > .piece-backface {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+      }
+
+      .piece > .piece-frontface {
+        backface-visibility: hidden;
+      }
+
+      .piece > .piece-backface {
+        transform: rotateY(180deg);
+      }
+
+      .piece > .piece-link.--top,
+      .piece > .piece-link.--bottom {
+        left: calc(50% - var(--piece-link-width) / 2);
+        width: var(--piece-link-width);
+        height: var(--piece-link-height);
+      }
+
+      .piece > .piece-link.--top {
+        top: 0;
+      }
+
+      .piece > .piece-link.--bottom {
+        bottom: 0;
+      }
+
+      .piece > .piece-link.--left,
+      .piece > .piece-link.--right {
+        top: calc(50% - var(--piece-link-width) / 2);
+        width: var(--piece-link-height);
+        height: var(--piece-link-width);
+      }
+
+      .piece > .piece-link.--left {
+        left: 0;
+      }
+
+      .piece > .piece-link.--right {
+        right: 0;
+      }
+
+      .piece > .piece-points {
+        position: absolute;
+        bottom: 0.4cm;
+        left: 0.4cm;
+        width: 1cm;
+        height: 1cm;
+        transform: rotate(180deg);
+        backface-visibility: hidden;
+      }
+
+      .piece > .piece-number {
+        position: absolute;
+        top: 0.4cm;
+        right: 0.4cm;
+        width: 1cm;
+        height: 1cm;
+      }
+
+      .piece > .piece-symbol {
+        width: 2cm;
+        height: 2cm;
+      }
+
+      .piece-link {
+        background-color: rgba(127, 127, 127, 0.6);
+      }
+
+      .piece-symbol {
+        position: relative;
+      }
+
+      .piece-symbol > svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .piece-points {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .piece-points > svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .piece-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.7cm;
+        font-weight: 500;
+      }
+
+      .piece-backface {
+        font-family: "Sono", sans-serif;
+        font-size: 1cm;
+        font-weight: 400;
+        text-align: center;
+        line-height: 1.2;
+        padding: 0.2cm;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        color: white;
+      }
+
+      .piece-wrapper {
+        position: relative;
+      }
+
+      .piece-wrapper > .piece {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+        box-shadow: 0 0 0.2cm 0 rgba(0, 0, 0, 0.25);
+      }
+
+      .piece-wrapper:hover > .piece {
+        transform: rotateY(180deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="pieces"
+      style="width: calc(5cm * 6 + 0.3cm * 7); margin: 0 auto; box-shadow: 0 0 0.2cm 0 rgba(0, 0, 0, 0.25)"
+    ></div>
+    <script>
+      const symbols = ["omu", "xro", "det", "rod", "ast", "hex"];
+
+      const numbers = [1, 2, 3, 4, 5, 6];
+
+      const directions = [
+        [],
+        ["top"],
+        ["top", "right"],
+        ["top", "bottom"],
+        ["top", "bottom", "left"],
+        ["top", "bottom", "left", "right"],
+      ];
+
+      const piecePropsArray = symbols.flatMap((symbol) =>
+        numbers.flatMap((number) =>
+          directions.map((direction, directionIndex) => ({
+            symbol,
+            number,
+            secondNumber: number + directionIndex * numbers.length,
+            direction,
+            color:
+              directionIndex % 2 === 0 ? (number % 2 === 0 ? "white" : "black") : number % 2 === 0 ? "black" : "white",
+          }))
+        )
+      );
+
+      const circleSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="9.5"/></svg>`;
+
+      const xSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M4 4 L20 20"/><path d="M20 4 L4 20"/></svg>`;
+
+      const triangleSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-icon lucide-triangle"><path d="M13.73 4a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>`;
+
+      const squareSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-icon lucide-square"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>`;
+
+      const starSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star-icon lucide-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>`;
+
+      const hexagonSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hexagon-icon lucide-hexagon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`;
+
+      const dice1Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice1-icon lucide-dice-1"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M12 12h.01"/></svg>`;
+
+      const dice2Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice2-icon lucide-dice-2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M15 9h.01"/><path d="M9 15h.01"/></svg>`;
+
+      const dice3Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice3-icon lucide-dice-3"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M12 12h.01"/><path d="M8 16h.01"/></svg>`;
+
+      const dice4Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice4-icon lucide-dice-4"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/></svg>`;
+
+      const dice5Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice5-icon lucide-dice-5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/><path d="M12 12h.01"/></svg>`;
+
+      const dice6Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice6-icon lucide-dice-6"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M16 12h.01"/><path d="M16 16h.01"/><path d="M8 8h.01"/><path d="M8 12h.01"/><path d="M8 16h.01"/></svg>`;
+
+      const piecesElement = document.querySelector(".pieces");
+
+      piecePropsArray.forEach((piece) => {
+        const pieceWrapperElement = document.createElement("div");
+        pieceWrapperElement.classList.add("piece-wrapper");
+        pieceWrapperElement.classList.add("piece");
+        piecesElement.appendChild(pieceWrapperElement);
+
+        const pieceElement = document.createElement("div");
+        pieceElement.classList.add("piece");
+        pieceWrapperElement.appendChild(pieceElement);
+
+        const pieceBackfaceElement = document.createElement("div");
+        pieceBackfaceElement.classList.add("piece-backface");
+        pieceBackfaceElement.classList.add("piece");
+        pieceBackfaceElement.textContent = "OXDRAH";
+        pieceElement.appendChild(pieceBackfaceElement);
+
+        const pieceFrontfaceElement = document.createElement("div");
+        pieceFrontfaceElement.classList.add("piece-frontface");
+        pieceFrontfaceElement.classList.add("piece");
+        pieceFrontfaceElement.classList.add(`-${piece.color}`);
+        pieceFrontfaceElement.classList.add(`-${piece.symbol}`);
+        pieceElement.appendChild(pieceFrontfaceElement);
+
+        piece.direction.forEach((direction) => {
+          const pieceLinkElement = document.createElement("div");
+          pieceLinkElement.classList.add("piece-link");
+          pieceLinkElement.classList.add(`--${direction}`);
+          pieceFrontfaceElement.appendChild(pieceLinkElement);
+        });
+
+        const pieceSymbolElement = document.createElement("div");
+        pieceSymbolElement.classList.add("piece-symbol");
+        pieceSymbolElement.innerHTML =
+          piece.symbol === "omu"
+            ? circleSvg
+            : piece.symbol === "xro"
+            ? xSvg
+            : piece.symbol === "det"
+            ? triangleSvg
+            : piece.symbol === "rod"
+            ? squareSvg
+            : piece.symbol === "ast"
+            ? starSvg
+            : hexagonSvg;
+        pieceFrontfaceElement.appendChild(pieceSymbolElement);
+
+        const piecepointsElement = document.createElement("div");
+        piecepointsElement.classList.add("piece-points");
+        piecepointsElement.innerHTML =
+          piece.number === 6
+            ? dice6Svg
+            : piece.number === 5
+            ? dice5Svg
+            : piece.number === 4
+            ? dice4Svg
+            : piece.number === 3
+            ? dice3Svg
+            : piece.number === 2
+            ? dice2Svg
+            : dice1Svg;
+        pieceFrontfaceElement.appendChild(piecepointsElement);
+
+        const pieceNumberElement = document.createElement("div");
+        pieceNumberElement.classList.add("piece-number");
+        pieceNumberElement.textContent = piece.secondNumber;
+        pieceFrontfaceElement.appendChild(pieceNumberElement);
+      });
+    </script>
+  </body>
+</html>
