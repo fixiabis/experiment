@@ -52,6 +52,11 @@
         position: absolute;
         --piece-link_width: 0.35cm;
         --piece-link_height: 0.7cm;
+        --piece-link_color: rgba(0, 0, 0, 0.75);
+      }
+
+      .piece.-black > .piece-link {
+        --piece-link_color: rgba(255, 255, 255, 0.75);
       }
 
       .piece > .piece-frontface,
@@ -121,7 +126,7 @@
       }
 
       .piece-link {
-        background-color: rgba(127, 127, 127, 0.6);
+        background-color: var(--piece-link_color, rgba(127, 127, 127, 1));
       }
 
       .piece-symbol {
