@@ -257,22 +257,50 @@
 
       const points = [1, 2, 3, 4, 5, 6];
 
-      const directions = [
-        [],
-        ["top"],
-        ["top", "right"],
-        ["top", "bottom"],
-        ["top", "bottom", "left"],
-        ["top", "bottom", "left", "right"],
+      const directionArrays = [
+        [[], [], [], [], [], []],
+        [["top"], ["right"], ["bottom"], ["left"], ["bottom"], ["left"]],
+        [
+          ["top", "right"],
+          ["bottom", "right"],
+          ["bottom", "left"],
+          ["top", "left"],
+          ["bottom", "left"],
+          ["top", "right"],
+        ],
+        [
+          ["top", "bottom"],
+          ["left", "right"],
+          ["top", "bottom"],
+          ["left", "right"],
+          ["top", "bottom"],
+          ["left", "right"],
+        ],
+        [
+          ["top", "bottom", "left"],
+          ["top", "left", "right"],
+          ["top", "bottom", "right"],
+          ["bottom", "left", "right"],
+          ["top", "bottom", "left"],
+          ["top", "left", "right"],
+        ],
+        [
+          ["top", "bottom", "left", "right"],
+          ["top", "bottom", "left", "right"],
+          ["top", "bottom", "left", "right"],
+          ["top", "bottom", "left", "right"],
+          ["top", "bottom", "left", "right"],
+          ["top", "bottom", "left", "right"],
+        ],
       ];
 
       const piecePropsArray = symbols.flatMap((symbol) =>
-        points.flatMap((point) =>
-          directions.map((direction, directionIndex) => ({
+        points.flatMap((point, pointIndex) =>
+          directionArrays.map((directions, directionIndex) => ({
             symbol,
             point,
             serial: point + directionIndex * points.length,
-            direction,
+            direction: directions[pointIndex],
             color:
               directionIndex % 2 === 0 ? (point % 2 === 0 ? "white" : "black") : point % 2 === 0 ? "black" : "white",
           }))
