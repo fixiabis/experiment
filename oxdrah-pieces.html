@@ -771,18 +771,17 @@
       function filterPieces(pieceArray, filterConfigs) {
         if (filterConfigs.length === 0) return pieceArray;
 
-        // 按字段分組過濾條件
+        // 按字段和操作符分組過濾條件
         const filtersByField = {};
         filterConfigs.forEach((filter) => {
           if (!filter.field || !filter.value) return;
           if (!filtersByField[filter.field]) {
-            filtersByField[filter.field] = [];
+            filtersByField[filter.field] = { include: [], exclude: [] };
           }
-          filtersByField[filter.field].push(filter);
+          filtersByField[filter.field][filter.operator === "include" ? "include" : "exclude"].push(filter);
         });
 
         return pieceArray.filter((piece) => {
-          // 對每個字段組，使用 OR 邏輯（union）
           // 不同字段組之間使用 AND 邏輯
           return Object.keys(filtersByField).every((field) => {
             const fieldFilters = filtersByField[field];
@@ -815,12 +814,19 @@
                 return true;
             }
 
-            // 對同一字段的多個條件使用 OR（union）邏輯
-            // 只要滿足該字段組內任何一個條件即可
-            return fieldFilters.some((filter) => {
-              const match = pieceValue === filter.value || pieceValue.toString() === filter.value;
-              return filter.operator === "include" ? match : !match;
+            // include 條件：使用 OR 邏輯（只要滿足任何一個 include 條件即可）
+            const includeMatch = fieldFilters.include.length === 0 || 
+              fieldFilters.include.some((filter) => {
+                return pieceValue === filter.value || pieceValue.toString() === filter.value;
+              });
+
+            // exclude 條件：使用 AND 邏輯（必須不滿足所有 exclude 條件）
+            const excludeMatch = fieldFilters.exclude.every((filter) => {
+              return pieceValue !== filter.value && pieceValue.toString() !== filter.value;
             });
+
+            // 必須同時滿足 include 和 exclude 條件
+            return includeMatch && excludeMatch;
           });
         });
       }
