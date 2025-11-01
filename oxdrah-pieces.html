@@ -761,7 +761,7 @@
           ];
           const sorted = [...direction].sort();
           const isOpposite = opposites.some((opp) => sorted[0] === opp[0] && sorted[1] === opp[1]);
-          return isOpposite ? "兩面向" : "兩夾向";
+          return isOpposite ? "兩面" : "兩夾";
         }
         if (len === 3) return "三向";
         if (len === 4) return "四向";
@@ -912,7 +912,7 @@
             });
             break;
           case "direction":
-            ["無向", "一向", "兩夾向", "兩面向", "三向", "四向"].forEach((dir) => {
+            ["無向", "一向", "兩夾", "兩面", "三向", "四向"].forEach((dir) => {
               const option = document.createElement("option");
               option.value = dir;
               option.textContent = dir;
@@ -962,7 +962,7 @@
         const fieldSelect = document.createElement("select");
         fieldSelect.classList.add("filter-controls-field");
         fieldSelect.innerHTML = `
-          <option value="">選擇字段</option>
+          <option value="">選擇</option>
           <option value="symbol">符號</option>
           <option value="point">點數</option>
           <option value="direction">方向</option>
