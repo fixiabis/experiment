@@ -97,7 +97,7 @@
         right: 0;
       }
 
-      .piece > .piece-points {
+      .piece > .piece-point {
         position: absolute;
         bottom: 0.4cm;
         left: 0.4cm;
@@ -133,13 +133,13 @@
         height: 100%;
       }
 
-      .piece-points {
+      .piece-point {
         display: flex;
         justify-content: center;
         align-items: center;
       }
 
-      .piece-points > svg {
+      .piece-point > svg {
         width: 100%;
         height: 100%;
       }
@@ -153,18 +153,24 @@
       }
 
       .piece-backface {
+        background-image: linear-gradient(150deg, #000 50%, #fff 50%);
+      }
+
+      .piece-backface > .piece-backface-text {
+        mix-blend-mode: difference;
+      }
+
+      .piece-backface-text {
+        color: white;
         font-family: "Sono", sans-serif;
         font-size: 1cm;
-        font-weight: 400;
+        font-weight: 500;
         text-align: center;
         line-height: 1.2;
         padding: 0.2cm;
-        box-sizing: border-box;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: black;
-        color: white;
       }
 
       .piece-wrapper {
@@ -319,8 +325,12 @@
 
           const pieceBackfaceElement = document.createElement("div");
           pieceBackfaceElement.classList.add("piece-backface", "piece");
-          pieceBackfaceElement.textContent = "OXDRAH";
           pieceElement.appendChild(pieceBackfaceElement);
+
+          const pieceBackfaceTextElement = document.createElement("div");
+          pieceBackfaceTextElement.classList.add("piece-backface-text");
+          pieceBackfaceTextElement.textContent = "OXDRAH";
+          pieceBackfaceElement.appendChild(pieceBackfaceTextElement);
 
           const pieceFrontfaceElement = document.createElement("div");
           pieceFrontfaceElement.classList.add("piece-frontface", "piece");
@@ -354,7 +364,7 @@
           pieceFrontfaceElement.appendChild(pieceSymbolElement);
 
           const piecePointsElement = document.createElement("div");
-          piecePointsElement.classList.add("piece-points");
+          piecePointsElement.classList.add("piece-point");
 
           piecePointsElement.innerHTML =
             piece.point === 6
