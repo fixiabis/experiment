@@ -210,6 +210,83 @@
       .pieces-header:hover ~ .pieces > .piece-wrapper > .piece {
         transform: rotateY(180deg);
       }
+
+      .sort-controls {
+        font-family: "Sono", sans-serif;
+        padding: 1cm;
+        max-width: calc(4.8cm * 6 + 0.4cm * 7);
+        margin: 0 auto;
+        background-color: #f5f5f5;
+        border-radius: 0.4cm;
+        margin-bottom: 1cm;
+      }
+
+      .sort-controls-title {
+        font-size: 1cm;
+        font-weight: 500;
+        margin-bottom: 0.5cm;
+        text-align: center;
+      }
+
+      .sort-controls-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5cm;
+        margin-bottom: 0.3cm;
+      }
+
+      .sort-controls-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .sort-controls-label {
+        font-size: 0.6cm;
+        font-weight: 500;
+        min-width: 1.5cm;
+      }
+
+      .sort-controls-select {
+        flex: 1;
+        font-family: "Sono", sans-serif;
+        font-size: 0.6cm;
+        padding: 0.3cm;
+        border: 1px solid #ccc;
+        border-radius: 0.2cm;
+        background-color: white;
+      }
+
+      .sort-controls-order {
+        font-family: "Sono", sans-serif;
+        font-size: 0.6cm;
+        padding: 0.3cm;
+        border: 1px solid #ccc;
+        border-radius: 0.2cm;
+        background-color: white;
+        min-width: 2.5cm;
+      }
+
+      .sort-controls-button {
+        font-family: "Sono", sans-serif;
+        font-size: 0.6cm;
+        padding: 0.3cm 0.8cm;
+        border: none;
+        border-radius: 0.2cm;
+        background-color: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 0.5cm;
+        width: 100%;
+      }
+
+      .sort-controls-button:hover {
+        background-color: #555;
+      }
+
+      @media print {
+        .sort-controls {
+          display: none;
+        }
+      }
     </style>
     <style>
       * > .pieces {
@@ -252,6 +329,85 @@
   </head>
   <body>
     <div class="pieces-header">OXDRAH PIECES</div>
+    <div class="sort-controls">
+      <div class="sort-controls-title">排序設定</div>
+      <div class="sort-controls-row">
+        <div class="sort-controls-label">優先級 1:</div>
+        <select class="sort-controls-select" id="sort1">
+          <option value="">無</option>
+          <option value="symbol">符號</option>
+          <option value="point">點數</option>
+          <option value="direction">方向</option>
+          <option value="serial">序列</option>
+          <option value="color">顏色</option>
+        </select>
+        <select class="sort-controls-order" id="order1">
+          <option value="asc">正序</option>
+          <option value="desc">倒序</option>
+        </select>
+      </div>
+      <div class="sort-controls-row">
+        <div class="sort-controls-label">優先級 2:</div>
+        <select class="sort-controls-select" id="sort2">
+          <option value="">無</option>
+          <option value="symbol">符號</option>
+          <option value="point">點數</option>
+          <option value="direction">方向</option>
+          <option value="serial">序列</option>
+          <option value="color">顏色</option>
+        </select>
+        <select class="sort-controls-order" id="order2">
+          <option value="asc">正序</option>
+          <option value="desc">倒序</option>
+        </select>
+      </div>
+      <div class="sort-controls-row">
+        <div class="sort-controls-label">優先級 3:</div>
+        <select class="sort-controls-select" id="sort3">
+          <option value="">無</option>
+          <option value="symbol">符號</option>
+          <option value="point">點數</option>
+          <option value="direction">方向</option>
+          <option value="serial">序列</option>
+          <option value="color">顏色</option>
+        </select>
+        <select class="sort-controls-order" id="order3">
+          <option value="asc">正序</option>
+          <option value="desc">倒序</option>
+        </select>
+      </div>
+      <div class="sort-controls-row">
+        <div class="sort-controls-label">優先級 4:</div>
+        <select class="sort-controls-select" id="sort4">
+          <option value="">無</option>
+          <option value="symbol">符號</option>
+          <option value="point">點數</option>
+          <option value="direction">方向</option>
+          <option value="serial">序列</option>
+          <option value="color">顏色</option>
+        </select>
+        <select class="sort-controls-order" id="order4">
+          <option value="asc">正序</option>
+          <option value="desc">倒序</option>
+        </select>
+      </div>
+      <div class="sort-controls-row">
+        <div class="sort-controls-label">優先級 5:</div>
+        <select class="sort-controls-select" id="sort5">
+          <option value="">無</option>
+          <option value="symbol">符號</option>
+          <option value="point">點數</option>
+          <option value="direction">方向</option>
+          <option value="serial">序列</option>
+          <option value="color">顏色</option>
+        </select>
+        <select class="sort-controls-order" id="order5">
+          <option value="asc">正序</option>
+          <option value="desc">倒序</option>
+        </select>
+      </div>
+      <button class="sort-controls-button" id="applySort">套用排序</button>
+    </div>
     <script>
       const symbols = ["omu", "xro", "det", "rod", "ast", "hex"];
 
@@ -341,84 +497,180 @@
 
       const bodyElement = document.querySelector("body");
 
-      piecePropsArrays.forEach((piecePropsArray) => {
-        const piecesElement = document.createElement("div");
-        piecesElement.classList.add("pieces");
-        bodyElement.appendChild(piecesElement);
+      // 排序函數
+      function getSortValue(piece, sortField) {
+        switch (sortField) {
+          case "symbol":
+            return symbols.indexOf(piece.symbol);
+          case "point":
+            return piece.point;
+          case "direction":
+            const sortedDir = [...piece.direction].sort().join(",");
+            return piece.direction.length * 1000 + sortedDir.localeCompare("");
+          case "serial":
+            return piece.serial;
+          case "color":
+            return piece.color === "white" ? 0 : 1;
+          default:
+            return 0;
+        }
+      }
 
-        piecePropsArray.forEach((piece) => {
-          const pieceWrapperElement = document.createElement("div");
-          pieceWrapperElement.classList.add("piece-wrapper");
-          pieceWrapperElement.classList.add("piece");
-          piecesElement.appendChild(pieceWrapperElement);
+      function sortPieces(pieceArray, sortConfigs) {
+        const filteredConfigs = sortConfigs.filter((c) => c.field);
+        if (filteredConfigs.length === 0) return pieceArray;
 
-          const pieceElement = document.createElement("div");
-          pieceElement.classList.add("piece");
-          pieceWrapperElement.appendChild(pieceElement);
-
-          const pieceBackfaceElement = document.createElement("div");
-          pieceBackfaceElement.classList.add("piece-backface", "piece");
-          pieceElement.appendChild(pieceBackfaceElement);
-
-          const pieceBackfaceTextElement = document.createElement("div");
-          pieceBackfaceTextElement.classList.add("piece-backface-text");
-          pieceBackfaceTextElement.textContent = "OXDRAH";
-          pieceBackfaceElement.appendChild(pieceBackfaceTextElement);
-
-          const pieceFrontfaceElement = document.createElement("div");
-          pieceFrontfaceElement.classList.add("piece-frontface", "piece");
-          pieceFrontfaceElement.classList.add(`-${piece.color}`);
-          pieceFrontfaceElement.classList.add(`-${piece.symbol}`);
-          pieceElement.appendChild(pieceFrontfaceElement);
-
-          piece.direction.forEach((direction) => {
-            const pieceLinkElement = document.createElement("div");
-            pieceLinkElement.classList.add("piece-link");
-            pieceLinkElement.classList.add(`--${direction}`);
-            pieceFrontfaceElement.appendChild(pieceLinkElement);
-          });
-
-          const pieceSymbolElement = document.createElement("div");
-          pieceSymbolElement.classList.add("piece-symbol");
-
-          pieceSymbolElement.innerHTML =
-            piece.symbol === "omu"
-              ? circleSvg
-              : piece.symbol === "xro"
-              ? xSvg
-              : piece.symbol === "det"
-              ? triangleSvg
-              : piece.symbol === "rod"
-              ? squareSvg
-              : piece.symbol === "ast"
-              ? starSvg
-              : hexagonSvg;
-
-          pieceFrontfaceElement.appendChild(pieceSymbolElement);
-
-          const piecePointsElement = document.createElement("div");
-          piecePointsElement.classList.add("piece-point");
-
-          piecePointsElement.innerHTML =
-            piece.point === 6
-              ? dice6Svg
-              : piece.point === 5
-              ? dice5Svg
-              : piece.point === 4
-              ? dice4Svg
-              : piece.point === 3
-              ? dice3Svg
-              : piece.point === 2
-              ? dice2Svg
-              : dice1Svg;
-
-          pieceFrontfaceElement.appendChild(piecePointsElement);
-
-          const pieceSerialElement = document.createElement("div");
-          pieceSerialElement.classList.add("piece-serial");
-          pieceSerialElement.textContent = piece.serial;
-          pieceFrontfaceElement.appendChild(pieceSerialElement);
+        return [...pieceArray].sort((a, b) => {
+          for (const config of filteredConfigs) {
+            const aVal = getSortValue(a, config.field);
+            const bVal = getSortValue(b, config.field);
+            let comparison = 0;
+            if (aVal < bVal) comparison = -1;
+            else if (aVal > bVal) comparison = 1;
+            
+            // 如果是倒序，則反轉比較結果
+            if (comparison !== 0) {
+              return config.order === "desc" ? -comparison : comparison;
+            }
+          }
+          return 0;
         });
+      }
+
+      // 創建 piece DOM 的函數
+      function createPieceElement(piece) {
+        const pieceWrapperElement = document.createElement("div");
+        pieceWrapperElement.classList.add("piece-wrapper");
+        pieceWrapperElement.classList.add("piece");
+
+        const pieceElement = document.createElement("div");
+        pieceElement.classList.add("piece");
+        pieceWrapperElement.appendChild(pieceElement);
+
+        const pieceBackfaceElement = document.createElement("div");
+        pieceBackfaceElement.classList.add("piece-backface", "piece");
+        pieceElement.appendChild(pieceBackfaceElement);
+
+        const pieceBackfaceTextElement = document.createElement("div");
+        pieceBackfaceTextElement.classList.add("piece-backface-text");
+        pieceBackfaceTextElement.textContent = "OXDRAH";
+        pieceBackfaceElement.appendChild(pieceBackfaceTextElement);
+
+        const pieceFrontfaceElement = document.createElement("div");
+        pieceFrontfaceElement.classList.add("piece-frontface", "piece");
+        pieceFrontfaceElement.classList.add(`-${piece.color}`);
+        pieceFrontfaceElement.classList.add(`-${piece.symbol}`);
+        pieceElement.appendChild(pieceFrontfaceElement);
+
+        piece.direction.forEach((direction) => {
+          const pieceLinkElement = document.createElement("div");
+          pieceLinkElement.classList.add("piece-link");
+          pieceLinkElement.classList.add(`--${direction}`);
+          pieceFrontfaceElement.appendChild(pieceLinkElement);
+        });
+
+        const pieceSymbolElement = document.createElement("div");
+        pieceSymbolElement.classList.add("piece-symbol");
+
+        pieceSymbolElement.innerHTML =
+          piece.symbol === "omu"
+            ? circleSvg
+            : piece.symbol === "xro"
+            ? xSvg
+            : piece.symbol === "det"
+            ? triangleSvg
+            : piece.symbol === "rod"
+            ? squareSvg
+            : piece.symbol === "ast"
+            ? starSvg
+            : hexagonSvg;
+
+        pieceFrontfaceElement.appendChild(pieceSymbolElement);
+
+        const piecePointsElement = document.createElement("div");
+        piecePointsElement.classList.add("piece-point");
+
+        piecePointsElement.innerHTML =
+          piece.point === 6
+            ? dice6Svg
+            : piece.point === 5
+            ? dice5Svg
+            : piece.point === 4
+            ? dice4Svg
+            : piece.point === 3
+            ? dice3Svg
+            : piece.point === 2
+            ? dice2Svg
+            : dice1Svg;
+
+        pieceFrontfaceElement.appendChild(piecePointsElement);
+
+        const pieceSerialElement = document.createElement("div");
+        pieceSerialElement.classList.add("piece-serial");
+        pieceSerialElement.textContent = piece.serial;
+        pieceFrontfaceElement.appendChild(pieceSerialElement);
+
+        return pieceWrapperElement;
+      }
+
+      // 渲染 pieces 的函數
+      function renderPieces(sortConfigs = []) {
+        // 刪除所有現有的 pieces
+        const existingPieces = document.querySelectorAll(".pieces");
+        existingPieces.forEach((el) => el.remove());
+
+        // 排序
+        const sortedPiecePropsArray = sortPieces(piecePropsArray, sortConfigs);
+
+        // 重新分組
+        const chunkSize = Math.ceil(sortedPiecePropsArray.length / 9);
+        const sortedPiecePropsArrays = [];
+        for (let i = 0; i < sortedPiecePropsArray.length; i += chunkSize) {
+          sortedPiecePropsArrays.push(sortedPiecePropsArray.slice(i, i + chunkSize));
+        }
+
+        // 重新生成 DOM
+        sortedPiecePropsArrays.forEach((piecePropsArray) => {
+          const piecesElement = document.createElement("div");
+          piecesElement.classList.add("pieces");
+          bodyElement.appendChild(piecesElement);
+
+          piecePropsArray.forEach((piece) => {
+            const pieceElement = createPieceElement(piece);
+            piecesElement.appendChild(pieceElement);
+          });
+        });
+      }
+
+      // 初始渲染
+      renderPieces();
+
+      // 排序控制
+      const applySortButton = document.getElementById("applySort");
+      applySortButton.addEventListener("click", () => {
+        const sortConfigs = [
+          {
+            field: document.getElementById("sort1").value,
+            order: document.getElementById("order1").value,
+          },
+          {
+            field: document.getElementById("sort2").value,
+            order: document.getElementById("order2").value,
+          },
+          {
+            field: document.getElementById("sort3").value,
+            order: document.getElementById("order3").value,
+          },
+          {
+            field: document.getElementById("sort4").value,
+            order: document.getElementById("order4").value,
+          },
+          {
+            field: document.getElementById("sort5").value,
+            order: document.getElementById("order5").value,
+          },
+        ];
+        renderPieces(sortConfigs);
       });
     </script>
   </body>
