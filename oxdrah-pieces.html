@@ -609,8 +609,8 @@
         const hasBottom = direction.includes("bottom");
         if (!hasTop && !hasBottom) return "無";
         if (hasTop && hasBottom) return "上下";
-        if (hasTop) return "對上";
-        return "對下";
+        if (hasTop) return "向上";
+        return "向下";
       }
 
       // 獲取橫向值
@@ -619,8 +619,8 @@
         const hasRight = direction.includes("right");
         if (!hasLeft && !hasRight) return "無";
         if (hasLeft && hasRight) return "左右";
-        if (hasLeft) return "對左";
-        return "對右";
+        if (hasLeft) return "向左";
+        return "向右";
       }
 
       // 排序函數
@@ -639,11 +639,11 @@
             return piece.color === "white" ? 0 : 1;
           case "vertical":
             const verticalType = getVerticalType(piece.direction);
-            const verticalOrder = ["無", "對上", "對下", "上下"];
+            const verticalOrder = ["無", "向上", "向下", "上下"];
             return verticalOrder.indexOf(verticalType);
           case "horizontal":
             const horizontalType = getHorizontalType(piece.direction);
-            const horizontalOrder = ["無", "對左", "對右", "左右"];
+            const horizontalOrder = ["無", "向左", "向右", "左右"];
             return horizontalOrder.indexOf(horizontalType);
           default:
             return 0;
@@ -815,7 +815,8 @@
             }
 
             // include 條件：使用 OR 邏輯（只要滿足任何一個 include 條件即可）
-            const includeMatch = fieldFilters.include.length === 0 || 
+            const includeMatch =
+              fieldFilters.include.length === 0 ||
               fieldFilters.include.some((filter) => {
                 return pieceValue === filter.value || pieceValue.toString() === filter.value;
               });
@@ -891,14 +892,14 @@
                 sym === "omu"
                   ? "圈圈"
                   : sym === "xro"
-                  ? "叉叉"
+                  ? "交叉"
                   : sym === "det"
-                  ? "三角形"
+                  ? "三角"
                   : sym === "rod"
                   ? "方形"
                   : sym === "ast"
                   ? "星形"
-                  : "六邊形";
+                  : "六邊";
               valueSelect.appendChild(option);
             });
             break;
@@ -919,7 +920,7 @@
             });
             break;
           case "vertical":
-            ["無", "對上", "對下", "上下"].forEach((ver) => {
+            ["無", "向上", "向下", "上下"].forEach((ver) => {
               const option = document.createElement("option");
               option.value = ver;
               option.textContent = ver;
