@@ -14,6 +14,7 @@
 
       body {
         margin: 0;
+        padding: 0.4cm;
       }
 
       .pieces {
@@ -222,24 +223,30 @@
       }
 
       .sort-controls-title {
-        font-size: 1cm;
+        font-size: 0.8cm;
         font-weight: 500;
-        margin-bottom: 0.5cm;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        gap: 0.3cm;
+        justify-content: space-between;
       }
 
-      .sort-controls-list {
-        margin-bottom: 0.5cm;
+      .sort-controls-list:not(:empty) {
+        margin-top: 0.5cm;
       }
 
       .sort-controls-row {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 0.3cm;
-        margin-bottom: 0.3cm;
         padding: 0.3cm;
         background-color: white;
         border-radius: 0.2cm;
+      }
+
+      .sort-controls-row:not(:first-child) {
+        margin-top: 0.3cm;
       }
 
       .sort-controls-label {
@@ -294,6 +301,7 @@
         color: white;
         cursor: pointer;
         min-width: 1.5cm;
+        white-space: nowrap;
       }
 
       .sort-controls-remove:hover {
@@ -310,6 +318,7 @@
         color: white;
         cursor: pointer;
         min-width: 1.5cm;
+        white-space: nowrap;
       }
 
       .sort-controls-up:hover {
@@ -331,8 +340,6 @@
         background-color: #33aa33;
         color: white;
         cursor: pointer;
-        margin-bottom: 0.5cm;
-        width: 100%;
       }
 
       .sort-controls-add:hover {
@@ -350,24 +357,30 @@
       }
 
       .filter-controls-title {
-        font-size: 1cm;
+        font-size: 0.8cm;
         font-weight: 500;
-        margin-bottom: 0.5cm;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        gap: 0.3cm;
+        justify-content: space-between;
       }
 
-      .filter-controls-list {
-        margin-bottom: 0.5cm;
+      .filter-controls-list:not(:empty) {
+        margin-top: 0.5cm;
       }
 
       .filter-controls-item {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 0.3cm;
-        margin-bottom: 0.3cm;
         padding: 0.3cm;
         background-color: white;
         border-radius: 0.2cm;
+      }
+
+      .filter-controls-item:not(:first-child) {
+        margin-top: 0.3cm;
       }
 
       .filter-controls-field {
@@ -410,6 +423,7 @@
         color: white;
         cursor: pointer;
         min-width: 1.5cm;
+        white-space: nowrap;
       }
 
       .filter-controls-remove:hover {
@@ -425,8 +439,6 @@
         background-color: #33aa33;
         color: white;
         cursor: pointer;
-        margin-bottom: 0.5cm;
-        width: 100%;
       }
 
       .filter-controls-add:hover {
@@ -482,14 +494,18 @@
   <body>
     <div class="pieces-header">OXDRAH PIECES</div>
     <div class="sort-controls">
-      <div class="sort-controls-title">排序設定</div>
+      <div class="sort-controls-title">
+        排序設定
+        <button class="sort-controls-add" id="addSort">新增排序條件</button>
+      </div>
       <div class="sort-controls-list" id="sortList"></div>
-      <button class="sort-controls-add" id="addSort">新增排序條件</button>
     </div>
     <div class="filter-controls">
-      <div class="filter-controls-title">過濾設定</div>
+      <div class="filter-controls-title">
+        過濾設定
+        <button class="filter-controls-add" id="addFilter">新增過濾條件</button>
+      </div>
       <div class="filter-controls-list" id="filterList"></div>
-      <button class="filter-controls-add" id="addFilter">新增過濾條件</button>
     </div>
     <script>
       const symbols = ["omu", "xro", "det", "rod", "ast", "hex"];
@@ -498,30 +514,30 @@
 
       const directionArrays = [
         [[], [], [], [], [], []],
-        [["top"], ["right"], ["bottom"], ["left"], ["bottom"], ["left"]],
+        [["top"], ["bottom"], ["left"], ["right"], ["bottom"], ["right"]],
         [
+          ["top", "left"],
           ["top", "right"],
+          ["bottom", "left"],
           ["bottom", "right"],
           ["bottom", "left"],
-          ["top", "left"],
-          ["bottom", "left"],
           ["top", "right"],
         ],
         [
           ["top", "bottom"],
-          ["left", "right"],
           ["top", "bottom"],
           ["left", "right"],
-          ["top", "bottom"],
           ["left", "right"],
+          ["left", "right"],
+          ["top", "bottom"],
         ],
         [
-          ["top", "bottom", "left"],
-          ["top", "left", "right"],
           ["top", "bottom", "right"],
-          ["bottom", "left", "right"],
           ["top", "bottom", "left"],
           ["top", "left", "right"],
+          ["bottom", "left", "right"],
+          ["top", "left", "right"],
+          ["top", "bottom", "left"],
         ],
         [
           ["top", "bottom", "left", "right"],
@@ -847,6 +863,12 @@
 
         valueSelect.disabled = false;
 
+        // 添加"尚未選擇"選項
+        const placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = "尚未選擇";
+        valueSelect.appendChild(placeholderOption);
+
         switch (field) {
           case "symbol":
             symbols.forEach((sym) => {
@@ -993,7 +1015,7 @@
         items.forEach((it, index) => {
           const lbl = it.querySelector(".sort-controls-label");
           if (lbl) {
-            lbl.textContent = `優先級 ${index + 1}:`;
+            lbl.textContent = `${index + 1}:`;
           }
           // 更新往上按鈕狀態
           const upButton = it.querySelector(".sort-controls-up");
@@ -1009,7 +1031,7 @@
 
         const label = document.createElement("div");
         label.classList.add("sort-controls-label");
-        label.textContent = `優先級 ${document.getElementById("sortList").children.length + 1}:`;
+        label.textContent = `${document.getElementById("sortList").children.length + 1}:`;
 
         const fieldSelect = document.createElement("select");
         fieldSelect.classList.add("sort-controls-select");
