@@ -58,9 +58,6 @@
         width: 100%;
         height: 100%;
         transform-style: preserve-3d;
-      }
-
-      .piece > .piece-frontface {
         backface-visibility: hidden;
       }
 
@@ -108,7 +105,7 @@
         backface-visibility: hidden;
       }
 
-      .piece > .piece-number {
+      .piece > .piece-serial {
         position: absolute;
         top: 0.4cm;
         right: 0.4cm;
@@ -145,7 +142,7 @@
         height: 100%;
       }
 
-      .piece-number {
+      .piece-serial {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -184,7 +181,7 @@
         box-shadow: 0 0 0.2cm 0 rgba(0, 0, 0, 0.25);
       }
 
-      .piece-wrapper:hover > .piece {
+      .piece-wrapper:active > .piece {
         transform: rotateY(180deg);
       }
     </style>
@@ -197,7 +194,7 @@
     <script>
       const symbols = ["omu", "xro", "det", "rod", "ast", "hex"];
 
-      const numbers = [1, 2, 3, 4, 5, 6];
+      const points = [1, 2, 3, 4, 5, 6];
 
       const directions = [
         [],
@@ -209,14 +206,14 @@
       ];
 
       const piecePropsArray = symbols.flatMap((symbol) =>
-        numbers.flatMap((number) =>
+        points.flatMap((point) =>
           directions.map((direction, directionIndex) => ({
             symbol,
-            number,
-            secondNumber: number + directionIndex * numbers.length,
+            point,
+            serial: point + directionIndex * points.length,
             direction,
             color:
-              directionIndex % 2 === 0 ? (number % 2 === 0 ? "white" : "black") : number % 2 === 0 ? "black" : "white",
+              directionIndex % 2 === 0 ? (point % 2 === 0 ? "white" : "black") : point % 2 === 0 ? "black" : "white",
           }))
         )
       );
@@ -279,6 +276,7 @@
 
         const pieceSymbolElement = document.createElement("div");
         pieceSymbolElement.classList.add("piece-symbol");
+
         pieceSymbolElement.innerHTML =
           piece.symbol === "omu"
             ? circleSvg
@@ -291,28 +289,31 @@
             : piece.symbol === "ast"
             ? starSvg
             : hexagonSvg;
+
         pieceFrontfaceElement.appendChild(pieceSymbolElement);
 
-        const piecepointsElement = document.createElement("div");
-        piecepointsElement.classList.add("piece-points");
-        piecepointsElement.innerHTML =
-          piece.number === 6
+        const piecePointsElement = document.createElement("div");
+        piecePointsElement.classList.add("piece-points");
+
+        piecePointsElement.innerHTML =
+          piece.point === 6
             ? dice6Svg
-            : piece.number === 5
+            : piece.point === 5
             ? dice5Svg
-            : piece.number === 4
+            : piece.point === 4
             ? dice4Svg
-            : piece.number === 3
+            : piece.point === 3
             ? dice3Svg
-            : piece.number === 2
+            : piece.point === 2
             ? dice2Svg
             : dice1Svg;
-        pieceFrontfaceElement.appendChild(piecepointsElement);
 
-        const pieceNumberElement = document.createElement("div");
-        pieceNumberElement.classList.add("piece-number");
-        pieceNumberElement.textContent = piece.secondNumber;
-        pieceFrontfaceElement.appendChild(pieceNumberElement);
+        pieceFrontfaceElement.appendChild(piecePointsElement);
+
+        const pieceSerialElement = document.createElement("div");
+        pieceSerialElement.classList.add("piece-serial");
+        pieceSerialElement.textContent = piece.serial;
+        pieceFrontfaceElement.appendChild(pieceSerialElement);
       });
     </script>
   </body>
