@@ -21,19 +21,23 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: flex-start;
-        gap: 0.3cm;
-        padding: 0.3cm;
+        gap: 0.4cm;
+        padding: 0.4cm;
         font-family: "Sono", sans-serif;
       }
 
       .pieces > .piece {
-        width: 5cm;
-        height: 5cm;
+        width: 4.8cm;
+        height: 4.8cm;
+      }
+
+      .pieces > .piece:nth-child(24n) + .piece {
+        break-before: page;
       }
 
       .piece {
         position: relative;
-        border-radius: 0.5cm;
+        border-radius: 0.4cm;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -48,7 +52,7 @@
 
       .piece > .piece-link {
         position: absolute;
-        --piece-link-width: 0.35cm;
+        --piece-link-width: 0.34.8cm;
         --piece-link-height: 0.7cm;
       }
 
@@ -185,12 +189,16 @@
         transform: rotateY(180deg);
       }
     </style>
+    <style>
+      .pieces {
+        max-width: calc(4.8cm * 6 + 0.4cm * 7);
+        margin: 0 auto;
+        box-shadow: 0 0 0.2cm 0 rgba(0, 0, 0, 0.25);
+      }
+    </style>
   </head>
   <body>
-    <div
-      class="pieces"
-      style="max-width: calc(5cm * 6 + 0.3cm * 7); margin: 0 auto; box-shadow: 0 0 0.2cm 0 rgba(0, 0, 0, 0.25)"
-    ></div>
+    <div class="pieces"></div>
     <script>
       const symbols = ["omu", "xro", "det", "rod", "ast", "hex"];
 
