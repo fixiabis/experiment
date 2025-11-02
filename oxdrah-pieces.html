@@ -117,6 +117,11 @@
         height: 1cm;
         transform: rotate(180deg);
         backface-visibility: hidden;
+        filter: brightness(0.9);
+      }
+
+      .piece.-black > .piece-point {
+        filter: brightness(1.1);
       }
 
       .piece > .piece-serial {
@@ -154,6 +159,30 @@
       .piece-point > svg {
         width: 100%;
         height: 100%;
+      }
+
+      .piece-point.-crimson > svg {
+        stroke: crimson;
+      }
+
+      .piece-point.-royalblue > svg {
+        stroke: royalblue;
+      }
+
+      .piece-point.-darkorange > svg {
+        stroke: darkorange;
+      }
+
+      .piece-point.-seagreen > svg {
+        stroke: seagreen;
+      }
+
+      .piece-point.-blueviolet > svg {
+        stroke: blueviolet;
+      }
+
+      .piece-point.-sienna > svg {
+        stroke: sienna;
       }
 
       .piece-serial {
@@ -556,6 +585,8 @@
         ],
       ];
 
+      const attributes = ["crimson", "royalblue", "darkorange", "seagreen", "blueviolet", "sienna"];
+
       const piecePropsArray = symbols.flatMap((symbol) =>
         points.flatMap((point, pointIndex) =>
           directionArrays.map((directions, directionIndex) => ({
@@ -565,6 +596,8 @@
             direction: directions[pointIndex],
             color:
               directionIndex % 2 === 0 ? (point % 2 === 0 ? "white" : "black") : point % 2 === 0 ? "black" : "white",
+            attribute:
+              attributes[(directionIndex + [1, 3, 5, 2, 4, 6][pointIndex] * attributes.length) % attributes.length],
           }))
         )
       );
@@ -645,6 +678,8 @@
             const horizontalType = getHorizontalType(piece.direction);
             const horizontalOrder = ["無", "向左", "向右", "左右"];
             return horizontalOrder.indexOf(horizontalType);
+          case "attribute":
+            return attributes.indexOf(piece.attribute);
           default:
             return 0;
         }
@@ -723,7 +758,7 @@
 
         const piecePointsElement = document.createElement("div");
         piecePointsElement.classList.add("piece-point");
-
+        piecePointsElement.classList.add(`-${piece.attribute}`);
         piecePointsElement.innerHTML =
           piece.point === 6
             ? dice6Svg
@@ -809,6 +844,9 @@
                 break;
               case "color":
                 pieceValue = piece.color;
+                break;
+              case "attribute":
+                pieceValue = piece.attribute;
                 break;
               default:
                 return true;
@@ -952,6 +990,25 @@
               valueSelect.appendChild(option);
             });
             break;
+          case "attribute":
+            attributes.forEach((attr) => {
+              const option = document.createElement("option");
+              option.value = attr;
+              option.textContent =
+                attr === "crimson"
+                  ? "紅標"
+                  : attr === "royalblue"
+                  ? "藍標"
+                  : attr === "darkorange"
+                  ? "橙標"
+                  : attr === "seagreen"
+                  ? "綠標"
+                  : attr === "blueviolet"
+                  ? "紫標"
+                  : "棕標";
+              valueSelect.appendChild(option);
+            });
+            break;
         }
       }
 
@@ -970,6 +1027,7 @@
           <option value="horizontal">橫向</option>
           <option value="serial">序列</option>
           <option value="color">顏色</option>
+          <option value="attribute">屬性</option>
         `;
 
         const operatorSelect = document.createElement("select");
@@ -1058,6 +1116,7 @@
           <option value="horizontal">橫向</option>
           <option value="serial">序列</option>
           <option value="color">顏色</option>
+          <option value="attribute">屬性</option>
         `;
 
         const orderSelect = document.createElement("select");
