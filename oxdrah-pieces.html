@@ -117,11 +117,6 @@
         height: 1cm;
         transform: rotate(180deg);
         backface-visibility: hidden;
-        filter: brightness(0.9);
-      }
-
-      .piece.-black > .piece-point {
-        filter: brightness(1.1);
       }
 
       .piece > .piece-serial {
@@ -130,11 +125,29 @@
         right: 0.4cm;
         width: 1cm;
         height: 1cm;
+        user-select: none;
       }
 
       .piece > .piece-symbol {
         width: 2cm;
         height: 2cm;
+      }
+
+      .piece > .piece-attribute {
+        position: absolute;
+        top: 1.3cm;
+        right: 0.4cm;
+        width: 1cm;
+        height: 0.1cm;
+        user-select: none;
+      }
+
+      .piece > .piece-attribute {
+        filter: brightness(0.9);
+      }
+
+      .piece.-black > .piece-attribute {
+        filter: brightness(1.1);
       }
 
       .piece-link {
@@ -161,30 +174,6 @@
         height: 100%;
       }
 
-      .piece-point.-crimson > svg {
-        stroke: crimson;
-      }
-
-      .piece-point.-royalblue > svg {
-        stroke: royalblue;
-      }
-
-      .piece-point.-darkorange > svg {
-        stroke: darkorange;
-      }
-
-      .piece-point.-seagreen > svg {
-        stroke: seagreen;
-      }
-
-      .piece-point.-blueviolet > svg {
-        stroke: blueviolet;
-      }
-
-      .piece-point.-sienna > svg {
-        stroke: sienna;
-      }
-
       .piece-serial {
         display: flex;
         justify-content: center;
@@ -193,12 +182,41 @@
         font-weight: 500;
       }
 
+      .piece-attribute {
+        background-color: var(--piece-attribute_color, rgba(127, 127, 127, 1));
+      }
+
+      .piece-attribute.-crimson {
+        --piece-attribute_color: crimson;
+      }
+
+      .piece-attribute.-royalblue {
+        --piece-attribute_color: royalblue;
+      }
+
+      .piece-attribute.-darkorange {
+        --piece-attribute_color: darkorange;
+      }
+
+      .piece-attribute.-seagreen {
+        --piece-attribute_color: seagreen;
+      }
+
+      .piece-attribute.-blueviolet {
+        --piece-attribute_color: blueviolet;
+      }
+
+      .piece-attribute.-sienna {
+        --piece-attribute_color: sienna;
+      }
+
       .piece-backface {
         background-image: linear-gradient(150deg, #000 50%, #fff 50%);
       }
 
       .piece-backface > .piece-backface-text {
         mix-blend-mode: difference;
+        user-select: none;
       }
 
       .piece-backface-text {
@@ -596,8 +614,12 @@
             direction: directions[pointIndex],
             color:
               directionIndex % 2 === 0 ? (point % 2 === 0 ? "white" : "black") : point % 2 === 0 ? "black" : "white",
-            attribute:
-              attributes[(directionIndex + [1, 3, 5, 2, 4, 6][pointIndex] * attributes.length) % attributes.length],
+            attribute: (() => {
+              const offsets = [0, -2, -4, -7, -9, -11];
+              const offset = offsets[directionIndex];
+              const index = (pointIndex + (offset % attributes.length) + attributes.length) % attributes.length;
+              return attributes[index];
+            })(),
           }))
         )
       );
@@ -758,7 +780,6 @@
 
         const piecePointsElement = document.createElement("div");
         piecePointsElement.classList.add("piece-point");
-        piecePointsElement.classList.add(`-${piece.attribute}`);
         piecePointsElement.innerHTML =
           piece.point === 6
             ? dice6Svg
@@ -773,6 +794,11 @@
             : dice1Svg;
 
         pieceFrontfaceElement.appendChild(piecePointsElement);
+
+        const pieceAttributeElement = document.createElement("div");
+        pieceAttributeElement.classList.add("piece-attribute");
+        pieceAttributeElement.classList.add(`-${piece.attribute}`);
+        pieceFrontfaceElement.appendChild(pieceAttributeElement);
 
         const pieceSerialElement = document.createElement("div");
         pieceSerialElement.classList.add("piece-serial");
