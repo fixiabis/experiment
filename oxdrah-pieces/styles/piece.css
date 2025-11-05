@@ -32,6 +32,8 @@
   border-radius: 0.4cm;
   color: var(--piece__color__on-surface);
   background-color: var(--piece__color__surface);
+
+  overflow: hidden;
 }
 
 .piece.-dark {
@@ -107,6 +109,122 @@
   user-select: none;
 }
 
+.piece.-v2 > .piece-symbol.--top-right,
+.piece.-v2 > .piece-symbol.--top-left,
+.piece.-v2 > .piece-symbol.--bottom-left,
+.piece.-v2 > .piece-symbol.--bottom-right {
+  position: absolute;
+  width: 0.6cm;
+  height: 0.6cm;
+}
+
+.piece.-v2 > .piece-symbol.--top-right {
+  top: 0.3cm;
+  right: 0.3cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-symbol.--top-left {
+  top: 0.3cm;
+  left: 0.3cm;
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-symbol.--bottom-left {
+  bottom: 0.3cm;
+  left: 0.3cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-symbol.--bottom-right {
+  bottom: 0.3cm;
+  right: 0.3cm;
+  transform: rotate(90deg);
+}
+
+.piece.-v2 > .piece-serial {
+  --piece-serial__font-size: 0.5cm;
+
+  position: absolute;
+  top: unset;
+  right: unset;
+
+  width: 0.6cm;
+  height: 0.6cm;
+}
+
+.piece.-v2 > .piece-serial.--top-right {
+  top: calc(0.3cm + 0.7cm);
+  right: 0.3cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-serial.--top-left {
+  top: 0.3cm;
+  left: calc(0.3cm + 0.7cm);
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-serial.--bottom-left {
+  bottom: calc(0.3cm + 0.7cm);
+  left: 0.3cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-serial.--bottom-right {
+  bottom: 0.3cm;
+  right: calc(0.3cm + 0.7cm);
+  transform: rotate(90deg);
+}
+
+.piece.-v2 > .piece-point {
+  width: 0.6cm;
+  height: 0.6cm;
+  bottom: unset;
+  left: unset;
+}
+
+.piece.-v2 > .piece-point.--top-right {
+  top: 0.3cm;
+  right: calc(0.3cm + 0.7cm);
+  transform: rotate(90deg);
+}
+
+.piece.-v2 > .piece-point.--top-left {
+  top: calc(0.3cm + 0.7cm);
+  left: 0.3cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-point.--bottom-left {
+  bottom: 0.3cm;
+  left: calc(0.3cm + 0.7cm);
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-point.--bottom-right {
+  bottom: calc(0.3cm + 0.7cm);
+  right: 0.3cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-point-pattern.--top-right,
+.piece.-v2 > .piece-point-pattern.--bottom-left {
+  position: absolute;
+  width: 0.25cm;
+  height: 1.2cm;
+}
+
+.piece.-v2 > .piece-point-pattern.--top-right {
+  top: 0.3cm;
+  right: 0cm;
+}
+
+.piece.-v2 > .piece-point-pattern.--bottom-left {
+  bottom: 0.3cm;
+  left: 0cm;
+}
+
 /* Piece Parts */
 .piece-symbol {
   position: relative;
@@ -115,6 +233,10 @@
 .piece-symbol > svg {
   width: 100%;
   height: 100%;
+}
+
+.piece-symbol.-v2 > svg {
+  stroke-width: 1.5;
 }
 
 .piece-point {
@@ -128,17 +250,49 @@
   height: 100%;
 }
 
+.piece-point.-v2 > svg {
+  stroke-width: 1.5;
+}
+
 .piece-link {
   background-color: var(--piece-link__color, rgba(127, 127, 127, 1));
 }
 
 .piece-serial {
+  --piece-serial__font-size: 0.7cm;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.7cm;
+  font-size: var(--piece-serial__font-size);
   font-weight: 500;
 }
+
+.piece-serial.-v2 {
+  font-weight: 300;
+}
+
+/* .piece-point-pattern {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: calc(0.1cm);
+}
+
+.piece-point-pattern > .piece-point-pattern-part.--line {
+  width: 100%;
+  height: calc(0.25cm / 3);
+}
+
+.piece-point-pattern > .piece-point-pattern-part.--square {
+  width: 100%;
+  height: 0.25cm;
+}
+
+.piece-point-pattern-part {
+  background-color: color-mix(in srgb, var(--piece__color__on-surface) 75%, transparent);
+} */
 
 /* Piece Back */
 .piece-back {

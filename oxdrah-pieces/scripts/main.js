@@ -1,4 +1,4 @@
-const symbols = ['omu', 'xro', 'det', 'rod', 'ast', 'hex'];
+const symbols = ['omu', 'xro', 'det', 'rod', 'ast', 'hex', 'ivo', 'tov', 'yax', 'vez', 'uyn', 'wir'];
 
 const points = [1, 2, 3, 4, 5, 6];
 
@@ -39,13 +39,28 @@ const directionArrays = [
   ],
 ];
 
-const piecePropsArray = symbols.flatMap((symbol) =>
+const piecePropsArray = symbols.flatMap((symbol, symbolIndex) =>
   points.flatMap((point, pointIndex) =>
     directionArrays.map((directions, directionIndex) => ({
       symbol,
       point,
       serial: point + directionIndex * points.length,
       direction: directions[pointIndex],
+      bicolor: (symbolIndex < 6 ? symbolIndex % 2 === 0 : symbolIndex % 2 === 1)
+        ? directionIndex % 2 === 0
+          ? point % 2 === 0
+            ? 'dark'
+            : 'light'
+          : point % 2 === 0
+          ? 'light'
+          : 'dark'
+        : directionIndex % 2 === 0
+        ? point % 2 === 0
+          ? 'light'
+          : 'dark'
+        : point % 2 === 0
+        ? 'dark'
+        : 'light',
     }))
   )
 );
@@ -57,30 +72,6 @@ const piecePropsArrays = [];
 for (let i = 0; i < piecePropsArray.length; i += chunkSize) {
   piecePropsArrays.push(piecePropsArray.slice(i, i + chunkSize));
 }
-
-const circleSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="9.5"/></svg>`;
-
-const xSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M4 4 L20 20"/><path d="M20 4 L4 20"/></svg>`;
-
-const triangleSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-icon lucide-triangle"><path d="M13.73 4a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>`;
-
-const squareSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-icon lucide-square"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>`;
-
-const starSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star-icon lucide-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>`;
-
-const hexagonSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hexagon-icon lucide-hexagon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`;
-
-const dice1Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice1-icon lucide-dice-1"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M12 12h.01"/></svg>`;
-
-const dice2Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice2-icon lucide-dice-2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M15 9h.01"/><path d="M9 15h.01"/></svg>`;
-
-const dice3Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice3-icon lucide-dice-3"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M12 12h.01"/><path d="M8 16h.01"/></svg>`;
-
-const dice4Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice4-icon lucide-dice-4"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/></svg>`;
-
-const dice5Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice5-icon lucide-dice-5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/><path d="M12 12h.01"/></svg>`;
-
-const dice6Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice6-icon lucide-dice-6"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M16 12h.01"/><path d="M16 16h.01"/><path d="M8 8h.01"/><path d="M8 12h.01"/><path d="M8 16h.01"/></svg>`;
 
 const bodyElement = /** @type {HTMLBodyElement} */ (document.querySelector('body'));
 
@@ -116,6 +107,8 @@ function getSortValue(piece, sortField) {
       return piece.direction.length * 1000 + sortedDir.localeCompare('');
     case 'serial':
       return piece.serial;
+    case 'bicolor':
+      return piece.bicolor === 'light' ? 0 : 1;
     case 'vertical':
       const verticalType = getVerticalType(piece.direction);
       const verticalOrder = ['無', '向上', '向下', '上下'];
@@ -210,6 +203,9 @@ function filterPieces(pieceArray, filterConfigs) {
         case 'serial':
           pieceValue = piece.serial.toString();
           break;
+        case 'bicolor':
+          pieceValue = piece.bicolor;
+          break;
         default:
           return true;
       }
@@ -298,8 +294,22 @@ function updateFilterValueOptions(valueSelect, fieldSelect) {
             : sym === 'rod'
             ? '方形'
             : sym === 'ast'
-            ? '星形'
-            : '六邊';
+            ? '五芒'
+            : sym === 'hex'
+            ? '六邊'
+            : sym === 'ivo'
+            ? '斜線'
+            : sym === 'tov'
+            ? '加號'
+            : sym === 'yax'
+            ? '星號'
+            : sym === 'vez'
+            ? '菱形'
+            : sym === 'uyn'
+            ? '五邊'
+            : sym === 'wir'
+            ? '六芒'
+            : '';
         valueSelect.appendChild(option);
       });
       break;
@@ -344,6 +354,14 @@ function updateFilterValueOptions(valueSelect, fieldSelect) {
         valueSelect.appendChild(option);
       });
       break;
+    case 'bicolor':
+      ['light', 'dark'].forEach((bicolor) => {
+        const option = document.createElement('option');
+        option.value = bicolor;
+        option.textContent = bicolor === 'light' ? '淺色' : '深色';
+        valueSelect.appendChild(option);
+      });
+      break;
   }
 }
 
@@ -361,6 +379,7 @@ function createFilterItem() {
           <option value="vertical">縱向</option>
           <option value="horizontal">橫向</option>
           <option value="serial">序列</option>
+          <option value="bicolor">雙色</option>
         `;
 
   const operatorSelect = document.createElement('select');
@@ -448,6 +467,7 @@ function createSortItem() {
           <option value="vertical">縱向</option>
           <option value="horizontal">橫向</option>
           <option value="serial">序列</option>
+          <option value="bicolor">雙色</option>
         `;
 
   const orderSelect = /** @type {HTMLSelectElement} */ (document.createElement('select'));
