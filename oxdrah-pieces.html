@@ -41,29 +41,27 @@
       }
 
       .piece {
+        --piece_color_surface: hsl(0, 0%, 100%);
+        --piece_color_on-surface: hsl(0, 0%, 0%);
         position: relative;
         border-radius: 0.4cm;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: white;
-        color: black;
+        background-color: var(--piece_color_surface);
+        color: var(--piece_color_on-surface);
       }
 
-      .piece.-black {
-        background-color: black;
-        color: white;
+      .piece.-dark {
+        --piece_color_surface: hsl(0, 0%, 0%);
+        --piece_color_on-surface: hsl(0, 0%, 100%);
       }
 
       .piece > .piece-link {
         position: absolute;
         --piece-link_width: 0.35cm;
         --piece-link_height: 0.7cm;
-        --piece-link_color: rgba(0, 0, 0, 0.75);
-      }
-
-      .piece.-black > .piece-link {
-        --piece-link_color: rgba(255, 255, 255, 0.75);
+        --piece-link_color: color-mix(in srgb, var(--piece_color_on-surface) 75%, transparent);
       }
 
       .piece > .piece-frontface,
@@ -133,23 +131,6 @@
         height: 2cm;
       }
 
-      .piece > .piece-attribute {
-        position: absolute;
-        top: 1.3cm;
-        right: 0.4cm;
-        width: 1cm;
-        height: 0.1cm;
-        user-select: none;
-      }
-
-      .piece > .piece-attribute {
-        filter: brightness(0.9);
-      }
-
-      .piece.-black > .piece-attribute {
-        filter: brightness(1.1);
-      }
-
       .piece-link {
         background-color: var(--piece-link_color, rgba(127, 127, 127, 1));
       }
@@ -182,36 +163,8 @@
         font-weight: 500;
       }
 
-      .piece-attribute {
-        background-color: var(--piece-attribute_color, rgba(127, 127, 127, 1));
-      }
-
-      .piece-attribute.-crimson {
-        --piece-attribute_color: crimson;
-      }
-
-      .piece-attribute.-royalblue {
-        --piece-attribute_color: royalblue;
-      }
-
-      .piece-attribute.-darkorange {
-        --piece-attribute_color: darkorange;
-      }
-
-      .piece-attribute.-seagreen {
-        --piece-attribute_color: seagreen;
-      }
-
-      .piece-attribute.-blueviolet {
-        --piece-attribute_color: blueviolet;
-      }
-
-      .piece-attribute.-sienna {
-        --piece-attribute_color: sienna;
-      }
-
       .piece-backface {
-        background-image: linear-gradient(150deg, #000 50%, #fff 50%);
+        background-image: linear-gradient(150deg, var(--piece_color_on-surface) 50%, var(--piece_color_surface) 50%);
       }
 
       .piece-backface > .piece-backface-text {
@@ -220,7 +173,7 @@
       }
 
       .piece-backface-text {
-        color: white;
+        color: var(--piece_color_on-surface);
         font-family: 'Sono', sans-serif;
         font-size: 1cm;
         font-weight: 500;
@@ -230,6 +183,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        filter: contrast(1);
       }
 
       .piece-wrapper {
@@ -246,7 +200,7 @@
         perspective: 1000px;
         transform-style: preserve-3d;
         transition: transform 0.6s;
-        box-shadow: 0 0 0.2cm 0 rgba(0, 0, 0, 0.25);
+        box-shadow: 0 0 0.2cm 0 color-mix(in srgb, var(--piece_color_on-surface) 25%, transparent);
       }
 
       .piece-wrapper:active > .piece {
@@ -603,10 +557,6 @@
         ],
       ];
 
-      const attributes = ['crimson', 'royalblue', 'darkorange', 'seagreen', 'blueviolet', 'sienna'];
-
-      // const attributes = ['sienna', 'royalblue', 'darkorange', 'blueviolet', 'seagreen', 'crimson'];
-
       const piecePropsArray = symbols.flatMap((symbol) =>
         points.flatMap((point, pointIndex) =>
           directionArrays.map((directions, directionIndex) => ({
@@ -614,40 +564,6 @@
             point,
             serial: point + directionIndex * points.length,
             direction: directions[pointIndex],
-            color: (() => {
-              const serial = point + directionIndex * points.length;
-
-              const blackSerial = [];
-
-              // Sol A (But orange & brown, want purple & brown)
-              // blackSerial.push(...[1, 15, 29, 2, 16, 30, 6, 10, 11, 12, 14, 21, 35, 19, 20, 25, 33, 34]);
-
-              // Sol A (Flipped)
-              blackSerial.push(...[2, 3, 4, 7, 8, 12, 16, 17, 18, 21, 22, 23, 25, 26, 27, 31, 35, 36]);
-
-              // Sol A (Inverted)
-              [];
-
-              if (blackSerial.includes(serial)) {
-                return 'black';
-              }
-
-              return 'white';
-
-              return directionIndex % 2 === 0
-                ? point % 2 === 0
-                  ? 'white'
-                  : 'black'
-                : point % 2 === 0
-                ? 'black'
-                : 'white';
-            })(),
-            attribute: (() => {
-              const offsets = [0, -1, -2, -3, -4, -5];
-              const offset = offsets[directionIndex];
-              const index = (pointIndex + (offset % attributes.length) + attributes.length) % attributes.length;
-              return attributes[index];
-            })(),
           }))
         )
       );
@@ -718,8 +634,6 @@
             return piece.direction.length * 1000 + sortedDir.localeCompare('');
           case 'serial':
             return piece.serial;
-          case 'color':
-            return piece.color === 'white' ? 0 : 1;
           case 'vertical':
             const verticalType = getVerticalType(piece.direction);
             const verticalOrder = ['無', '向上', '向下', '上下'];
@@ -728,8 +642,6 @@
             const horizontalType = getHorizontalType(piece.direction);
             const horizontalOrder = ['無', '向左', '向右', '左右'];
             return horizontalOrder.indexOf(horizontalType);
-          case 'attribute':
-            return attributes.indexOf(piece.attribute);
           default:
             return 0;
         }
@@ -777,7 +689,6 @@
 
         const pieceFrontfaceElement = document.createElement('div');
         pieceFrontfaceElement.classList.add('piece-frontface', 'piece');
-        pieceFrontfaceElement.classList.add(`-${piece.color}`);
         pieceFrontfaceElement.classList.add(`-${piece.symbol}`);
         pieceElement.appendChild(pieceFrontfaceElement);
 
@@ -822,11 +733,6 @@
             : dice1Svg;
 
         pieceFrontfaceElement.appendChild(piecePointsElement);
-
-        const pieceAttributeElement = document.createElement('div');
-        pieceAttributeElement.classList.add('piece-attribute');
-        pieceAttributeElement.classList.add(`-${piece.attribute}`);
-        pieceFrontfaceElement.appendChild(pieceAttributeElement);
 
         const pieceSerialElement = document.createElement('div');
         pieceSerialElement.classList.add('piece-serial');
@@ -895,12 +801,6 @@
                 break;
               case 'serial':
                 pieceValue = piece.serial.toString();
-                break;
-              case 'color':
-                pieceValue = piece.color;
-                break;
-              case 'attribute':
-                pieceValue = piece.attribute;
                 break;
               default:
                 return true;
@@ -1036,33 +936,6 @@
               valueSelect.appendChild(option);
             });
             break;
-          case 'color':
-            ['white', 'black'].forEach((col) => {
-              const option = document.createElement('option');
-              option.value = col;
-              option.textContent = col === 'white' ? '白色' : '黑色';
-              valueSelect.appendChild(option);
-            });
-            break;
-          case 'attribute':
-            attributes.forEach((attr) => {
-              const option = document.createElement('option');
-              option.value = attr;
-              option.textContent =
-                attr === 'crimson'
-                  ? '紅標'
-                  : attr === 'royalblue'
-                  ? '藍標'
-                  : attr === 'darkorange'
-                  ? '橙標'
-                  : attr === 'seagreen'
-                  ? '綠標'
-                  : attr === 'blueviolet'
-                  ? '紫標'
-                  : '棕標';
-              valueSelect.appendChild(option);
-            });
-            break;
         }
       }
 
@@ -1080,8 +953,6 @@
           <option value="vertical">縱向</option>
           <option value="horizontal">橫向</option>
           <option value="serial">序列</option>
-          <option value="color">顏色</option>
-          <option value="attribute">屬性</option>
         `;
 
         const operatorSelect = document.createElement('select');
@@ -1169,8 +1040,6 @@
           <option value="vertical">縱向</option>
           <option value="horizontal">橫向</option>
           <option value="serial">序列</option>
-          <option value="color">顏色</option>
-          <option value="attribute">屬性</option>
         `;
 
         const orderSelect = document.createElement('select');
