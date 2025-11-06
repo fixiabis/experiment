@@ -247,6 +247,13 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
     sortedPiecePropsArrays.push(sortedPiecePropsArray.slice(i, i + chunkSize));
   }
 
+  // 獲取選擇的版本
+  const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
+  const selectedVersion = versionSelect.value;
+
+  // 根據版本選擇對應的創建函數
+  const createElement = selectedVersion === 'v2' ? createPieceElementV2 : createPieceElement;
+
   // 重新生成 DOM
   sortedPiecePropsArrays.forEach((piecePropsArray) => {
     const piecesElement = document.createElement('div');
@@ -254,7 +261,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
     bodyElement.appendChild(piecesElement);
 
     piecePropsArray.forEach((piece) => {
-      const pieceElement = createPieceElement(piece);
+      const pieceElement = createElement(piece);
       piecesElement.appendChild(pieceElement);
     });
   });
@@ -556,4 +563,10 @@ const addFilterButton = /** @type {HTMLButtonElement} */ (document.getElementByI
 addFilterButton.addEventListener('click', () => {
   const item = createFilterItem();
   filterList.appendChild(item);
+});
+
+// 版本控制
+const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
+versionSelect.addEventListener('change', () => {
+  applyFiltersAndSort();
 });

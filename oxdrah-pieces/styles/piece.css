@@ -3,6 +3,7 @@
   position: relative;
 
   border-radius: 0.4cm;
+  isolation: isolate;
 }
 
 .piece-faces > .piece,
@@ -17,6 +18,7 @@
 
 .piece-faces > .piece-back {
   transform: rotateY(180deg);
+  z-index: -1;
 }
 
 /* Piece */
@@ -271,28 +273,6 @@
 .piece-serial.-v2 {
   font-weight: 300;
 }
-
-/* .piece-point-pattern {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  row-gap: calc(0.1cm);
-}
-
-.piece-point-pattern > .piece-point-pattern-part.--line {
-  width: 100%;
-  height: calc(0.25cm / 3);
-}
-
-.piece-point-pattern > .piece-point-pattern-part.--square {
-  width: 100%;
-  height: 0.25cm;
-}
-
-.piece-point-pattern-part {
-  background-color: color-mix(in srgb, var(--piece__color__on-surface) 75%, transparent);
-} */
 
 /* Piece Back */
 .piece-back {

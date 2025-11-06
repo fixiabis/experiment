@@ -60,7 +60,6 @@ const piecePointToSvg = {
 
 // 創建 piece DOM 的函數
 function createPieceElement(piece) {
-  return createPieceElementV2(piece);
   const pieceFlipWrapperElement = document.createElement('div');
   pieceFlipWrapperElement.classList.add('piece-flip-wrapper');
 
@@ -147,28 +146,6 @@ function createPieceElementV2(piece) {
     pieceLinkElement.classList.add(`--${direction}`);
     pieceElement.appendChild(pieceLinkElement);
   });
-
-  // for (const direction of ['--top-right', '--bottom-left', '--top-left', '--bottom-right']) {
-  //   const piecePointPatternElement = document.createElement('div');
-  //   piecePointPatternElement.classList.add('piece-point-pattern');
-  //   piecePointPatternElement.classList.add(`-point-${piece.point}`);
-  //   piecePointPatternElement.classList.add(direction);
-  //   pieceElement.appendChild(piecePointPatternElement);
-
-  //   for (let i = 0; i < Math.floor(piece.point / 3); i++) {
-  //     const piecePointPatternPartElement = document.createElement('div');
-  //     piecePointPatternPartElement.classList.add('piece-point-pattern-part');
-  //     piecePointPatternPartElement.classList.add('--square');
-  //     piecePointPatternElement.appendChild(piecePointPatternPartElement);
-  //   }
-
-  //   for (let i = 0; i < piece.point % 3; i++) {
-  //     const piecePointPatternPartElement = document.createElement('div');
-  //     piecePointPatternPartElement.classList.add('piece-point-pattern-part');
-  //     piecePointPatternPartElement.classList.add('--line');
-  //     piecePointPatternElement.appendChild(piecePointPatternPartElement);
-  //   }
-  // }
 
   for (const direction of ['--top-right', '--bottom-left', '--top-left', '--bottom-right']) {
     const piecePointsElement = document.createElement('div');
