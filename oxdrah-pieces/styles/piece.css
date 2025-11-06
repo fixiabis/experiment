@@ -3,7 +3,6 @@
   position: relative;
 
   border-radius: 0.4cm;
-  isolation: isolate;
 }
 
 .piece-faces > .piece,
@@ -18,7 +17,7 @@
 
 .piece-faces > .piece-back {
   transform: rotateY(180deg);
-  z-index: -1;
+  z-index: 1;
 }
 
 /* Piece */
@@ -43,7 +42,8 @@
   --piece__color__on-surface: hsl(0, 0%, 100%);
 }
 
-.piece > .piece-symbol {
+.piece > .piece-symbol,
+.piece > .piece-decorated-symbol {
   width: 2cm;
   height: 2cm;
 }
@@ -230,6 +230,121 @@
 /* Piece Parts */
 .piece-symbol {
   position: relative;
+}
+
+.piece-symbol.-striped-cut {
+  --piece-symbol__striped-cut-angle: 150deg;
+  mask-mode: luminance;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%,
+    white 75%,
+    black 75%,
+    black 80%,
+    white 80%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-xro {
+  --piece-symbol__striped-cut-angle: 103deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-det {
+  --piece-symbol__striped-cut-angle: 120deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-rod {
+  --piece-symbol__striped-cut-angle: 115deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-ast {
+  --piece-symbol__striped-cut-angle: 150deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 60%,
+    black 60%,
+    black 65%,
+    white 65%,
+    white 70%,
+    black 70%,
+    black 75%,
+    white 75%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-hex {
+  --piece-symbol__striped-cut-angle: 120deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 60%,
+    black 60%,
+    black 65%,
+    white 65%,
+    white 70%,
+    black 70%,
+    black 75%,
+    white 75%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-ivo {
+  --piece-symbol__striped-cut-angle: 180deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-tov {
+  --piece-symbol__striped-cut-angle: 140deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-yax {
+  --piece-symbol__striped-cut-angle: 150deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 60%,
+    black 60%,
+    black 65%,
+    white 65%,
+    white 70%,
+    black 70%,
+    black 75%,
+    white 75%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-vez {
+  --piece-symbol__striped-cut-angle: 100deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-uyn {
+  --piece-symbol__striped-cut-angle: 130deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-wir {
+  --piece-symbol__striped-cut-angle: 110deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
 }
 
 .piece-symbol > svg {

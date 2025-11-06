@@ -247,9 +247,11 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
     sortedPiecePropsArrays.push(sortedPiecePropsArray.slice(i, i + chunkSize));
   }
 
-  // 獲取選擇的版本
+  // 獲取選擇的版本和 striped-cut 設定
   const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
+  const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
   const selectedVersion = versionSelect.value;
+  const stripedCut = stripedCutCheckbox.checked;
 
   // 根據版本選擇對應的創建函數
   const createElement = selectedVersion === 'v2' ? createPieceElementV2 : createPieceElement;
@@ -261,7 +263,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
     bodyElement.appendChild(piecesElement);
 
     piecePropsArray.forEach((piece) => {
-      const pieceElement = createElement(piece);
+      const pieceElement = createElement(piece, { stripedCut });
       piecesElement.appendChild(pieceElement);
     });
   });
@@ -565,8 +567,12 @@ addFilterButton.addEventListener('click', () => {
   filterList.appendChild(item);
 });
 
-// 版本控制
+// 外觀控制
 const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
+const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
 versionSelect.addEventListener('change', () => {
+  applyFiltersAndSort();
+});
+stripedCutCheckbox.addEventListener('change', () => {
   applyFiltersAndSort();
 });

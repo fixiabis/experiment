@@ -59,7 +59,8 @@ const piecePointToSvg = {
 };
 
 // 創建 piece DOM 的函數
-function createPieceElement(piece) {
+function createPieceElement(piece, options = {}) {
+  const { stripedCut = false } = options;
   const pieceFlipWrapperElement = document.createElement('div');
   pieceFlipWrapperElement.classList.add('piece-flip-wrapper');
 
@@ -75,6 +76,10 @@ function createPieceElement(piece) {
 
   const pieceSymbolElement = document.createElement('div');
   pieceSymbolElement.classList.add('piece-symbol');
+  pieceSymbolElement.classList.add(`-symbol-${piece.symbol}`);
+  if (stripedCut) {
+    pieceSymbolElement.classList.add('-striped-cut');
+  }
   pieceSymbolElement.innerHTML = pieceSymbolToSvg[piece.symbol] || '';
   pieceElement.appendChild(pieceSymbolElement);
 
@@ -108,7 +113,8 @@ function createPieceElement(piece) {
   return pieceFlipWrapperElement;
 }
 
-function createPieceElementV2(piece) {
+function createPieceElementV2(piece, options = {}) {
+  const { stripedCut = false } = options;
   const pieceFlipWrapperElement = document.createElement('div');
   pieceFlipWrapperElement.classList.add('piece-flip-wrapper');
 
@@ -128,6 +134,10 @@ function createPieceElementV2(piece) {
 
   const pieceSymbolElement = document.createElement('div');
   pieceSymbolElement.classList.add('piece-symbol');
+  pieceSymbolElement.classList.add(`-symbol-${piece.symbol}`);
+  if (stripedCut) {
+    pieceSymbolElement.classList.add('-striped-cut');
+  }
   pieceSymbolElement.innerHTML = pieceSymbolSvg;
   pieceElement.appendChild(pieceSymbolElement);
 

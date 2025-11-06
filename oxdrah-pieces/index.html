@@ -14,12 +14,18 @@
   </head>
   <body>
     <div class="pieces-header">OXDRAH PIECES</div>
-    <div class="version-controls">
-      <label class="version-controls-title" for="versionSelect">版本選擇</label>
-      <select id="versionSelect" class="version-controls-select">
-        <option value="v1">版本 1</option>
-        <option value="v2" selected>版本 2</option>
-      </select>
+    <div class="appearance-controls">
+      <label class="appearance-controls-title" for="versionSelect">外觀選擇</label>
+      <div class="appearance-controls-group">
+        <label class="appearance-controls-checkbox-label">
+          <input type="checkbox" id="stripedCutCheckbox" class="appearance-controls-checkbox" />
+          <span>刻痕</span>
+        </label>
+        <select id="versionSelect" class="appearance-controls-select">
+          <option value="v1">版本 1</option>
+          <option value="v2" selected>版本 2</option>
+        </select>
+      </div>
     </div>
     <div class="sort-controls">
       <div class="sort-controls-title">
