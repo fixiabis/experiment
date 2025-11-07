@@ -107,7 +107,7 @@ function createPieceElement(piece, options = {}) {
 
   const pieceBackTextElement = document.createElement('div');
   pieceBackTextElement.classList.add('piece-back-text');
-  pieceBackTextElement.textContent = 'GLYPH';
+  pieceBackTextElement.textContent = 'OXDRAH';
   pieceBackElement.appendChild(pieceBackTextElement);
 
   return pieceFlipWrapperElement;
@@ -181,7 +181,7 @@ function createPieceElementV2(piece, options = {}) {
 
   const pieceBackTextElement = document.createElement('div');
   pieceBackTextElement.classList.add('piece-back-text');
-  pieceBackTextElement.textContent = 'GLYPH';
+  pieceBackTextElement.textContent = 'OXDRAH';
   pieceBackElement.appendChild(pieceBackTextElement);
 
   return pieceFlipWrapperElement;
