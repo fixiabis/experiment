@@ -310,17 +310,17 @@
 }
 
 .piece-symbol.-striped-cut.-symbol-yax {
-  --piece-symbol__striped-cut-angle: 150deg;
+  --piece-symbol__striped-cut-angle: 110deg;
   mask-image: linear-gradient(
     var(--piece-symbol__striped-cut-angle),
-    white 60%,
+    white 55%,
+    black 55%,
     black 60%,
-    black 65%,
+    white 60%,
     white 65%,
-    white 70%,
+    black 65%,
     black 70%,
-    black 75%,
-    white 75%
+    white 70%
   );
 }
 
