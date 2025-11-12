@@ -237,6 +237,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
   const existingPieces = document.querySelectorAll('.pieces');
   const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
   const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
+  const colorfulCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('colorfulCheckbox'));
   const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
   const printRowCount = /** @type {HTMLInputElement} */ (document.getElementById('printRowCount'));
   const printColumnCount = /** @type {HTMLInputElement} */ (document.getElementById('printColumnCount'));
@@ -261,7 +262,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
 
   const selectedVersion = versionSelect.value;
   const stripedCut = stripedCutCheckbox.checked;
-
+  const colorful = colorfulCheckbox.checked;
   // 根據版本選擇對應的創建函數
   const createElement = selectedVersion === 'v2' ? createPieceElementV2 : createPieceElement;
 
@@ -272,7 +273,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
     bodyElement.appendChild(piecesElement);
 
     piecePropsArray.forEach((piece) => {
-      const pieceElement = createElement(piece, { stripedCut });
+      const pieceElement = createElement(piece, { stripedCut, colorful });
       piecesElement.appendChild(pieceElement);
     });
   });
@@ -594,13 +595,16 @@ addFilterButton.addEventListener('click', () => {
 // 外觀控制
 const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
 const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
+const colorfulCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('colorfulCheckbox'));
 versionSelect.addEventListener('change', () => {
   applyFiltersAndSort();
 });
 stripedCutCheckbox.addEventListener('change', () => {
   applyFiltersAndSort();
 });
-
+colorfulCheckbox.addEventListener('change', () => {
+  applyFiltersAndSort();
+});
 // 列印控制
 function updatePrintSettings() {
   const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));

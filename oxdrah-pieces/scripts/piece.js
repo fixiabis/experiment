@@ -78,7 +78,7 @@ const piecePointToSvg = {
 
 // 創建 piece DOM 的函數
 function createPieceElement(piece, options = {}) {
-  const { stripedCut = false } = options;
+  const { stripedCut = false, colorful = false } = options;
   const pieceFlipWrapperElement = document.createElement('div');
   pieceFlipWrapperElement.classList.add('piece-flip-wrapper');
 
@@ -89,7 +89,9 @@ function createPieceElement(piece, options = {}) {
   const pieceElement = document.createElement('div');
   pieceElement.classList.add('piece');
   pieceElement.classList.add(`-${piece.bicolor}`);
-  pieceElement.classList.add(`-${piece.symbol}`);
+  if (colorful) {
+    pieceElement.classList.add('-colorful');
+  }
   pieceFacesElement.appendChild(pieceElement);
 
   const pieceSymbolElement = document.createElement('div');
@@ -132,7 +134,7 @@ function createPieceElement(piece, options = {}) {
 }
 
 function createPieceElementV2(piece, options = {}) {
-  const { stripedCut = false } = options;
+  const { stripedCut = false, colorful = false } = options;
   const pieceFlipWrapperElement = document.createElement('div');
   pieceFlipWrapperElement.classList.add('piece-flip-wrapper');
 
@@ -144,6 +146,10 @@ function createPieceElementV2(piece, options = {}) {
   pieceElement.classList.add('piece');
   pieceElement.classList.add(`-${piece.bicolor}`);
   pieceElement.classList.add('-v2');
+  pieceElement.classList.add(`-symbol-${piece.symbol}`);
+  if (colorful) {
+    pieceElement.classList.add('-colorful');
+  }
   pieceFacesElement.appendChild(pieceElement);
 
   const pieceSymbolSvg = pieceSymbolToSvg[piece.symbol] || '';

@@ -42,8 +42,43 @@
   --piece__color__on-surface: hsl(0, 0%, 100%);
 }
 
-.piece > .piece-symbol,
-.piece > .piece-decorated-symbol {
+.piece.-colorful.-symbol-omu,
+.piece.-colorful.-symbol-ivo,
+.piece.-colorful.-symbol-sla {
+  --piece__color__on-surface: crimson;
+}
+
+.piece.-colorful.-symbol-xro,
+.piece.-colorful.-symbol-tov,
+.piece.-colorful.-symbol-pit {
+  --piece__color__on-surface: royalblue;
+}
+
+.piece.-colorful.-symbol-det,
+.piece.-colorful.-symbol-yax,
+.piece.-colorful.-symbol-edo {
+  --piece__color__on-surface: darkorange;
+}
+
+.piece.-colorful.-symbol-rod,
+.piece.-colorful.-symbol-vez,
+.piece.-colorful.-symbol-kaz {
+  --piece__color__on-surface: seagreen;
+}
+
+.piece.-colorful.-symbol-ast,
+.piece.-colorful.-symbol-uyn,
+.piece.-colorful.-symbol-wir {
+  --piece__color__on-surface: blueviolet;
+}
+
+.piece.-colorful.-symbol-hex,
+.piece.-colorful.-symbol-mun,
+.piece.-colorful.-symbol-nuf {
+  --piece__color__on-surface: sienna;
+}
+
+.piece > .piece-symbol {
   width: 2.2cm;
   height: 2.2cm;
 }
