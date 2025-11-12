@@ -41,6 +41,49 @@
       </div>
       <div class="filter-controls-list" id="filterList"></div>
     </div>
+    <div class="print-controls">
+      <div class="print-controls-header">
+        <div class="print-controls-title">列印設定</div>
+        <label class="print-controls-checkbox-label">
+          <input type="checkbox" id="printControlsCheckbox" class="print-controls-checkbox" />
+          <span>啟用</span>
+        </label>
+      </div>
+      <div class="print-controls-group">
+        <label class="print-controls-input">
+          <span>列印垂直間距(mm)</span>
+          <input type="number" id="printVerticalGap" value="1" />
+        </label>
+        <label class="print-controls-input">
+          <span>列印水平間距(mm)</span>
+          <input type="number" id="printHorizontalGap" value="1" />
+        </label>
+        <label class="print-controls-input">
+          <span>列印垂直內距(mm)</span>
+          <input type="number" id="printVerticalPadding" value="7.5" />
+        </label>
+        <label class="print-controls-input">
+          <span>列印水平內距(mm)</span>
+          <input type="number" id="printHorizontalPadding" value="7.5" />
+        </label>
+        <label class="print-controls-input">
+          <span>每頁列印寬度(mm)</span>
+          <input type="number" id="printPageWidth" value="297" />
+        </label>
+        <label class="print-controls-input">
+          <span>每頁列印高度(mm)</span>
+          <input type="number" id="printPageHeight" value="210" />
+        </label>
+        <label class="print-controls-input">
+          <span>每頁列印行數</span>
+          <input type="number" id="printRowCount" value="5" />
+        </label>
+        <label class="print-controls-input">
+          <span>每頁列印列數</span>
+          <input type="number" id="printColumnCount" value="4" />
+        </label>
+      </div>
+    </div>
     <script src="./scripts/piece.js"></script>
     <script src="./scripts/main.js"></script>
   </body>

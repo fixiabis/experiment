@@ -4,17 +4,77 @@
 
 /* Pieces */
 .pieces {
-  padding-block: calc((var(--pieces__height) / 4 - 4.8cm) * 4 / 5);
-  padding-inline: calc((var(--pieces__width) / 6 - 4.8cm) * 6 / 7);
+  padding-block: var(--pieces__padding__vertical);
+  padding-inline: var(--pieces__padding__horizontal);
+
+  position: relative;
 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  align-content: flex-start;
   flex-wrap: wrap;
-  row-gap: calc((var(--pieces__height) / 4 - 4.8cm) * 4 / 5);
-  column-gap: calc((var(--pieces__width) / 6 - 4.8cm) * 6 / 7);
+  row-gap: var(--pieces__gap__vertical);
+  column-gap: var(--pieces__gap__horizontal);
 
   font-family: 'Sono', sans-serif;
+}
+
+.pieces > .trim-line {
+  position: absolute;
+  background-color: #000;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.pieces > .trim-line.--top,
+.pieces > .trim-line.--bottom {
+  width: calc(var(--pieces__gap__horizontal));
+  height: calc(var(--pieces__padding__vertical) - 1mm);
+}
+
+.pieces > .trim-line.--top {
+  top: 0;
+  left: calc(
+    var(--pieces__padding__vertical) + (var(--pieces__gap__horizontal) + 48mm) * (var(--trim-line__order) - 1) -
+      var(--pieces__gap__horizontal)
+  );
+}
+
+.pieces > .trim-line.--bottom {
+  bottom: 0;
+  left: calc(
+    var(--pieces__padding__vertical) + (var(--pieces__gap__horizontal) + 48mm) * (var(--trim-line__order) - 1) -
+      var(--pieces__gap__horizontal)
+  );
+}
+
+.pieces > .trim-line.--left,
+.pieces > .trim-line.--right {
+  width: calc(var(--pieces__padding__horizontal) - 1mm);
+  height: calc(var(--pieces__gap__vertical));
+}
+
+.pieces > .trim-line.--left {
+  left: 0;
+  top: calc(
+    var(--pieces__padding__horizontal) + (var(--pieces__gap__vertical) + 48mm) * (var(--trim-line__order) - 1) -
+      var(--pieces__gap__vertical)
+  );
+}
+
+.pieces > .trim-line.--right {
+  right: 0;
+  top: calc(
+    var(--pieces__padding__horizontal) + (var(--pieces__gap__vertical) + 48mm) * (var(--trim-line__order) - 1) -
+      var(--pieces__gap__vertical)
+  );
+}
+
+@media screen {
+  .pieces > .trim-line {
+    display: none;
+  }
 }
 
 .pieces > .piece,

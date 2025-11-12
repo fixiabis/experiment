@@ -230,8 +230,12 @@ function filterPieces(pieceArray, filterConfigs) {
 
 // 渲染 pieces 的函數
 function renderPieces(sortConfigs = [], filterConfigs = []) {
-  // 刪除所有現有的 pieces
   const existingPieces = document.querySelectorAll('.pieces');
+  const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
+  const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
+  const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
+  const printRowCount = /** @type {HTMLInputElement} */ (document.getElementById('printRowCount'));
+  const printColumnCount = /** @type {HTMLInputElement} */ (document.getElementById('printColumnCount'));
   existingPieces.forEach((el) => el.remove());
 
   // 過濾
@@ -241,15 +245,16 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
   const sortedPiecePropsArray = sortPieces(filteredPiecePropsArray, sortConfigs);
 
   // 重新分組
-  const chunkSize = Math.ceil(sortedPiecePropsArray.length / (sortedPiecePropsArray.length / (6 * 4)));
+  const chunkSize = Math.ceil(
+    sortedPiecePropsArray.length /
+      (sortedPiecePropsArray.length /
+        (!printControlsCheckbox.checked ? 6 * 4 : Number(printRowCount.value) * Number(printColumnCount.value)))
+  );
   const sortedPiecePropsArrays = [];
   for (let i = 0; i < sortedPiecePropsArray.length; i += chunkSize) {
     sortedPiecePropsArrays.push(sortedPiecePropsArray.slice(i, i + chunkSize));
   }
 
-  // 獲取選擇的版本和 striped-cut 設定
-  const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
-  const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
   const selectedVersion = versionSelect.value;
   const stripedCut = stripedCutCheckbox.checked;
 
@@ -267,6 +272,9 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
       piecesElement.appendChild(pieceElement);
     });
   });
+
+  // 更新列印設定
+  updatePrintSettings();
 }
 
 // 過濾器管理
@@ -576,3 +584,102 @@ versionSelect.addEventListener('change', () => {
 stripedCutCheckbox.addEventListener('change', () => {
   applyFiltersAndSort();
 });
+
+// 列印控制
+function updatePrintSettings() {
+  const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
+  const printVerticalGap = /** @type {HTMLInputElement} */ (document.getElementById('printVerticalGap'));
+  const printHorizontalGap = /** @type {HTMLInputElement} */ (document.getElementById('printHorizontalGap'));
+  const printVerticalPadding = /** @type {HTMLInputElement} */ (document.getElementById('printVerticalPadding'));
+  const printHorizontalPadding = /** @type {HTMLInputElement} */ (document.getElementById('printHorizontalPadding'));
+  const printRowCount = /** @type {HTMLInputElement} */ (document.getElementById('printRowCount'));
+  const printColumnCount = /** @type {HTMLInputElement} */ (document.getElementById('printColumnCount'));
+  const printPageWidth = /** @type {HTMLInputElement} */ (document.getElementById('printPageWidth'));
+  const printPageHeight = /** @type {HTMLInputElement} */ (document.getElementById('printPageHeight'));
+
+  if (!printControlsCheckbox.checked) {
+    return;
+  }
+
+  const piecesElements = document.querySelectorAll('.pieces');
+  piecesElements.forEach((piecesElement) => {
+    const element = /** @type {HTMLElement} */ (piecesElement);
+    element.style.setProperty('--pieces__width', `${printPageWidth.value}mm`);
+    element.style.setProperty('--pieces__height', `${printPageHeight.value}mm`);
+    element.style.setProperty('--pieces__gap__vertical', `${printVerticalGap.value}mm`);
+    element.style.setProperty('--pieces__gap__horizontal', `${printHorizontalGap.value}mm`);
+    element.style.setProperty('--pieces__padding__vertical', `${printVerticalPadding.value}mm`);
+    element.style.setProperty('--pieces__padding__horizontal', `${printHorizontalPadding.value}mm`);
+    element.style.setProperty('--pieces__row_count', printRowCount.value);
+    element.style.setProperty('--pieces__column_count', printColumnCount.value);
+  });
+
+  piecesElements.forEach((piecesElement) => {
+    for (let i = 0; i < Number(printRowCount.value) + 1; i++) {
+      {
+        const trimLine = document.createElement('div');
+        trimLine.classList.add('trim-line');
+        trimLine.classList.add(`--top`);
+        trimLine.style.setProperty('--trim-line__order', String(i + 1));
+        piecesElement.appendChild(trimLine);
+      }
+
+      {
+        const trimLine = document.createElement('div');
+        trimLine.classList.add('trim-line');
+        trimLine.classList.add(`--bottom`);
+        trimLine.style.setProperty('--trim-line__order', String(i + 1));
+        piecesElement.appendChild(trimLine);
+      }
+    }
+
+    for (let i = 0; i < Number(printColumnCount.value) + 1; i++) {
+      {
+        const trimLine = document.createElement('div');
+        trimLine.classList.add('trim-line');
+        trimLine.classList.add(`--left`);
+        trimLine.style.setProperty('--trim-line__order', String(i + 1));
+        piecesElement.appendChild(trimLine);
+      }
+
+      {
+        const trimLine = document.createElement('div');
+        trimLine.classList.add('trim-line');
+        trimLine.classList.add(`--right`);
+        trimLine.style.setProperty('--trim-line__order', String(i + 1));
+        piecesElement.appendChild(trimLine);
+      }
+    }
+  });
+}
+
+const printVerticalGap = /** @type {HTMLInputElement} */ (document.getElementById('printVerticalGap'));
+const printHorizontalGap = /** @type {HTMLInputElement} */ (document.getElementById('printHorizontalGap'));
+const printVerticalPadding = /** @type {HTMLInputElement} */ (document.getElementById('printVerticalPadding'));
+const printHorizontalPadding = /** @type {HTMLInputElement} */ (document.getElementById('printHorizontalPadding'));
+const printRowCount = /** @type {HTMLInputElement} */ (document.getElementById('printRowCount'));
+const printColumnCount = /** @type {HTMLInputElement} */ (document.getElementById('printColumnCount'));
+const printPageWidth = /** @type {HTMLInputElement} */ (document.getElementById('printPageWidth'));
+const printPageHeight = /** @type {HTMLInputElement} */ (document.getElementById('printPageHeight'));
+const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
+
+printVerticalGap.addEventListener('input', () => {
+  applyFiltersAndSort();
+});
+printHorizontalGap.addEventListener('input', () => {
+  applyFiltersAndSort();
+});
+printVerticalPadding.addEventListener('input', () => {
+  applyFiltersAndSort();
+});
+printHorizontalPadding.addEventListener('input', () => {
+  applyFiltersAndSort();
+});
+printRowCount.addEventListener('input', () => applyFiltersAndSort());
+printColumnCount.addEventListener('input', () => applyFiltersAndSort());
+printPageWidth.addEventListener('input', () => applyFiltersAndSort());
+printPageHeight.addEventListener('input', () => applyFiltersAndSort());
+printControlsCheckbox.addEventListener('change', () => applyFiltersAndSort());
+
+// 初始設定
+applyFiltersAndSort();
