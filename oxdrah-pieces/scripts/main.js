@@ -1,4 +1,8 @@
-const symbols = ['omu', 'xro', 'det', 'rod', 'ast', 'hex', 'ivo', 'tov', 'yax', 'vez', 'uyn', 'wir'];
+const symbols = [
+  'omu', 'xro', 'det', 'rod', 'ast', 'hex',
+  'ivo', 'tov', 'yax', 'vez', 'uyn', 'mun',
+  'sla', 'pit', 'edo', 'kaz', 'wir', 'nuf',
+];
 
 const points = [1, 2, 3, 4, 5, 6];
 
@@ -39,10 +43,10 @@ const directionArrays = [
   ],
 ];
 
-const piecePropsArray = symbols.flatMap((symbol, symbolIndex) =>
+const piecePropsArray = symbols.slice(0, 6).flatMap((_, symbolIndex) =>
   points.flatMap((point, pointIndex) =>
     directionArrays.map((directions, directionIndex) => ({
-      symbol,
+      symbol: symbols[symbolIndex + ((pointIndex + directionIndex) % 3) * 6],
       point,
       serial: point + directionIndex * points.length,
       direction: directions[pointIndex],
@@ -324,8 +328,20 @@ function updateFilterValueOptions(valueSelect, fieldSelect) {
             ? '菱形'
             : sym === 'uyn'
             ? '五邊'
-            : sym === 'wir'
+            : sym === 'mun'
             ? '六芒'
+            : sym === 'sla'
+            ? '閃電'
+            : sym === 'pit'
+            ? '圈線'
+            : sym === 'edo'
+            ? '雙十'
+            : sym === 'kaz'
+            ? '米字'
+            : sym === 'wir'
+            ? '菱線'
+            : sym === 'nuf'
+            ? '方叉'
             : '';
         valueSelect.appendChild(option);
       });

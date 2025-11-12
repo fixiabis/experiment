@@ -44,8 +44,8 @@
 
 .piece > .piece-symbol,
 .piece > .piece-decorated-symbol {
-  width: 2cm;
-  height: 2cm;
+  width: 2.2cm;
+  height: 2.2cm;
 }
 
 .piece > .piece-point {
@@ -246,6 +246,7 @@
     black 80%,
     white 80%
   );
+  mask-size: 100% 100%;
 }
 
 .piece-symbol.-striped-cut.-symbol-xro {
@@ -332,7 +333,7 @@
   --piece-symbol__striped-cut-angle: 130deg;
 }
 
-.piece-symbol.-striped-cut.-symbol-wir {
+.piece-symbol.-striped-cut.-symbol-mun {
   --piece-symbol__striped-cut-angle: 110deg;
   mask-image: linear-gradient(
     var(--piece-symbol__striped-cut-angle),
@@ -345,6 +346,52 @@
     black 70%,
     white 70%
   );
+}
+
+.piece-symbol.-striped-cut.-symbol-sla {
+  --piece-symbol__striped-cut-angle: 180deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-pit {
+  --piece-symbol__striped-cut-angle: 165deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-edo {
+  --piece-symbol__striped-cut-angle: 145deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-kaz {
+  --piece-symbol__striped-cut-angle: 170deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-wir {
+  --piece-symbol__striped-cut-angle: 165deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-nuf {
+  --piece-symbol__striped-cut-angle: 145deg;
 }
 
 .piece-symbol > svg {

@@ -22,6 +22,18 @@ const pentagonSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="
 
 const hexagramSvg = `<svg id="hexStarStroke" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M 12.000 1.500 L 14.625 7.453 L 21.093 6.750 L 17.250 12.000 L 21.093 17.250 L 14.625 16.547 L 12.000 22.500 L 9.375 16.547 L 2.907 17.250 L 6.750 12.000 L 2.907 6.750 L 9.375 7.453 Z"></path></path></svg>`;
 
+const thunderSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thunder-icon lucide-thunder"><path d="M12 3 L4 12 L20 12 L12 21"/></svg>`;
+
+const circleWithSlashSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="6.5"/><path d="M20 4 L4 20"/></svg>`;
+
+const equalWithVLineSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-equal-icon lucide-equal"><path d="M4 8H20"/><path d="M4 16H20"/><path d="M12 2V22"/></svg>`;
+
+const xWithPlusSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M5 5 L19 19"/><path d="M19 5 L5 19"/><path d="M2 12h20"/><path d="M12 2v20"/></svg>`;
+
+const diamondWithHLineSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-diamond-icon lucide-diamond"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"/><path d="M2 12h20"/></svg>`;
+
+const squareWithXSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-icon lucide-square"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M5 5 L19 19"/><path d="M19 5 L5 19"/></svg>`;
+
 const dice1Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice1-icon lucide-dice-1"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M12 12h.01"/></svg>`;
 
 const dice2Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice2-icon lucide-dice-2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M15 9h.01"/><path d="M9 15h.01"/></svg>`;
@@ -46,7 +58,13 @@ const pieceSymbolToSvg = {
   yax: asteriskSvg,
   vez: diamondSvg,
   uyn: pentagonSvg,
-  wir: hexagramSvg,
+  mun: hexagramSvg,
+  sla: thunderSvg,
+  pit: circleWithSlashSvg,
+  edo: equalWithVLineSvg,
+  kaz: xWithPlusSvg,
+  wir: diamondWithHLineSvg,
+  nuf: squareWithXSvg,
 };
 
 const piecePointToSvg = {
