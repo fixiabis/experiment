@@ -217,7 +217,7 @@ function createPieceElementV2(piece, options = {}) {
     //     const pieceTileElement = document.createElement('div');
     //     pieceTileElement.classList.add('piece-tile');
     //     pieceTileElement.classList.add(`-order-${i + 1}`);
-    //     pieceTileElement.classList.add(`-tiles-${piece.series === 'oxdrah' ? 1 : piece.series === 'ituvum' ? 2 : 3}`);
+    //     pieceTileElement.classList.add(`-tiles-${piece.series === 'oxdrah' ? 1 : piece.series === 'ityvum' ? 2 : 3}`);
     //     pieceTilesElement.appendChild(pieceTileElement);
     //   }
 
@@ -230,7 +230,7 @@ function createPieceElementV2(piece, options = {}) {
       pieceCornerBorderElement.classList.add('-v2');
       pieceCornerBorderElement.classList.add(direction);
       pieceCornerBorderElement.innerHTML =
-        piece.series === 'oxdrah' ? cornerBorder1Svg : piece.series === 'ituvum' ? cornerBorder2Svg : cornerBorder3Svg;
+        piece.series === 'oxdrah' ? cornerBorder1Svg : piece.series === 'ityvum' ? cornerBorder2Svg : cornerBorder3Svg;
       pieceElement.appendChild(pieceCornerBorderElement);
     }
   }
