@@ -460,6 +460,20 @@
   border-color: #333;
 }
 
+.print-controls-select {
+  font-family: 'Sono', sans-serif;
+  font-size: 18px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.print-controls-select:hover {
+  border-color: #999;
+}
+
 @media print {
   .print-controls {
     display: none;

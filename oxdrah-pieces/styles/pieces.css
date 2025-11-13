@@ -22,53 +22,49 @@
 
 .pieces > .trim-line {
   position: absolute;
-  background-color: #000;
-  mix-blend-mode: difference;
   pointer-events: none;
+}
+
+.trim-line {
+  background-color: #000;
+}
+
+.trim-line.-white {
+  background-color: #fff;
 }
 
 .pieces > .trim-line.--top,
 .pieces > .trim-line.--bottom {
-  width: calc(var(--pieces__gap__horizontal));
+  width: 1mm;
   height: calc(var(--pieces__padding__vertical) - 1mm);
+  left: calc(
+    var(--pieces__padding__vertical) + (var(--pieces__gap__horizontal) + 48mm) * (var(--trim-line__order) - 1) - 0.5mm
+  );
 }
 
 .pieces > .trim-line.--top {
   top: 0;
-  left: calc(
-    var(--pieces__padding__vertical) + (var(--pieces__gap__horizontal) + 48mm) * (var(--trim-line__order) - 1) -
-      var(--pieces__gap__horizontal)
-  );
 }
 
 .pieces > .trim-line.--bottom {
   bottom: 0;
-  left: calc(
-    var(--pieces__padding__vertical) + (var(--pieces__gap__horizontal) + 48mm) * (var(--trim-line__order) - 1) -
-      var(--pieces__gap__horizontal)
-  );
 }
 
 .pieces > .trim-line.--left,
 .pieces > .trim-line.--right {
   width: calc(var(--pieces__padding__horizontal) - 1mm);
-  height: calc(var(--pieces__gap__vertical));
+  height: 1mm;
+  top: calc(
+    var(--pieces__padding__horizontal) + (var(--pieces__gap__vertical) + 48mm) * (var(--trim-line__order) - 1) - 0.5mm
+  );
 }
 
 .pieces > .trim-line.--left {
   left: 0;
-  top: calc(
-    var(--pieces__padding__horizontal) + (var(--pieces__gap__vertical) + 48mm) * (var(--trim-line__order) - 1) -
-      var(--pieces__gap__vertical)
-  );
 }
 
 .pieces > .trim-line.--right {
   right: 0;
-  top: calc(
-    var(--pieces__padding__horizontal) + (var(--pieces__gap__vertical) + 48mm) * (var(--trim-line__order) - 1) -
-      var(--pieces__gap__vertical)
-  );
 }
 
 @media screen {
@@ -102,6 +98,12 @@
   transform-style: preserve-3d;
   transition: transform 0.6s;
   box-shadow: 0 0 0.2cm 0 color-mix(in srgb, #000 25%, transparent);
+}
+
+@media print {
+  .piece-flip-wrapper > .piece-faces {
+    box-shadow: none;
+  }
 }
 
 .piece-flip-wrapper:active > .piece-faces {

@@ -1,7 +1,22 @@
 const symbols = [
-  'omu', 'xro', 'det', 'rod', 'ast', 'hex',
-  'ivo', 'tov', 'yax', 'vez', 'uyn', 'mun',
-  'sla', 'pit', 'edo', 'kaz', 'wir', 'nuf',
+  'omu',
+  'xro',
+  'det',
+  'rod',
+  'ast',
+  'hex',
+  'ivo',
+  'tov',
+  'yax',
+  'vez',
+  'uyn',
+  'mun',
+  'sla',
+  'pit',
+  'edo',
+  'kaz',
+  'wir',
+  'nuf',
 ];
 
 const points = [1, 2, 3, 4, 5, 6];
@@ -239,8 +254,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
   const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
   const colorfulCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('colorfulCheckbox'));
   const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
-  const printRowCount = /** @type {HTMLInputElement} */ (document.getElementById('printRowCount'));
-  const printColumnCount = /** @type {HTMLInputElement} */ (document.getElementById('printColumnCount'));
+  const printPageCount = /** @type {HTMLInputElement} */ (document.getElementById('printPageCount'));
   existingPieces.forEach((el) => el.remove());
 
   // 過濾
@@ -252,8 +266,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
   // 重新分組
   const chunkSize = Math.ceil(
     sortedPiecePropsArray.length /
-      (sortedPiecePropsArray.length /
-        (!printControlsCheckbox.checked ? 6 * 4 : Number(printRowCount.value) * Number(printColumnCount.value)))
+      (sortedPiecePropsArray.length / (!printControlsCheckbox.checked ? 6 * 4 : Number(printPageCount.value)))
   );
   const sortedPiecePropsArrays = [];
   for (let i = 0; i < sortedPiecePropsArray.length; i += chunkSize) {
@@ -607,6 +620,7 @@ colorfulCheckbox.addEventListener('change', () => {
 });
 // 列印控制
 function updatePrintSettings() {
+  const printBackground = /** @type {HTMLSelectElement} */ (document.getElementById('printBackground'));
   const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
   const printVerticalGap = /** @type {HTMLInputElement} */ (document.getElementById('printVerticalGap'));
   const printHorizontalGap = /** @type {HTMLInputElement} */ (document.getElementById('printHorizontalGap'));
@@ -620,6 +634,8 @@ function updatePrintSettings() {
   if (!printControlsCheckbox.checked) {
     return;
   }
+
+  document.body.style.backgroundColor = printBackground.value === 'white' ? '#fff' : '#000';
 
   const piecesElements = document.querySelectorAll('.pieces');
   piecesElements.forEach((piecesElement) => {
@@ -639,6 +655,7 @@ function updatePrintSettings() {
       {
         const trimLine = document.createElement('div');
         trimLine.classList.add('trim-line');
+        trimLine.classList.add(printBackground.value !== 'white' ? '-white' : '-black');
         trimLine.classList.add(`--top`);
         trimLine.style.setProperty('--trim-line__order', String(i + 1));
         piecesElement.appendChild(trimLine);
@@ -647,6 +664,7 @@ function updatePrintSettings() {
       {
         const trimLine = document.createElement('div');
         trimLine.classList.add('trim-line');
+        trimLine.classList.add(printBackground.value !== 'white' ? '-white' : '-black');
         trimLine.classList.add(`--bottom`);
         trimLine.style.setProperty('--trim-line__order', String(i + 1));
         piecesElement.appendChild(trimLine);
@@ -657,6 +675,7 @@ function updatePrintSettings() {
       {
         const trimLine = document.createElement('div');
         trimLine.classList.add('trim-line');
+        trimLine.classList.add(printBackground.value !== 'white' ? '-white' : '-black');
         trimLine.classList.add(`--left`);
         trimLine.style.setProperty('--trim-line__order', String(i + 1));
         piecesElement.appendChild(trimLine);
@@ -665,6 +684,7 @@ function updatePrintSettings() {
       {
         const trimLine = document.createElement('div');
         trimLine.classList.add('trim-line');
+        trimLine.classList.add(printBackground.value !== 'white' ? '-white' : '-black');
         trimLine.classList.add(`--right`);
         trimLine.style.setProperty('--trim-line__order', String(i + 1));
         piecesElement.appendChild(trimLine);
@@ -682,7 +702,8 @@ const printColumnCount = /** @type {HTMLInputElement} */ (document.getElementByI
 const printPageWidth = /** @type {HTMLInputElement} */ (document.getElementById('printPageWidth'));
 const printPageHeight = /** @type {HTMLInputElement} */ (document.getElementById('printPageHeight'));
 const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
-
+const printBackground = /** @type {HTMLSelectElement} */ (document.getElementById('printBackground'));
+const printPageCount = /** @type {HTMLInputElement} */ (document.getElementById('printPageCount'));
 printVerticalGap.addEventListener('input', () => {
   applyFiltersAndSort();
 });
@@ -699,7 +720,8 @@ printRowCount.addEventListener('input', () => applyFiltersAndSort());
 printColumnCount.addEventListener('input', () => applyFiltersAndSort());
 printPageWidth.addEventListener('input', () => applyFiltersAndSort());
 printPageHeight.addEventListener('input', () => applyFiltersAndSort());
+printPageCount.addEventListener('input', () => applyFiltersAndSort());
 printControlsCheckbox.addEventListener('change', () => applyFiltersAndSort());
-
+printBackground.addEventListener('change', () => applyFiltersAndSort());
 // 初始設定
 applyFiltersAndSort();

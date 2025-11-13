@@ -56,11 +56,11 @@
       <div class="print-controls-group">
         <label class="print-controls-input">
           <span>列印垂直間距(mm)</span>
-          <input type="number" id="printVerticalGap" value="1" />
+          <input type="number" id="printVerticalGap" value="0" />
         </label>
         <label class="print-controls-input">
           <span>列印水平間距(mm)</span>
-          <input type="number" id="printHorizontalGap" value="1" />
+          <input type="number" id="printHorizontalGap" value="0" />
         </label>
         <label class="print-controls-input">
           <span>列印垂直內距(mm)</span>
@@ -85,6 +85,17 @@
         <label class="print-controls-input">
           <span>每頁列印列數</span>
           <input type="number" id="printColumnCount" value="4" />
+        </label>
+        <label class="print-controls-input">
+          <span>每頁列印個數</span>
+          <input type="number" id="printPageCount" value="18" />
+        </label>
+        <label class="print-controls-input">
+          <span>列印背景顏色</span>
+          <select id="printBackground" class="print-controls-select">
+            <option value="white" selected>白色</option>
+            <option value="black">黑色</option>
+          </select>
         </label>
       </div>
     </div>
