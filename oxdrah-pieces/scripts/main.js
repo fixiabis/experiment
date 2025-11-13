@@ -58,13 +58,19 @@ const directionArrays = [
   ],
 ];
 
+const colors = ['crimson', 'royalblue', 'darkorange', 'seagreen', 'blueviolet', 'sienna'];
+
+const colorNames = ['紅', '藍', '橙', '綠', '紫', '棕'];
+
 const piecePropsArray = symbols.slice(0, 6).flatMap((_, symbolIndex) =>
   points.flatMap((point, pointIndex) =>
     directionArrays.map((directions, directionIndex) => ({
       symbol: symbols[symbolIndex + ((pointIndex + directionIndex) % 3) * 6],
+      color: colors[symbolIndex % 6],
       point,
       serial: point + directionIndex * points.length,
       direction: directions[pointIndex],
+      tiles: Math.floor((symbolIndex + ((pointIndex + directionIndex) % 3) * 6) / 6) + 1,
       bicolor: (symbolIndex < 6 ? symbolIndex % 2 === 0 : symbolIndex % 2 === 1)
         ? directionIndex % 2 === 0
           ? point % 2 === 0
@@ -94,26 +100,6 @@ for (let i = 0; i < piecePropsArray.length; i += chunkSize) {
 
 const bodyElement = /** @type {HTMLBodyElement} */ (document.querySelector('body'));
 
-// 獲取縱向值
-function getVerticalType(direction) {
-  const hasTop = direction.includes('top');
-  const hasBottom = direction.includes('bottom');
-  if (!hasTop && !hasBottom) return '無';
-  if (hasTop && hasBottom) return '上下';
-  if (hasTop) return '向上';
-  return '向下';
-}
-
-// 獲取橫向值
-function getHorizontalType(direction) {
-  const hasLeft = direction.includes('left');
-  const hasRight = direction.includes('right');
-  if (!hasLeft && !hasRight) return '無';
-  if (hasLeft && hasRight) return '左右';
-  if (hasLeft) return '向左';
-  return '向右';
-}
-
 // 排序函數
 function getSortValue(piece, sortField) {
   switch (sortField) {
@@ -128,14 +114,10 @@ function getSortValue(piece, sortField) {
       return piece.serial;
     case 'bicolor':
       return piece.bicolor === 'light' ? 0 : 1;
-    case 'vertical':
-      const verticalType = getVerticalType(piece.direction);
-      const verticalOrder = ['無', '向上', '向下', '上下'];
-      return verticalOrder.indexOf(verticalType);
-    case 'horizontal':
-      const horizontalType = getHorizontalType(piece.direction);
-      const horizontalOrder = ['無', '向左', '向右', '左右'];
-      return horizontalOrder.indexOf(horizontalType);
+    case 'color':
+      return colors.indexOf(piece.color);
+    case 'tiles':
+      return piece.tiles;
     default:
       return 0;
   }
@@ -213,17 +195,17 @@ function filterPieces(pieceArray, filterConfigs) {
         case 'direction':
           pieceValue = getDirectionType(piece.direction);
           break;
-        case 'vertical':
-          pieceValue = getVerticalType(piece.direction);
-          break;
-        case 'horizontal':
-          pieceValue = getHorizontalType(piece.direction);
-          break;
         case 'serial':
           pieceValue = piece.serial.toString();
           break;
         case 'bicolor':
           pieceValue = piece.bicolor;
+          break;
+        case 'color':
+          pieceValue = piece.color;
+          break;
+        case 'tiles':
+          pieceValue = piece.tiles.toString();
           break;
         default:
           return true;
@@ -376,28 +358,28 @@ function updateFilterValueOptions(valueSelect, fieldSelect) {
         valueSelect.appendChild(option);
       });
       break;
-    case 'vertical':
-      ['無', '向上', '向下', '上下'].forEach((ver) => {
-        const option = document.createElement('option');
-        option.value = ver;
-        option.textContent = ver;
-        valueSelect.appendChild(option);
-      });
-      break;
-    case 'horizontal':
-      ['無', '對左', '對右', '左右'].forEach((hor) => {
-        const option = document.createElement('option');
-        option.value = hor;
-        option.textContent = hor;
-        valueSelect.appendChild(option);
-      });
-      break;
     case 'serial':
       const uniqueSerials = [...new Set(piecePropsArray.map((p) => p.serial))].sort((a, b) => a - b);
       uniqueSerials.forEach((ser) => {
         const option = document.createElement('option');
         option.value = ser.toString();
         option.textContent = ser.toString();
+        valueSelect.appendChild(option);
+      });
+      break;
+    case 'color':
+      colors.forEach((color) => {
+        const option = document.createElement('option');
+        option.value = color;
+        option.textContent = colorNames[colors.indexOf(color)];
+        valueSelect.appendChild(option);
+      });
+      break;
+    case 'tiles':
+      [1, 2, 3].forEach((tiles) => {
+        const option = document.createElement('option');
+        option.value = tiles.toString();
+        option.textContent = tiles.toString();
         valueSelect.appendChild(option);
       });
       break;
@@ -422,11 +404,11 @@ function createFilterItem() {
           <option value="">選擇</option>
           <option value="symbol">符號</option>
           <option value="point">點數</option>
-          <option value="direction">方向</option>
-          <option value="vertical">縱向</option>
-          <option value="horizontal">橫向</option>
+          <option value="direction">向位</option>
           <option value="serial">序列</option>
           <option value="bicolor">雙色</option>
+          <option value="color">顏色</option>
+          <option value="tiles">磚紋</option>
         `;
 
   const operatorSelect = document.createElement('select');
@@ -510,11 +492,11 @@ function createSortItem() {
           <option value="">無</option>
           <option value="symbol">符號</option>
           <option value="point">點數</option>
-          <option value="direction">方向</option>
-          <option value="vertical">縱向</option>
-          <option value="horizontal">橫向</option>
+          <option value="direction">向位</option>
           <option value="serial">序列</option>
           <option value="bicolor">雙色</option>
+          <option value="color">顏色</option>
+          <option value="tiles">磚紋</option>
         `;
 
   const orderSelect = /** @type {HTMLSelectElement} */ (document.createElement('select'));

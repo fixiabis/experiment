@@ -42,39 +42,27 @@
   --piece__color__on-surface: hsl(0, 0%, 100%);
 }
 
-.piece.-colorful.-symbol-omu,
-.piece.-colorful.-symbol-ivo,
-.piece.-colorful.-symbol-sla {
+.piece.-colorful.-color-crimson {
   --piece__color__on-surface: crimson;
 }
 
-.piece.-colorful.-symbol-xro,
-.piece.-colorful.-symbol-tov,
-.piece.-colorful.-symbol-pit {
+.piece.-colorful.-color-royalblue {
   --piece__color__on-surface: royalblue;
 }
 
-.piece.-colorful.-symbol-det,
-.piece.-colorful.-symbol-yax,
-.piece.-colorful.-symbol-edo {
+.piece.-colorful.-color-darkorange {
   --piece__color__on-surface: darkorange;
 }
 
-.piece.-colorful.-symbol-rod,
-.piece.-colorful.-symbol-vez,
-.piece.-colorful.-symbol-kaz {
+.piece.-colorful.-color-seagreen {
   --piece__color__on-surface: seagreen;
 }
 
-.piece.-colorful.-symbol-ast,
-.piece.-colorful.-symbol-uyn,
-.piece.-colorful.-symbol-wir {
+.piece.-colorful.-color-blueviolet {
   --piece__color__on-surface: blueviolet;
 }
 
-.piece.-colorful.-symbol-hex,
-.piece.-colorful.-symbol-mun,
-.piece.-colorful.-symbol-nuf {
+.piece.-colorful.-color-sienna {
   --piece__color__on-surface: sienna;
 }
 
@@ -245,21 +233,34 @@
   transform: rotate(180deg);
 }
 
-.piece.-v2 > .piece-point-pattern.--top-right,
-.piece.-v2 > .piece-point-pattern.--bottom-left {
+.piece.-v2 > .piece-tiles {
   position: absolute;
-  width: 0.25cm;
-  height: 1.2cm;
+  width: 0.4cm;
+  height: 0.4cm;
 }
 
-.piece.-v2 > .piece-point-pattern.--top-right {
-  top: 0.3cm;
-  right: 0cm;
+.piece.-v2 > .piece-tiles.--top-right {
+  top: 1.1cm;
+  right: 1.1cm;
+  transform: rotate(0deg);
 }
 
-.piece.-v2 > .piece-point-pattern.--bottom-left {
-  bottom: 0.3cm;
-  left: 0cm;
+.piece.-v2 > .piece-tiles.--top-left {
+  top: 1.1cm;
+  left: 1.1cm;
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-tiles.--bottom-left {
+  bottom: 1.1cm;
+  left: 1.1cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-tiles.--bottom-right {
+  bottom: 1.1cm;
+  right: 1.1cm;
+  transform: rotate(90deg);
 }
 
 /* Piece Parts */
@@ -469,6 +470,31 @@
 
 .piece-serial.-v2 {
   font-weight: 300;
+}
+
+.piece-tiles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.piece-tiles > .piece-tile {
+  width: 0.2cm;
+  height: 0.2cm;
+}
+
+.piece-tile {
+  background-color: color-mix(in srgb, var(--piece__color__on-surface) 40%, transparent);
+}
+
+.piece-tile.-tiles-1.-order-1,
+.piece-tile.-tiles-1.-order-3,
+.piece-tile.-tiles-1.-order-4,
+.piece-tile.-tiles-2.-order-2,
+.piece-tile.-tiles-2.-order-3,
+.piece-tile.-tiles-3.-order-3 {
+  visibility: hidden;
 }
 
 /* Piece Back */

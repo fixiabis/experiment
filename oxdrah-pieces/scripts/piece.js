@@ -89,6 +89,7 @@ function createPieceElement(piece, options = {}) {
   const pieceElement = document.createElement('div');
   pieceElement.classList.add('piece');
   pieceElement.classList.add(`-${piece.bicolor}`);
+  pieceElement.classList.add(`-color-${piece.color}`);
   if (colorful) {
     pieceElement.classList.add('-colorful');
   }
@@ -146,9 +147,9 @@ function createPieceElementV2(piece, options = {}) {
   pieceElement.classList.add('piece');
   pieceElement.classList.add(`-${piece.bicolor}`);
   pieceElement.classList.add('-v2');
-  pieceElement.classList.add(`-symbol-${piece.symbol}`);
   if (colorful) {
     pieceElement.classList.add('-colorful');
+    pieceElement.classList.add(`-color-${piece.color}`);
   }
   pieceFacesElement.appendChild(pieceElement);
 
@@ -165,15 +166,6 @@ function createPieceElementV2(piece, options = {}) {
   pieceSymbolElement.innerHTML = pieceSymbolSvg;
   pieceElement.appendChild(pieceSymbolElement);
 
-  for (const direction of ['--top-right', '--bottom-left', '--top-left', '--bottom-right']) {
-    const pieceSymbolElement = document.createElement('div');
-    pieceSymbolElement.classList.add('piece-symbol');
-    pieceSymbolElement.classList.add('-v2');
-    pieceSymbolElement.classList.add(direction);
-    pieceSymbolElement.innerHTML = pieceSymbolSvg;
-    pieceElement.appendChild(pieceSymbolElement);
-  }
-
   piece.direction.forEach((direction) => {
     const pieceLinkElement = document.createElement('div');
     pieceLinkElement.classList.add('piece-link');
@@ -182,21 +174,49 @@ function createPieceElementV2(piece, options = {}) {
   });
 
   for (const direction of ['--top-right', '--bottom-left', '--top-left', '--bottom-right']) {
-    const piecePointsElement = document.createElement('div');
-    piecePointsElement.classList.add('piece-point');
-    piecePointsElement.classList.add('-v2');
-    piecePointsElement.classList.add(direction);
-    piecePointsElement.innerHTML = piecePointSvg;
-    pieceElement.appendChild(piecePointsElement);
-  }
+    {
+      const pieceSymbolElement = document.createElement('div');
+      pieceSymbolElement.classList.add('piece-symbol');
+      pieceSymbolElement.classList.add('-v2');
+      pieceSymbolElement.classList.add(direction);
+      pieceSymbolElement.innerHTML = pieceSymbolSvg;
+      pieceElement.appendChild(pieceSymbolElement);
+    }
 
-  for (const direction of ['--top-right', '--bottom-left', '--top-left', '--bottom-right']) {
-    const pieceSerialElement = document.createElement('div');
-    pieceSerialElement.classList.add('piece-serial');
-    pieceSerialElement.classList.add('-v2');
-    pieceSerialElement.classList.add(direction);
-    pieceSerialElement.textContent = piece.serial;
-    pieceElement.appendChild(pieceSerialElement);
+    {
+      const piecePointsElement = document.createElement('div');
+      piecePointsElement.classList.add('piece-point');
+      piecePointsElement.classList.add('-v2');
+      piecePointsElement.classList.add(direction);
+      piecePointsElement.innerHTML = piecePointSvg;
+      pieceElement.appendChild(piecePointsElement);
+    }
+
+    {
+      const pieceSerialElement = document.createElement('div');
+      pieceSerialElement.classList.add('piece-serial');
+      pieceSerialElement.classList.add('-v2');
+      pieceSerialElement.classList.add(direction);
+      pieceSerialElement.textContent = piece.serial;
+      pieceElement.appendChild(pieceSerialElement);
+    }
+
+    {
+      const pieceTilesElement = document.createElement('div');
+      pieceTilesElement.classList.add('piece-tiles');
+      pieceTilesElement.classList.add('-v2');
+      pieceTilesElement.classList.add(direction);
+
+      for (let i = 0; i < 4; i++) {
+        const pieceTileElement = document.createElement('div');
+        pieceTileElement.classList.add('piece-tile');
+        pieceTileElement.classList.add(`-order-${i + 1}`);
+        pieceTileElement.classList.add(`-tiles-${piece.tiles}`);
+        pieceTilesElement.appendChild(pieceTileElement);
+      }
+
+      pieceElement.appendChild(pieceTilesElement);
+    }
   }
 
   const pieceBackElement = document.createElement('div');
