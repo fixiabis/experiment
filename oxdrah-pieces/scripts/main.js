@@ -62,6 +62,10 @@ const colors = ['crimson', 'royalblue', 'darkorange', 'seagreen', 'blueviolet', 
 
 const colorNames = ['紅', '藍', '橙', '綠', '紫', '棕'];
 
+const seriesArray = ['oxdrah', 'ityvum', 'spekwn'];
+
+const seriesNames = ['奧斯達', '伊緹兀', '斯培坤'];
+
 const piecePropsArray = symbols.slice(0, 6).flatMap((_, symbolIndex) =>
   points.flatMap((point, pointIndex) =>
     directionArrays.map((directions, directionIndex) => ({
@@ -70,7 +74,7 @@ const piecePropsArray = symbols.slice(0, 6).flatMap((_, symbolIndex) =>
       point,
       serial: point + directionIndex * points.length,
       direction: directions[pointIndex],
-      tiles: Math.floor((symbolIndex + ((pointIndex + directionIndex) % 3) * 6) / 6) + 1,
+      series: seriesArray[Math.floor((symbolIndex + ((pointIndex + directionIndex) % 3) * 6) / 6)],
       bicolor: (symbolIndex < 6 ? symbolIndex % 2 === 0 : symbolIndex % 2 === 1)
         ? directionIndex % 2 === 0
           ? point % 2 === 0
@@ -116,8 +120,8 @@ function getSortValue(piece, sortField) {
       return piece.bicolor === 'light' ? 0 : 1;
     case 'color':
       return colors.indexOf(piece.color);
-    case 'tiles':
-      return piece.tiles;
+    case 'series':
+      return seriesArray.indexOf(piece.series);
     default:
       return 0;
   }
@@ -204,8 +208,8 @@ function filterPieces(pieceArray, filterConfigs) {
         case 'color':
           pieceValue = piece.color;
           break;
-        case 'tiles':
-          pieceValue = piece.tiles.toString();
+        case 'series':
+          pieceValue = piece.series;
           break;
         default:
           return true;
@@ -375,11 +379,11 @@ function updateFilterValueOptions(valueSelect, fieldSelect) {
         valueSelect.appendChild(option);
       });
       break;
-    case 'tiles':
-      [1, 2, 3].forEach((tiles) => {
+    case 'series':
+      seriesArray.forEach((series) => {
         const option = document.createElement('option');
-        option.value = tiles.toString();
-        option.textContent = tiles.toString();
+        option.value = series;
+        option.textContent = seriesNames[seriesArray.indexOf(series)];
         valueSelect.appendChild(option);
       });
       break;
@@ -387,7 +391,7 @@ function updateFilterValueOptions(valueSelect, fieldSelect) {
       ['light', 'dark'].forEach((bicolor) => {
         const option = document.createElement('option');
         option.value = bicolor;
-        option.textContent = bicolor === 'light' ? '淺色' : '深色';
+        option.textContent = bicolor === 'light' ? '白色' : '黑色';
         valueSelect.appendChild(option);
       });
       break;
@@ -402,13 +406,13 @@ function createFilterItem() {
   fieldSelect.classList.add('filter-controls-field');
   fieldSelect.innerHTML = `
           <option value="">選擇</option>
+          <option value="series">系列</option>
+          <option value="color">顏色</option>
           <option value="symbol">符號</option>
           <option value="point">點數</option>
           <option value="direction">向位</option>
           <option value="serial">序列</option>
-          <option value="bicolor">雙色</option>
-          <option value="color">顏色</option>
-          <option value="tiles">磚紋</option>
+          <option value="bicolor">底色</option>
         `;
 
   const operatorSelect = document.createElement('select');
@@ -489,14 +493,14 @@ function createSortItem() {
   const fieldSelect = /** @type {HTMLSelectElement} */ (document.createElement('select'));
   fieldSelect.classList.add('sort-controls-select');
   fieldSelect.innerHTML = `
-          <option value="">無</option>
+          <option value="">選擇</option>
+          <option value="series">系列</option>
+          <option value="color">顏色</option>
           <option value="symbol">符號</option>
           <option value="point">點數</option>
           <option value="direction">向位</option>
           <option value="serial">序列</option>
-          <option value="bicolor">雙色</option>
-          <option value="color">顏色</option>
-          <option value="tiles">磚紋</option>
+          <option value="bicolor">底色</option>
         `;
 
   const orderSelect = /** @type {HTMLSelectElement} */ (document.createElement('select'));

@@ -46,6 +46,12 @@ const dice5Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 
 const dice6Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice6-icon lucide-dice-6"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M16 12h.01"/><path d="M16 16h.01"/><path d="M8 8h.01"/><path d="M8 12h.01"/><path d="M8 16h.01"/></svg>`;
 
+const cornerBorder1Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice6-icon lucide-dice-6"><path d="M 4 4 A 16 16 90 0 1 20 20" /></svg>`;
+
+const cornerBorder2Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice6-icon lucide-dice-6"><path d="M 4 4 L 20 4 L 20 20" /></svg>`;
+
+const cornerBorder3Svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dice6-icon lucide-dice-6"><path d="M 4 4 L 12 4 L 20 12 L 20 20" /></svg>`;
+
 const pieceSymbolToSvg = {
   omu: circleSvg,
   xro: xSvg,
@@ -201,21 +207,31 @@ function createPieceElementV2(piece, options = {}) {
       pieceElement.appendChild(pieceSerialElement);
     }
 
+    // {
+    //   const pieceTilesElement = document.createElement('div');
+    //   pieceTilesElement.classList.add('piece-tiles');
+    //   pieceTilesElement.classList.add('-v2');
+    //   pieceTilesElement.classList.add(direction);
+
+    //   for (let i = 0; i < 4; i++) {
+    //     const pieceTileElement = document.createElement('div');
+    //     pieceTileElement.classList.add('piece-tile');
+    //     pieceTileElement.classList.add(`-order-${i + 1}`);
+    //     pieceTileElement.classList.add(`-tiles-${piece.series === 'oxdrah' ? 1 : piece.series === 'ituvum' ? 2 : 3}`);
+    //     pieceTilesElement.appendChild(pieceTileElement);
+    //   }
+
+    //   pieceElement.appendChild(pieceTilesElement);
+    // }
+
     {
-      const pieceTilesElement = document.createElement('div');
-      pieceTilesElement.classList.add('piece-tiles');
-      pieceTilesElement.classList.add('-v2');
-      pieceTilesElement.classList.add(direction);
-
-      for (let i = 0; i < 4; i++) {
-        const pieceTileElement = document.createElement('div');
-        pieceTileElement.classList.add('piece-tile');
-        pieceTileElement.classList.add(`-order-${i + 1}`);
-        pieceTileElement.classList.add(`-tiles-${piece.tiles}`);
-        pieceTilesElement.appendChild(pieceTileElement);
-      }
-
-      pieceElement.appendChild(pieceTilesElement);
+      const pieceCornerBorderElement = document.createElement('div');
+      pieceCornerBorderElement.classList.add('piece-corner-border');
+      pieceCornerBorderElement.classList.add('-v2');
+      pieceCornerBorderElement.classList.add(direction);
+      pieceCornerBorderElement.innerHTML =
+        piece.series === 'oxdrah' ? cornerBorder1Svg : piece.series === 'ituvum' ? cornerBorder2Svg : cornerBorder3Svg;
+      pieceElement.appendChild(pieceCornerBorderElement);
     }
   }
 

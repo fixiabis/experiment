@@ -263,6 +263,36 @@
   transform: rotate(90deg);
 }
 
+.piece.-v2 > .piece-corner-border {
+  position: absolute;
+  width: 0.6cm;
+  height: 0.6cm;
+}
+
+.piece.-v2 > .piece-corner-border.--top-right {
+  top: 1cm;
+  right: 1cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-corner-border.--top-left {
+  top: 1cm;
+  left: 1cm;
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-corner-border.--bottom-left {
+  bottom: 1cm;
+  left: 1cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-corner-border.--bottom-right {
+  bottom: 1cm;
+  right: 1cm;
+  transform: rotate(90deg);
+}
+
 /* Piece Parts */
 .piece-symbol {
   position: relative;
@@ -486,6 +516,15 @@
 
 .piece-tile {
   background-color: color-mix(in srgb, var(--piece__color__on-surface) 40%, transparent);
+}
+
+.piece-corner-border {
+  
+}
+
+.piece-corner-border > svg {
+  width: 100%;
+  height: 100%;
 }
 
 .piece-tile.-tiles-1.-order-1,
