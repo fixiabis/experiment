@@ -146,25 +146,25 @@
 .piece.-v2 > .piece-symbol.--top-right {
   top: 0.3cm;
   right: 0.3cm;
-  transform: rotate(0deg);
+  transform: rotate(270deg);
 }
 
 .piece.-v2 > .piece-symbol.--top-left {
   top: 0.3cm;
   left: 0.3cm;
-  transform: rotate(270deg);
+  transform: rotate(0deg);
 }
 
 .piece.-v2 > .piece-symbol.--bottom-left {
   bottom: 0.3cm;
   left: 0.3cm;
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 
 .piece.-v2 > .piece-symbol.--bottom-right {
   bottom: 0.3cm;
   right: 0.3cm;
-  transform: rotate(90deg);
+  transform: rotate(180deg);
 }
 
 .piece.-v2 > .piece-serial {
@@ -179,27 +179,27 @@
 }
 
 .piece.-v2 > .piece-serial.--top-right {
-  top: calc(0.3cm + 0.7cm);
-  right: 0.3cm;
-  transform: rotate(0deg);
+  top: 0.3cm;
+  right: calc(0.3cm + 0.7cm);
+  transform: rotate(90deg);
 }
 
 .piece.-v2 > .piece-serial.--top-left {
-  top: 0.3cm;
+  top: calc(0.3cm + 0.7cm);
+  left: 0.3cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-serial.--bottom-left {
+  bottom: 0.3cm;
   left: calc(0.3cm + 0.7cm);
   transform: rotate(270deg);
 }
 
-.piece.-v2 > .piece-serial.--bottom-left {
-  bottom: calc(0.3cm + 0.7cm);
-  left: 0.3cm;
-  transform: rotate(180deg);
-}
-
 .piece.-v2 > .piece-serial.--bottom-right {
-  bottom: 0.3cm;
-  right: calc(0.3cm + 0.7cm);
-  transform: rotate(90deg);
+  bottom: calc(0.3cm + 0.7cm);
+  right: 0.3cm;
+  transform: rotate(180deg);
 }
 
 .piece.-v2 > .piece-point {
@@ -210,27 +210,27 @@
 }
 
 .piece.-v2 > .piece-point.--top-right {
-  top: 0.3cm;
-  right: calc(0.3cm + 0.7cm);
-  transform: rotate(90deg);
-}
-
-.piece.-v2 > .piece-point.--top-left {
   top: calc(0.3cm + 0.7cm);
-  left: 0.3cm;
+  right: 0.3cm;
   transform: rotate(0deg);
 }
 
-.piece.-v2 > .piece-point.--bottom-left {
-  bottom: 0.3cm;
+.piece.-v2 > .piece-point.--top-left {
+  top: 0.3cm;
   left: calc(0.3cm + 0.7cm);
   transform: rotate(270deg);
 }
 
-.piece.-v2 > .piece-point.--bottom-right {
+.piece.-v2 > .piece-point.--bottom-left {
   bottom: calc(0.3cm + 0.7cm);
-  right: 0.3cm;
+  left: 0.3cm;
   transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-point.--bottom-right {
+  bottom: 0.3cm;
+  right: calc(0.3cm + 0.7cm);
+  transform: rotate(90deg);
 }
 
 .piece.-v2 > .piece-tiles {
