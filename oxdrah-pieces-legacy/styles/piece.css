@@ -1,0 +1,577 @@
+/* Piece Faces */
+.piece-faces {
+  position: relative;
+
+  border-radius: 0.4cm;
+}
+
+.piece-faces > .piece,
+.piece-faces > .piece-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.piece-faces > .piece-back {
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+/* Piece */
+.piece {
+  --piece__color__surface: hsl(0, 0%, 100%);
+  --piece__color__on-surface: hsl(0, 0%, 0%);
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.4cm;
+  color: var(--piece__color__on-surface);
+  background-color: var(--piece__color__surface);
+
+  overflow: hidden;
+}
+
+.piece.-dark {
+  --piece__color__surface: hsl(0, 0%, 0%);
+  --piece__color__on-surface: hsl(0, 0%, 100%);
+}
+
+.piece.-colorful.-color-crimson {
+  --piece__color__on-surface: crimson;
+}
+
+.piece.-colorful.-color-royalblue {
+  --piece__color__on-surface: royalblue;
+}
+
+.piece.-colorful.-color-darkorange {
+  --piece__color__on-surface: darkorange;
+}
+
+.piece.-colorful.-color-seagreen {
+  --piece__color__on-surface: seagreen;
+}
+
+.piece.-colorful.-color-blueviolet {
+  --piece__color__on-surface: blueviolet;
+}
+
+.piece.-colorful.-color-sienna {
+  --piece__color__on-surface: sienna;
+}
+
+.piece > .piece-symbol {
+  width: 2.2cm;
+  height: 2.2cm;
+}
+
+.piece > .piece-point {
+  width: 1cm;
+  height: 1cm;
+
+  position: absolute;
+  bottom: 0.4cm;
+  left: 0.4cm;
+
+  transform: rotate(180deg);
+  backface-visibility: hidden;
+}
+
+.piece > .piece-link {
+  --piece-link__width: 0.35cm;
+  --piece-link__height: 0.7cm;
+  --piece-link__color: color-mix(in srgb, var(--piece__color__on-surface) 75%, transparent);
+
+  position: absolute;
+}
+
+.piece > .piece-link.--top,
+.piece > .piece-link.--bottom {
+  width: var(--piece-link__width);
+  height: var(--piece-link__height);
+
+  left: calc(50% - var(--piece-link__width) / 2);
+}
+
+.piece > .piece-link.--top {
+  top: 0;
+}
+
+.piece > .piece-link.--bottom {
+  bottom: 0;
+}
+
+.piece > .piece-link.--left,
+.piece > .piece-link.--right {
+  width: var(--piece-link__height);
+  height: var(--piece-link__width);
+
+  top: calc(50% - var(--piece-link__width) / 2);
+}
+
+.piece > .piece-link.--left {
+  left: 0;
+}
+
+.piece > .piece-link.--right {
+  right: 0;
+}
+
+.piece > .piece-serial {
+  width: 1cm;
+  height: 1cm;
+
+  position: absolute;
+  top: 0.4cm;
+  right: 0.4cm;
+
+  user-select: none;
+}
+
+.piece.-v2 > .piece-symbol.--top-right,
+.piece.-v2 > .piece-symbol.--top-left,
+.piece.-v2 > .piece-symbol.--bottom-left,
+.piece.-v2 > .piece-symbol.--bottom-right {
+  position: absolute;
+  width: 0.6cm;
+  height: 0.6cm;
+}
+
+.piece.-v2 > .piece-symbol.--top-right {
+  top: 0.3cm;
+  right: 0.3cm;
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-symbol.--top-left {
+  top: 0.3cm;
+  left: 0.3cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-symbol.--bottom-left {
+  bottom: 0.3cm;
+  left: 0.3cm;
+  transform: rotate(90deg);
+}
+
+.piece.-v2 > .piece-symbol.--bottom-right {
+  bottom: 0.3cm;
+  right: 0.3cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-serial {
+  --piece-serial__font-size: 0.5cm;
+
+  position: absolute;
+  top: unset;
+  right: unset;
+
+  width: 0.6cm;
+  height: 0.6cm;
+}
+
+.piece.-v2 > .piece-serial.--top-right {
+  top: 0.3cm;
+  right: calc(0.3cm + 0.7cm);
+  transform: rotate(90deg);
+}
+
+.piece.-v2 > .piece-serial.--top-left {
+  top: calc(0.3cm + 0.7cm);
+  left: 0.3cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-serial.--bottom-left {
+  bottom: 0.3cm;
+  left: calc(0.3cm + 0.7cm);
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-serial.--bottom-right {
+  bottom: calc(0.3cm + 0.7cm);
+  right: 0.3cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-point {
+  width: 0.6cm;
+  height: 0.6cm;
+  bottom: unset;
+  left: unset;
+}
+
+.piece.-v2 > .piece-point.--top-right {
+  top: calc(0.3cm + 0.7cm);
+  right: 0.3cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-point.--top-left {
+  top: 0.3cm;
+  left: calc(0.3cm + 0.7cm);
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-point.--bottom-left {
+  bottom: calc(0.3cm + 0.7cm);
+  left: 0.3cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-point.--bottom-right {
+  bottom: 0.3cm;
+  right: calc(0.3cm + 0.7cm);
+  transform: rotate(90deg);
+}
+
+.piece.-v2 > .piece-tiles {
+  position: absolute;
+  width: 0.4cm;
+  height: 0.4cm;
+}
+
+.piece.-v2 > .piece-tiles.--top-right {
+  top: 1.1cm;
+  right: 1.1cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-tiles.--top-left {
+  top: 1.1cm;
+  left: 1.1cm;
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-tiles.--bottom-left {
+  bottom: 1.1cm;
+  left: 1.1cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-tiles.--bottom-right {
+  bottom: 1.1cm;
+  right: 1.1cm;
+  transform: rotate(90deg);
+}
+
+.piece.-v2 > .piece-corner-border {
+  position: absolute;
+  width: 0.6cm;
+  height: 0.6cm;
+}
+
+.piece.-v2 > .piece-corner-border.--top-right {
+  top: 1cm;
+  right: 1cm;
+  transform: rotate(0deg);
+}
+
+.piece.-v2 > .piece-corner-border.--top-left {
+  top: 1cm;
+  left: 1cm;
+  transform: rotate(270deg);
+}
+
+.piece.-v2 > .piece-corner-border.--bottom-left {
+  bottom: 1cm;
+  left: 1cm;
+  transform: rotate(180deg);
+}
+
+.piece.-v2 > .piece-corner-border.--bottom-right {
+  bottom: 1cm;
+  right: 1cm;
+  transform: rotate(90deg);
+}
+
+/* Piece Parts */
+.piece-symbol {
+  position: relative;
+}
+
+.piece-symbol.-striped-cut {
+  --piece-symbol__striped-cut-angle: 150deg;
+  mask-mode: luminance;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%,
+    white 75%,
+    black 75%,
+    black 80%,
+    white 80%
+  );
+  mask-size: 100% 100%;
+}
+
+.piece-symbol.-striped-cut.-symbol-xro {
+  --piece-symbol__striped-cut-angle: 103deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-det {
+  --piece-symbol__striped-cut-angle: 120deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-rod {
+  --piece-symbol__striped-cut-angle: 115deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-ast {
+  --piece-symbol__striped-cut-angle: 150deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 60%,
+    black 60%,
+    black 65%,
+    white 65%,
+    white 70%,
+    black 70%,
+    black 75%,
+    white 75%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-hex {
+  --piece-symbol__striped-cut-angle: 120deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 60%,
+    black 60%,
+    black 65%,
+    white 65%,
+    white 70%,
+    black 70%,
+    black 75%,
+    white 75%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-ivo {
+  --piece-symbol__striped-cut-angle: 180deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-tov {
+  --piece-symbol__striped-cut-angle: 140deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-yax {
+  --piece-symbol__striped-cut-angle: 110deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-vez {
+  --piece-symbol__striped-cut-angle: 100deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-uyn {
+  --piece-symbol__striped-cut-angle: 130deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-mun {
+  --piece-symbol__striped-cut-angle: 110deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-sla {
+  --piece-symbol__striped-cut-angle: 180deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-pit {
+  --piece-symbol__striped-cut-angle: 165deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-edo {
+  --piece-symbol__striped-cut-angle: 145deg;
+  mask-image: linear-gradient(
+    var(--piece-symbol__striped-cut-angle),
+    white 55%,
+    black 55%,
+    black 60%,
+    white 60%,
+    white 65%,
+    black 65%,
+    black 70%,
+    white 70%
+  );
+}
+
+.piece-symbol.-striped-cut.-symbol-kaz {
+  --piece-symbol__striped-cut-angle: 170deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-wir {
+  --piece-symbol__striped-cut-angle: 165deg;
+}
+
+.piece-symbol.-striped-cut.-symbol-nuf {
+  --piece-symbol__striped-cut-angle: 145deg;
+}
+
+.piece-symbol > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.piece-symbol.-v2 > svg {
+  stroke-width: 1.5;
+}
+
+.piece-point {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.piece-point > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.piece-point.-v2 > svg {
+  stroke-width: 1.5;
+}
+
+.piece-link {
+  background-color: var(--piece-link__color, rgba(127, 127, 127, 1));
+}
+
+.piece-serial {
+  --piece-serial__font-size: 0.7cm;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--piece-serial__font-size);
+  font-weight: 500;
+}
+
+.piece-serial.-v2 {
+  font-weight: 300;
+}
+
+.piece-tiles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.piece-tiles > .piece-tile {
+  width: 0.2cm;
+  height: 0.2cm;
+}
+
+.piece-tile {
+  background-color: color-mix(in srgb, var(--piece__color__on-surface) 40%, transparent);
+}
+
+.piece-corner-border {
+  
+}
+
+.piece-corner-border > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.piece-tile.-tiles-1.-order-1,
+.piece-tile.-tiles-1.-order-3,
+.piece-tile.-tiles-1.-order-4,
+.piece-tile.-tiles-2.-order-2,
+.piece-tile.-tiles-2.-order-3,
+.piece-tile.-tiles-3.-order-3 {
+  visibility: hidden;
+}
+
+/* Piece Back */
+.piece-back {
+  --piece-back__color__on-surface: hsl(0, 0%, 100%);
+  --piece-back__color__surface: hsl(0, 0%, 0%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.4cm;
+
+  background-image: linear-gradient(
+    150deg,
+    var(--piece-back__color__on-surface) 50%,
+    var(--piece-back__color__surface) 50%
+  );
+}
+
+.piece-back > .piece-back-text {
+  mix-blend-mode: difference;
+  user-select: none;
+}
+
+/* Piece Back Parts */
+.piece-back-text {
+  padding: 0.2cm;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Sono', sans-serif;
+  font-size: 1cm;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+
+  color: var(--piece-back__color__on-surface);
+}

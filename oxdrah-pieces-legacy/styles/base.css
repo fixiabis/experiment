@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding-inline: 0.2cm;
+}
+
+@media print {
+  body {
+    padding: 0;
+  }
+}

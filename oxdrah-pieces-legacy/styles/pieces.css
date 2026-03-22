@@ -38,7 +38,7 @@
   width: 1mm;
   height: calc(var(--pieces__padding__vertical) - 1mm);
   left: calc(
-    var(--pieces__padding__horizontal) + (var(--pieces__gap__horizontal) + 48mm) * (var(--trim-line__order) - 1) - 0.5mm
+    var(--pieces__padding__vertical) + (var(--pieces__gap__horizontal) + 48mm) * (var(--trim-line__order) - 1) - 0.5mm
   );
 }
 
@@ -55,7 +55,7 @@
   width: calc(var(--pieces__padding__horizontal) - 1mm);
   height: 1mm;
   top: calc(
-    var(--pieces__padding__vertical) + (var(--pieces__gap__vertical) + 48mm) * (var(--trim-line__order) - 1) - 0.5mm
+    var(--pieces__padding__horizontal) + (var(--pieces__gap__vertical) + 48mm) * (var(--trim-line__order) - 1) - 0.5mm
   );
 }
 

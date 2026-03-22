@@ -1,27 +1,56 @@
-const symbols = ['omu', 'xro', 'det', 'rod', 'ast', 'hex', 'ivo', 'tov', 'yax', 'vez', 'uyn', 'mun'];
+const symbols = [
+  'omu',
+  'xro',
+  'det',
+  'rod',
+  'ast',
+  'hex',
+  'ivo',
+  'tov',
+  'yax',
+  'vez',
+  'uyn',
+  'mun',
+  'sla',
+  'pit',
+  'edo',
+  'kaz',
+  'wir',
+  'nuf',
+];
+
+const points = [1, 2, 3, 4, 5, 6];
 
 const directionArrays = [
   [[], [], [], [], [], []],
-  [['top'], ['bottom'], ['left'], ['right']],
+  [['top'], ['bottom'], ['left'], ['right'], ['bottom'], ['right']],
   [
     ['top', 'left'],
     ['top', 'right'],
     ['bottom', 'left'],
     ['bottom', 'right'],
+    ['bottom', 'left'],
+    ['top', 'right'],
   ],
   [
     ['top', 'bottom'],
     ['top', 'bottom'],
     ['left', 'right'],
     ['left', 'right'],
+    ['left', 'right'],
+    ['top', 'bottom'],
   ],
   [
     ['top', 'bottom', 'right'],
     ['top', 'bottom', 'left'],
     ['top', 'left', 'right'],
     ['bottom', 'left', 'right'],
+    ['top', 'left', 'right'],
+    ['top', 'bottom', 'left'],
   ],
   [
+    ['top', 'bottom', 'left', 'right'],
+    ['top', 'bottom', 'left', 'right'],
     ['top', 'bottom', 'left', 'right'],
     ['top', 'bottom', 'left', 'right'],
     ['top', 'bottom', 'left', 'right'],
@@ -33,26 +62,39 @@ const colors = ['crimson', 'royalblue', 'darkorange', 'seagreen', 'blueviolet', 
 
 const colorNames = ['紅', '藍', '橙', '綠', '紫', '棕'];
 
-const seriesArray = ['oxdrah', 'ityvum'];
+const seriesArray = ['oxdrah', 'ityvum', 'spekwn'];
 
-const seriesNames = ['奧斯達', '伊緹兀'];
+const seriesNames = ['奧斯達', '伊緹兀', '斯培坤'];
 
 const piecePropsArray = symbols.slice(0, 6).flatMap((_, symbolIndex) =>
-  seriesArray.flatMap((series, seriesIndex) =>
-    [0, 1].flatMap((_, bicolorIndex) =>
-      directionArrays.map((directions, directionIndex) => ({
-        symbol: symbols[symbolIndex + seriesIndex * 6],
-        color: colors[symbolIndex % 6],
-        direction: directions[0],
-        bicolor: ['light', 'dark'][bicolorIndex],
-        series: series,
-        serial: (seriesIndex === 0 ? bicolorIndex : 1 - bicolorIndex) + 1 + directionIndex * 2,
-      })),
-    ),
-  ),
+  points.flatMap((point, pointIndex) =>
+    directionArrays.map((directions, directionIndex) => ({
+      symbol: symbols[symbolIndex + ((pointIndex + directionIndex) % 3) * 6],
+      color: colors[symbolIndex % 6],
+      point,
+      serial: point + directionIndex * points.length,
+      direction: directions[pointIndex],
+      series: seriesArray[Math.floor((symbolIndex + ((pointIndex + directionIndex) % 3) * 6) / 6)],
+      bicolor: (symbolIndex < 6 ? symbolIndex % 2 === 0 : symbolIndex % 2 === 1)
+        ? directionIndex % 2 === 0
+          ? point % 2 === 0
+            ? 'dark'
+            : 'light'
+          : point % 2 === 0
+          ? 'light'
+          : 'dark'
+        : directionIndex % 2 === 0
+        ? point % 2 === 0
+          ? 'light'
+          : 'dark'
+        : point % 2 === 0
+        ? 'dark'
+        : 'light',
+    }))
+  )
 );
 
-const chunkSize = 24;
+const chunkSize = Math.ceil(piecePropsArray.length / 9);
 
 const piecePropsArrays = [];
 
@@ -67,6 +109,8 @@ function getSortValue(piece, sortField) {
   switch (sortField) {
     case 'symbol':
       return symbols.indexOf(piece.symbol);
+    case 'point':
+      return piece.point;
     case 'direction':
       const sortedDir = [...piece.direction].sort().join(',');
       return piece.direction.length * 1000 + sortedDir.localeCompare('');
@@ -149,6 +193,9 @@ function filterPieces(pieceArray, filterConfigs) {
         case 'symbol':
           pieceValue = piece.symbol;
           break;
+        case 'point':
+          pieceValue = piece.point.toString();
+          break;
         case 'direction':
           pieceValue = getDirectionType(piece.direction);
           break;
@@ -189,6 +236,7 @@ function filterPieces(pieceArray, filterConfigs) {
 // 渲染 pieces 的函數
 function renderPieces(sortConfigs = [], filterConfigs = []) {
   const existingPieces = document.querySelectorAll('.pieces');
+  const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
   const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
   const colorfulCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('colorfulCheckbox'));
   const printControlsCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('printControlsCheckbox'));
@@ -204,15 +252,18 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
   // 重新分組
   const chunkSize = Math.ceil(
     sortedPiecePropsArray.length /
-      (sortedPiecePropsArray.length / (!printControlsCheckbox.checked ? 6 * 4 : Number(printPageCount.value))),
+      (sortedPiecePropsArray.length / (!printControlsCheckbox.checked ? 6 * 4 : Number(printPageCount.value)))
   );
   const sortedPiecePropsArrays = [];
   for (let i = 0; i < sortedPiecePropsArray.length; i += chunkSize) {
     sortedPiecePropsArrays.push(sortedPiecePropsArray.slice(i, i + chunkSize));
   }
 
+  const selectedVersion = versionSelect.value;
   const stripedCut = stripedCutCheckbox.checked;
   const colorful = colorfulCheckbox.checked;
+  // 根據版本選擇對應的創建函數
+  const createElement = selectedVersion === 'v2' ? createPieceElementV2 : createPieceElement;
 
   // 重新生成 DOM
   sortedPiecePropsArrays.forEach((piecePropsArray) => {
@@ -221,7 +272,7 @@ function renderPieces(sortConfigs = [], filterConfigs = []) {
     bodyElement.appendChild(piecesElement);
 
     piecePropsArray.forEach((piece) => {
-      const pieceElement = createPieceElement(piece, { stripedCut, colorful });
+      const pieceElement = createElement(piece, { stripedCut, colorful });
       piecesElement.appendChild(pieceElement);
     });
   });
@@ -258,28 +309,48 @@ function updateFilterValueOptions(valueSelect, fieldSelect) {
           sym === 'omu'
             ? '圈圈'
             : sym === 'xro'
-              ? '交叉'
-              : sym === 'det'
-                ? '三角'
-                : sym === 'rod'
-                  ? '方形'
-                  : sym === 'ast'
-                    ? '五芒'
-                    : sym === 'hex'
-                      ? '六邊'
-                      : sym === 'ivo'
-                        ? '斜線'
-                        : sym === 'tov'
-                          ? '加號'
-                          : sym === 'yax'
-                            ? '星號'
-                            : sym === 'vez'
-                              ? '菱形'
-                              : sym === 'uyn'
-                                ? '五邊'
-                                : sym === 'mun'
-                                  ? '六芒'
-                                  : '';
+            ? '交叉'
+            : sym === 'det'
+            ? '三角'
+            : sym === 'rod'
+            ? '方形'
+            : sym === 'ast'
+            ? '五芒'
+            : sym === 'hex'
+            ? '六邊'
+            : sym === 'ivo'
+            ? '斜線'
+            : sym === 'tov'
+            ? '加號'
+            : sym === 'yax'
+            ? '星號'
+            : sym === 'vez'
+            ? '菱形'
+            : sym === 'uyn'
+            ? '五邊'
+            : sym === 'mun'
+            ? '六芒'
+            : sym === 'sla'
+            ? '閃電'
+            : sym === 'pit'
+            ? '圈線'
+            : sym === 'edo'
+            ? '雙十'
+            : sym === 'kaz'
+            ? '米字'
+            : sym === 'wir'
+            ? '菱線'
+            : sym === 'nuf'
+            ? '方叉'
+            : '';
+        valueSelect.appendChild(option);
+      });
+      break;
+    case 'point':
+      points.forEach((pt) => {
+        const option = document.createElement('option');
+        option.value = pt.toString();
+        option.textContent = pt.toString();
         valueSelect.appendChild(option);
       });
       break;
@@ -338,6 +409,7 @@ function createFilterItem() {
           <option value="series">系列</option>
           <option value="color">顏色</option>
           <option value="symbol">符號</option>
+          <option value="point">點數</option>
           <option value="direction">向位</option>
           <option value="serial">序列</option>
           <option value="bicolor">底色</option>
@@ -425,6 +497,7 @@ function createSortItem() {
           <option value="series">系列</option>
           <option value="color">顏色</option>
           <option value="symbol">符號</option>
+          <option value="point">點數</option>
           <option value="direction">向位</option>
           <option value="serial">序列</option>
           <option value="bicolor">底色</option>
@@ -519,8 +592,12 @@ addFilterButton.addEventListener('click', () => {
 });
 
 // 外觀控制
+const versionSelect = /** @type {HTMLSelectElement} */ (document.getElementById('versionSelect'));
 const stripedCutCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('stripedCutCheckbox'));
 const colorfulCheckbox = /** @type {HTMLInputElement} */ (document.getElementById('colorfulCheckbox'));
+versionSelect.addEventListener('change', () => {
+  applyFiltersAndSort();
+});
 stripedCutCheckbox.addEventListener('change', () => {
   applyFiltersAndSort();
 });
@@ -544,7 +621,7 @@ function updatePrintSettings() {
     return;
   }
 
-  document.body.style.backgroundColor = printBackground.value === 'white' ? '#f7f7f7' : '#080808';
+  document.body.style.backgroundColor = printBackground.value === 'white' ? '#fff' : '#000';
 
   const piecesElements = document.querySelectorAll('.pieces');
   piecesElements.forEach((piecesElement) => {

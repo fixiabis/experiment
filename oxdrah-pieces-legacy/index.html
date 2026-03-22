@@ -15,7 +15,7 @@
   <body>
     <div class="pieces-header">OXDRAH PIECES</div>
     <div class="appearance-controls">
-      <label class="appearance-controls-title">外觀選擇</label>
+      <label class="appearance-controls-title" for="versionSelect">外觀選擇</label>
       <div class="appearance-controls-group">
         <label class="appearance-controls-checkbox-label">
           <input type="checkbox" id="stripedCutCheckbox" class="appearance-controls-checkbox" checked />
@@ -25,6 +25,10 @@
           <input type="checkbox" id="colorfulCheckbox" class="appearance-controls-checkbox" checked />
           <span>彩色</span>
         </label>
+        <select id="versionSelect" class="appearance-controls-select">
+          <option value="v1">版本 1</option>
+          <option value="v2" selected>版本 2</option>
+        </select>
       </div>
     </div>
     <div class="sort-controls">
@@ -60,11 +64,11 @@
         </label>
         <label class="print-controls-input">
           <span>列印垂直內距(mm)</span>
-          <input type="number" id="printVerticalPadding" value="9" />
+          <input type="number" id="printVerticalPadding" value="7.5" />
         </label>
         <label class="print-controls-input">
           <span>列印水平內距(mm)</span>
-          <input type="number" id="printHorizontalPadding" value="4.5" />
+          <input type="number" id="printHorizontalPadding" value="7.5" />
         </label>
         <label class="print-controls-input">
           <span>每頁列印寬度(mm)</span>
@@ -76,7 +80,7 @@
         </label>
         <label class="print-controls-input">
           <span>每頁列印行數</span>
-          <input type="number" id="printRowCount" value="6" />
+          <input type="number" id="printRowCount" value="5" />
         </label>
         <label class="print-controls-input">
           <span>每頁列印列數</span>
@@ -84,7 +88,7 @@
         </label>
         <label class="print-controls-input">
           <span>每頁列印個數</span>
-          <input type="number" id="printPageCount" value="24" />
+          <input type="number" id="printPageCount" value="18" />
         </label>
         <label class="print-controls-input">
           <span>列印背景顏色</span>
