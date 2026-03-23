@@ -37,17 +37,29 @@ const seriesArray = ['oxdrah', 'ityvum'];
 
 const seriesNames = ['奧斯達', '伊緹兀'];
 
-const piecePropsArray = symbols.slice(0, 6).flatMap((_, symbolIndex) =>
+const bicolors = ['light', 'dark'];
+
+const piecePropsArray = colors.flatMap((color, colorIndex) =>
   seriesArray.flatMap((series, seriesIndex) =>
-    [0, 1].flatMap((_, bicolorIndex) =>
-      directionArrays.map((directions, directionIndex) => ({
-        symbol: symbols[symbolIndex + seriesIndex * 6],
-        color: colors[symbolIndex % 6],
-        direction: directions[0],
-        bicolor: ['light', 'dark'][bicolorIndex],
-        series: series,
-        serial: (seriesIndex === 0 ? bicolorIndex : 1 - bicolorIndex) + 1 + directionIndex * 2,
-      })),
+    bicolors.flatMap((bicolor, bicolorIndex) =>
+      directionArrays.map((directions, directionIndex) => {
+        const symbol = symbols[colorIndex + seriesIndex * 6];
+        const direction = directions[seriesIndex * 2 + bicolorIndex];
+
+        const serial =
+          bicolorIndex === seriesIndex
+            ? (((directionIndex + colorIndex) * 2) % 12) + 1
+            : ((-(directionIndex + colorIndex) * 2) % 12) + 12;
+
+        return {
+          symbol,
+          color,
+          direction,
+          bicolor,
+          series,
+          serial,
+        };
+      }),
     ),
   ),
 );
