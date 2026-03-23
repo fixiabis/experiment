@@ -88,6 +88,7 @@ function createPieceElement(piece, options = {}) {
       const pieceSerialElement = document.createElement('div');
       pieceSerialElement.classList.add('piece-serial');
       pieceSerialElement.classList.add('-v2');
+      pieceSerialElement.classList.add(`-serial-${piece.serial}`);
       pieceSerialElement.classList.add(direction);
       pieceSerialElement.textContent = piece.serial;
       pieceElement.appendChild(pieceSerialElement);

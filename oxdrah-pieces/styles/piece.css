@@ -168,7 +168,7 @@
 }
 
 .piece.-v2 > .piece-serial {
-  --piece-serial__font-size: 0.5cm;
+  --piece-serial__font-size: 0.6cm;
 
   position: absolute;
   top: unset;
@@ -498,6 +498,11 @@
   font-weight: 500;
 }
 
+.piece-serial.-serial-6,
+.piece-serial.-serial-9 {
+  text-decoration: underline;
+}
+
 .piece-serial.-v2 {
   font-weight: 300;
 }
@@ -519,7 +524,6 @@
 }
 
 .piece-corner-border {
-  
 }
 
 .piece-corner-border > svg {
