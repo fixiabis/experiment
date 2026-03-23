@@ -146,7 +146,7 @@
 .piece.-v2 > .piece-symbol.--top-right {
   top: 0.3cm;
   right: 0.3cm;
-  transform: rotate(270deg);
+  transform: rotate(90deg);
 }
 
 .piece.-v2 > .piece-symbol.--top-left {
@@ -158,7 +158,7 @@
 .piece.-v2 > .piece-symbol.--bottom-left {
   bottom: 0.3cm;
   left: 0.3cm;
-  transform: rotate(90deg);
+  transform: rotate(270deg);
 }
 
 .piece.-v2 > .piece-symbol.--bottom-right {
