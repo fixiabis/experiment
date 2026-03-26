@@ -249,6 +249,32 @@
       display: block;
     }
 
+    .autoplay-btn {
+      height: 28px;
+      padding: 0 8px;
+      border: none;
+      border-radius: 6px;
+      background: #3a3a3a;
+      color: #888;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .autoplay-btn:hover {
+      background: #4a4a4a;
+      color: #ccc;
+    }
+
+    .autoplay-btn.active {
+      background: #1a4a2e;
+      color: #4caf7a;
+    }
+
     /* 隱藏的 file input */
     #file-input {
       display: none;
@@ -273,7 +299,10 @@
   <aside class="playlist-section">
     <header class="playlist-header">
       <h2>播放清單</h2>
-      <button class="add-btn" id="add-btn" title="新增影片">+</button>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="autoplay-btn" id="autoplay-btn" title="自動播放下一部">自動播放</button>
+        <button class="add-btn" id="add-btn" title="新增影片">+</button>
+      </div>
     </header>
     <div class="playlist-items" id="playlist-items">
       <div class="playlist-empty" id="playlist-empty">
@@ -291,11 +320,22 @@
     const playlistEmpty = document.getElementById('playlist-empty');
     const addBtn = document.getElementById('add-btn');
     const fileInput = document.getElementById('file-input');
+    const autoplayBtn = document.getElementById('autoplay-btn');
 
     // 目前播放清單：[{ name, size, url }]
     let items = [];
     let activeIndex = -1;
     let dragIndex = -1;
+
+    autoplayBtn.addEventListener('click', () => {
+      autoplayBtn.classList.toggle('active');
+    });
+
+    video.addEventListener('ended', () => {
+      if (!autoplayBtn.classList.contains('active')) return;
+      const next = (activeIndex + 1) % items.length;
+      playItem(next);
+    });
 
     addBtn.addEventListener('click', () => fileInput.click());
 
