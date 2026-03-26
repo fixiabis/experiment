@@ -331,6 +331,31 @@
       autoplayBtn.classList.toggle('active');
     });
 
+    // play/pause 連按計數：1下=正常、2下=+10秒、3下=+30秒
+    let pressCount = 0;
+    let pressTimer = null;
+    let ignorePressEvent = false;
+
+    function seek(seconds) {
+      video.currentTime = Math.max(0, video.currentTime + seconds);
+      ignorePressEvent = true;
+      video.play().finally(() => { ignorePressEvent = false; });
+    }
+
+    function onPlayPausePress() {
+      if (ignorePressEvent) return;
+      pressCount++;
+      clearTimeout(pressTimer);
+      pressTimer = setTimeout(() => {
+        if (pressCount === 2) seek(10);
+        else if (pressCount >= 3) seek(30);
+        pressCount = 0;
+      }, 300);
+    }
+
+    video.addEventListener('play', onPlayPausePress);
+    video.addEventListener('pause', onPlayPausePress);
+
     video.addEventListener('ended', () => {
       if (!autoplayBtn.classList.contains('active')) return;
       const next = (activeIndex + 1) % items.length;
@@ -363,7 +388,8 @@
       video.src = item.url;
       video.style.display = 'block';
       placeholder.style.display = 'none';
-      video.play();
+      ignorePressEvent = true;
+      video.play().finally(() => { ignorePressEvent = false; });
 
       renderPlaylist();
     }
